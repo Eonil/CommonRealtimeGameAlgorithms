@@ -47,11 +47,11 @@ auto	EONIL_COMMON_REALTIME_GAME_ALGORITHMS_DEBUG_ASSERT(bool const condition, st
 #else
 #define EONIL_COMMON_REALTIME_GAME_ALGORITHMS_DEBUG_ASSERT(...)						//	Erase the macro for release mode.
 #endif
-#if		EONIL_COMMON_REALTIME_GAME_ALGORITHMS_HEAVY_TRACE_DEBUG_MODE
-auto	EONIL_COMMON_REALTIME_GAME_ALGORITHMS_HEAVY_TRACE_DEBUG_ASSERT(bool const condition, std::string const& message = "[Eonil::CommonRealtimeGameAlgorithms] **HEAVY-TRACE** Assertion failure!!!") -> void;
-#else
-#define EONIL_COMMON_REALTIME_GAME_ALGORITHMS_HEAVY_TRACE_DEBUG_ASSERT(...)				//	Erase the macro for release mode.
-#endif
+//#if		EONIL_COMMON_REALTIME_GAME_ALGORITHMS_HEAVY_TRACE_DEBUG_MODE
+//auto	EONIL_COMMON_REALTIME_GAME_ALGORITHMS_HEAVY_TRACE_DEBUG_ASSERT(bool const condition, std::string const& message = "[Eonil::CommonRealtimeGameAlgorithms] **HEAVY-TRACE** Assertion failure!!!") -> void;
+//#else
+//#define EONIL_COMMON_REALTIME_GAME_ALGORITHMS_HEAVY_TRACE_DEBUG_ASSERT(...)				//	Erase the macro for release mode.
+//#endif
 EONIL_COMMON_REALTIME_GAME_ALGORITHMS_END
 
 

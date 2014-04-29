@@ -129,7 +129,7 @@ template <typename T, Size const LEN>
 StaticStableListStack<T,LEN>::
 StaticStableListStack(StaticStableListStack const& o) : _used(o._used)
 {
-	for (Size i=0; i<_used; i++)
+	for (Size i=0; i<o._used; i++)
 	{
 		_items[i].initialize(o._items[i].value());					//	Copy-assignment.
 	}
@@ -138,7 +138,7 @@ template <typename T, Size const LEN>
 StaticStableListStack<T,LEN>::
 StaticStableListStack(StaticStableListStack&& o) : _used(std::move(o._used))
 {
-	for (Size i=0; i<_used; i++)
+	for (Size i=0; i<o._used; i++)
 	{
 		_items[i].initialize(std::move(o._items[i].value()));		//	Move-assignment.
 	}
@@ -165,7 +165,7 @@ operator=(const StaticStableListStack &o) -> StaticStableListStack&
 	
 	StaticStableListStack	copy{o};
 	
-	for (Size i=0; i<_used; i++)
+	for (Size i=0; i<o._used; i++)
 	{
 		std::swap(_items[i].value(), copy._items[i].value());			//	Copy-assignment.
 	}
@@ -180,7 +180,7 @@ operator=(StaticStableListStack &&o) -> StaticStableListStack&
 	EONIL_COMMON_REALTIME_GAME_ALGORITHMS_DEBUG_ASSERT(&o != nullptr);
 	ASSERT_PROPER_INSTANCE();
 	
-	for (Size i=0; i<_used; i++)
+	for (Size i=0; i<o._used; i++)
 	{
 		_items[i].initialize(std::move(o._items[i].value()));			//	Move-assignment.
 	}

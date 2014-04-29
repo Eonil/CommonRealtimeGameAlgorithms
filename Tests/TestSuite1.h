@@ -227,7 +227,7 @@ test_object_slot() -> void
 }
 
 inline auto
-test_static_stable_dense_stack() -> void
+test_static_stable_list_stack() -> void
 {
 	{
 		using	STACK	=	StaticStableListStack<int, 3>;
@@ -357,6 +357,50 @@ test_static_stable_dense_stack() -> void
 		}
 		
 		test_assert(dtor_count == 3 * 3);			//	3 created and pushed, copied once of 3 atoms, and moved once of 3 atoms. Total 9 objects has been destroyed.
+	}
+	
+	{
+		using	STACK	=	StaticStableListStack<std::string, 3>;
+		STACK	s1		=	{};
+		STACK	s2		=	{};
+		s1.push("AAA");
+		s1.push("BBB");
+		s1.push("CCC");
+		s2.push("EEE");
+		s2.push("FFF");
+		s2.push("GGG");
+		
+		STACK	tmp(std::move(s1));
+		test_assert(tmp.size() == 3);
+		test_assert(tmp.at(0) == "AAA");
+		test_assert(tmp.at(1) == "BBB");
+		test_assert(tmp.at(2) == "CCC");
+		
+		s1				=	std::move(s2);
+		test_assert(s1.size() == 3);
+		test_assert(s1.at(0) == "EEE");
+		test_assert(s1.at(1) == "FFF");
+		test_assert(s1.at(2) == "GGG");
+		
+		s2				=	std::move(tmp);
+		test_assert(s2.size() == 3);
+		test_assert(s2.at(0) == "AAA");
+		test_assert(s2.at(1) == "BBB");
+		test_assert(s2.at(2) == "CCC");
+	}
+	{
+		using	STACK	=	StaticStableListStack<std::string, 3>;
+		STACK	s1	{};
+		STACK	s2	{};
+		s1.push("AAA");
+		s1.push("BBB");
+		s1.push("CCC");
+		std::swap(s1, s2);
+		test_assert(s1.size() == 0);
+		test_assert(s2.size() == 3);
+		test_assert(s2.at(0) == "AAA");
+		test_assert(s2.at(1) == "BBB");
+		test_assert(s2.at(2) == "CCC");
 	}
 }
 
@@ -584,7 +628,7 @@ test_all() -> void
 {
 	test_memory_storage();
 	test_object_slot();
-	test_static_stable_dense_stack();
+	test_static_stable_list_stack();
 	test_list_map();
 	test_static_unstable_orderless_set();
 	test_static_stable_orderless_set();
