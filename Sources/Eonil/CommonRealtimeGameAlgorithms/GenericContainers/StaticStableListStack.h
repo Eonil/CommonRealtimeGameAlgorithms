@@ -182,7 +182,7 @@ operator=(StaticStableListStack &&o) -> StaticStableListStack&
 	
 	for (Size i=0; i<_used; i++)
 	{
-		_items[i]	=	std::move(o._items[i].value());			//	Move-assignment.
+		_items[i].initialize(std::move(o._items[i].value()));			//	Move-assignment.
 	}
 	
 	_used	=	std::move(o._used);
