@@ -40,6 +40,7 @@ public:
 	
 public:
 	auto	operator*() const -> T&;
+	auto	operator->() const -> T*;
 	
 	auto	operator==(ObjectSlotIterator const&) const -> bool;
 	auto	operator!=(ObjectSlotIterator const&) const -> bool;
@@ -93,6 +94,14 @@ ObjectSlotIterator<T>::operator*() const -> T&
 	EONIL_COMMON_REALTIME_GAME_ALGORITHMS_DEBUG_ASSERT(_ptr->occupation());
 	
 	return	_ptr->value();
+}
+template <typename T> auto
+ObjectSlotIterator<T>::operator->() const -> T*
+{
+	EONIL_COMMON_REALTIME_GAME_ALGORITHMS_DEBUG_ASSERT(_ptr != nullptr);
+	EONIL_COMMON_REALTIME_GAME_ALGORITHMS_DEBUG_ASSERT(_ptr->occupation());
+	
+	return	&_ptr->value();
 }
 template <typename T> auto
 ObjectSlotIterator<T>::operator==(const ObjectSlotIterator &o) const -> bool
