@@ -1,51 +1,51 @@
+////
+////  StableCircularQueue.cpp
+////  TheFluxGame
+////
+////  Created by Hoon H. on 3/15/14.
+////
+////
 //
-//  StableCircularQueue.cpp
-//  TheFluxGame
+//#include "StableCircularQueue.h"
 //
-//  Created by Hoon H. on 3/15/14.
-//
-//
-
-#include "StableCircularQueue.h"
-
-namespace
-Eonil
-{
-	namespace
-	TheMagnetismGame
-	{
-		namespace
-		Algorithms
-		{
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-		}
-	}
-}
+//namespace
+//Eonil
+//{
+//	namespace
+//	TheMagnetismGame
+//	{
+//		namespace
+//		Algorithms
+//		{
+//			
+//			
+//			
+//			
+//			
+//			
+//			
+//			
+//			
+//			
+//			
+//			
+//			
+//			
+//			
+//			
+//			
+//			
+//			
+//			
+//			
+//			
+//			
+//			
+//			
+//			
+//			
+//			
+//			
+//		}
+//	}
+//}

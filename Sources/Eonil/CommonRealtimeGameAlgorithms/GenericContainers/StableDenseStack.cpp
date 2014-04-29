@@ -1,9 +1,9 @@
+////
+////  StableDenseStack.cpp
+////  TheFluxGame
+////
+////  Created by Hoon H. on 3/12/14.
+////
+////
 //
-//  StableDenseStack.cpp
-//  TheFluxGame
-//
-//  Created by Hoon H. on 3/12/14.
-//
-//
-
-#include "StableDenseStack.h"
+//#include "StableDenseStack.h"
