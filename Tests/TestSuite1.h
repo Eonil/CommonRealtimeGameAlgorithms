@@ -494,6 +494,16 @@ test_list_map() -> void
 			
 		}
 	}
+	{
+		using	MAP		=	StaticStableListMap<std::string, 3>;
+		MAP		map1	=	{};
+		map1.insert(0, "AAA");
+		map1.insert(1, "BBB");
+		map1.insert(2, "CCC");
+		test_assert(map1.index(map1.at(0)) == 0);
+		test_assert(map1.index(map1.at(1)) == 1);
+		test_assert(map1.index(map1.at(2)) == 2);
+	}
 }
 
 inline auto

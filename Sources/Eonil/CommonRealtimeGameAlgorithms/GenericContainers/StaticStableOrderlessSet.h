@@ -59,7 +59,9 @@ public:
 
 	 You can use this value as a perfect-hash key to link another object.
 	 */
-	auto	hash(Iterator) const -> Size;
+	auto	hash(ConstIterator) const -> Size;
+	auto	hash(T const*) const -> Size;
+	auto	hash(T const&) const -> Size;
 	
 private:
 	StaticStableListMap<T, LEN>			_items			{};
@@ -172,7 +174,19 @@ clear() -> void
 
 template <typename T, Size const LEN> auto
 StaticStableOrderlessSet<T,LEN>::
-hash(Iterator o) const -> Size
+hash(ConstIterator o) const -> Size
+{
+	return	_items.index(o);
+}
+template <typename T, Size const LEN> auto
+StaticStableOrderlessSet<T,LEN>::
+hash(T const* o) const -> Size
+{
+	return	_items.index(o);
+}
+template <typename T, Size const LEN> auto
+StaticStableOrderlessSet<T,LEN>::
+hash(T const& o) const -> Size
 {
 	return	_items.index(o);
 }

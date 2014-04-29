@@ -83,6 +83,8 @@ public:
 	auto	data() -> T*;
 	
 	auto	index(ConstIterator) const -> Size;
+	auto	index(T const*) const -> Size;
+	auto	index(T const&) const -> Size;
 	
 	auto	at(Size const& index) const -> T const&;
 	auto	at(Size const& index) -> T&;
@@ -310,8 +312,29 @@ index(ConstIterator o) const -> Size
 {
 	ITEM const*	ptr1	=	_items.data();
 	ITEM const*	ptr2	=	(ITEM const*)o;
+	EONIL_COMMON_REALTIME_GAME_ALGORITHMS_DEBUG_ASSERT(ptr2 >= ptr1);
+	EONIL_COMMON_REALTIME_GAME_ALGORITHMS_DEBUG_ASSERT(ptr2 < _items.data()+_items.size());
+	
 	Size		offset	=	ptr2 - ptr1;
 	return		offset;
+}
+template <typename T, Size const LEN> auto
+StaticStableListMap<T,LEN>::
+index(T const* o) const -> Size
+{
+	ITEM const*	ptr1	=	reinterpret_cast<ITEM const*>(&_items.data()->value());
+	ITEM const*	ptr2	=	reinterpret_cast<ITEM const*>(o);
+	EONIL_COMMON_REALTIME_GAME_ALGORITHMS_DEBUG_ASSERT(ptr2 >= ptr1);
+	EONIL_COMMON_REALTIME_GAME_ALGORITHMS_DEBUG_ASSERT(ptr2 < reinterpret_cast<ITEM const*>(&(_items.data()+_items.size())->value()));
+	
+	Size		offset	=	ptr2 - ptr1;
+	return		offset;
+}
+template <typename T, Size const LEN> auto
+StaticStableListMap<T,LEN>::
+index(T const& o) const -> Size
+{
+	return	index(&o);
 }
 template <typename T, Size const LEN> auto
 StaticStableListMap<T,LEN>::
