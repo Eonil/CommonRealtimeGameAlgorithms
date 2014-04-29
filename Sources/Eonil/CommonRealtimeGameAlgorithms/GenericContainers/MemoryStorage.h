@@ -88,6 +88,9 @@ public:
 	auto	initialize(T const&) -> void;
 	auto	initialize(T&&) -> void;
 	auto	terminate() noexcept -> void;
+	
+private:
+	auto	_halt_if_this_is_null() const -> void;
 };
 
 
@@ -107,9 +110,14 @@ public:
 template <typename T> auto
 MemoryStorage<T>::value() const -> T const&
 {
-	static_assert(sizeof(T) == sizeof(MemoryStorage<T>), "Size of memory-storage must be equal to size of type `T`.");
-	EONIL_COMMON_REALTIME_GAME_ALGORITHMS_DEBUG_ASSERT(uintptr_t(this) == uintptr_t(&_mem));
-	EONIL_COMMON_REALTIME_GAME_ALGORITHMS_DEBUG_ASSERT(this != nullptr);
+	static_assert(sizeof(T) == sizeof(MemoryStorage<T>), "Size of memory-storage must be equal to size of type `T`. If compiler does not support precise memory layout, it can't be used for this library. Some compiler may need using of some extra extensions.");
+	if (USE_EXCEPTION_CHECKINGS)
+	{
+		_halt_if_this_is_null();
+		halt_if(uintptr_t(this) != uintptr_t(&_mem), "Bad memory layout.");
+	}
+	
+	////
 	
 	MEM const&	ref1	=	_mem;
 	T const&	ref2	=	reinterpret_cast<T const&>(ref1);
@@ -118,8 +126,13 @@ MemoryStorage<T>::value() const -> T const&
 template <typename T> auto
 MemoryStorage<T>::value() -> T&
 {
-	EONIL_COMMON_REALTIME_GAME_ALGORITHMS_DEBUG_ASSERT(uintptr_t(this) == uintptr_t(&_mem));
-	EONIL_COMMON_REALTIME_GAME_ALGORITHMS_DEBUG_ASSERT(this != nullptr);
+	if (USE_EXCEPTION_CHECKINGS)
+	{
+		_halt_if_this_is_null();
+		halt_if(uintptr_t(this) != uintptr_t(&_mem), "Bad memory layout.");
+	}
+	
+	////
 	
 	MEM&	ref1	=	_mem;
 	T&		ref2	=	reinterpret_cast<T&>(ref1);
@@ -131,7 +144,12 @@ template <typename ...ARGS> auto
 MemoryStorage<T>::
 initialize(ARGS&&... args) -> void
 {
-	EONIL_COMMON_REALTIME_GAME_ALGORITHMS_DEBUG_ASSERT(this != nullptr);
+	if (USE_EXCEPTION_CHECKINGS)
+	{
+		_halt_if_this_is_null();
+	}
+	
+	////
 	
 	new (&_mem) T(std::forward<ARGS>(args)...);
 }
@@ -139,7 +157,12 @@ template <typename T> auto
 MemoryStorage<T>::
 initialize(T const& o) -> void
 {
-	EONIL_COMMON_REALTIME_GAME_ALGORITHMS_DEBUG_ASSERT(this != nullptr);
+	if (USE_EXCEPTION_CHECKINGS)
+	{
+		_halt_if_this_is_null();
+	}
+	
+	////
 	
 	new (&_mem) T(o);
 }
@@ -147,7 +170,12 @@ template <typename T> auto
 MemoryStorage<T>::
 initialize(T&& o) -> void
 {
-	EONIL_COMMON_REALTIME_GAME_ALGORITHMS_DEBUG_ASSERT(this != nullptr);
+	if (USE_EXCEPTION_CHECKINGS)
+	{
+		_halt_if_this_is_null();
+	}
+	
+	////
 	
 	new (&_mem) T(std::move(o));
 }
@@ -155,13 +183,35 @@ template <typename T> auto
 MemoryStorage<T>::
 terminate() noexcept -> void
 {
-	EONIL_COMMON_REALTIME_GAME_ALGORITHMS_DEBUG_ASSERT(this != nullptr);
+	if (USE_EXCEPTION_CHECKINGS)
+	{
+		_halt_if_this_is_null();
+	}
+	
+	////
 	
 	MEM&	ref1	=	_mem;
 	T&		ref2	=	reinterpret_cast<T&>(ref1);
 	ref2.~T();
 }
 
+
+
+
+
+
+
+
+
+
+
+
+template <typename T> auto
+MemoryStorage<T>::
+_halt_if_this_is_null() const -> void
+{
+	halt_if(this == nullptr, "You cannot call this method on `nullptr`.");
+}
 
 
 

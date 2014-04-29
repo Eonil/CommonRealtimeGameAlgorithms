@@ -36,11 +36,9 @@ EONIL_COMMON_REALTIME_GAME_ALGORITHMS_GENERIC_CONTAINERS_BEGIN
  */
 template <typename T, Size const LEN>
 class
-StaticStableListStack
+StaticStableListStack : ExceptionSupportTools
 {
 	static_assert(LEN > 0, "Zero-length is not supported.");
-	
-	static bool const	USE_EXCEPTIONS		=	(EONIL_COMMON_REALTIME_GAME_ALGORITHMS_DEBUG_MODE == 1);
 	
 	using	ITEM	=	MemoryStorage<T>;
 	using	ITEMS	=	std::array<ITEM, LEN>;
@@ -53,9 +51,6 @@ StaticStableListStack
 	
 	Size	_used		{0};											//	I think it would be better to place size at first.
 	ITEMS	_items		{};
-	
-	inline auto			ASSERT_PROPER_INSTANCE() const -> void;
-	static inline auto	_except(bool condition, str const& message) -> void;
 	
 public:
 	class
@@ -105,22 +100,18 @@ public:
 
 
 
-template <typename T, Size const LEN> inline auto
-StaticStableListStack<T,LEN>::
-ASSERT_PROPER_INSTANCE() const -> void
-{
-	EONIL_COMMON_REALTIME_GAME_ALGORITHMS_DEBUG_ASSERT(this != nullptr);
-}
 
-template <typename T, Size const LEN> inline auto
-StaticStableListStack<T,LEN>::
-_except(bool condition, const str &message) -> void
-{
-	if (condition)
-	{
-		throw	Exception(message);
-	}
-}
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -151,7 +142,12 @@ template <typename T, Size const LEN>
 StaticStableListStack<T,LEN>::
 ~StaticStableListStack()
 {
-	ASSERT_PROPER_INSTANCE();
+	if (USE_EXCEPTION_CHECKINGS)
+	{
+		_halt_if_this_is_null();
+	}
+	
+	////
 	
 	clear();
 }
@@ -160,8 +156,14 @@ template <typename T, Size const LEN> auto
 StaticStableListStack<T,LEN>::
 operator=(const StaticStableListStack &o) -> StaticStableListStack&
 {
-	EONIL_COMMON_REALTIME_GAME_ALGORITHMS_DEBUG_ASSERT(&o != nullptr);
-	ASSERT_PROPER_INSTANCE();
+	if (USE_EXCEPTION_CHECKINGS)
+	{
+		_halt_if_this_is_null();
+		_error_if_supplied_reference_is_dereference_of_null(o);
+	}
+	
+	////
+
 	
 	StaticStableListStack	copy{o};
 	
@@ -177,8 +179,13 @@ template <typename T, Size const LEN> auto
 StaticStableListStack<T,LEN>::
 operator=(StaticStableListStack &&o) -> StaticStableListStack&
 {
-	EONIL_COMMON_REALTIME_GAME_ALGORITHMS_DEBUG_ASSERT(&o != nullptr);
-	ASSERT_PROPER_INSTANCE();
+	if (USE_EXCEPTION_CHECKINGS)
+	{
+		_halt_if_this_is_null();
+		_error_if_supplied_reference_is_dereference_of_null(o);
+	}
+	
+	////
 	
 	for (Size i=0; i<o._used; i++)
 	{
@@ -203,7 +210,13 @@ template <typename T, Size const LEN> auto
 StaticStableListStack<T,LEN>::
 empty() const -> bool
 {
-	ASSERT_PROPER_INSTANCE();
+	if (USE_EXCEPTION_CHECKINGS)
+	{
+		_halt_if_this_is_null();
+	}
+	
+	////
+	
 	return	_used == 0;
 }
 
@@ -211,7 +224,13 @@ template <typename T, Size const LEN> auto
 StaticStableListStack<T,LEN>::
 capacity() const -> Size
 {
-	ASSERT_PROPER_INSTANCE();
+	if (USE_EXCEPTION_CHECKINGS)
+	{
+		_halt_if_this_is_null();
+	}
+	
+	////
+	
 	return	LEN;
 }
 
@@ -219,7 +238,13 @@ template <typename T, Size const LEN> auto
 StaticStableListStack<T,LEN>::
 size() const -> Size
 {
-	ASSERT_PROPER_INSTANCE();
+	if (USE_EXCEPTION_CHECKINGS)
+	{
+		_halt_if_this_is_null();
+	}
+	
+	////
+	
 	return	_used;
 }
 
@@ -228,14 +253,26 @@ template <typename T, Size const LEN> auto
 StaticStableListStack<T,LEN>::
 data() const -> T const*
 {
-	ASSERT_PROPER_INSTANCE();
+	if (USE_EXCEPTION_CHECKINGS)
+	{
+		_halt_if_this_is_null();
+	}
+	
+	////
+	
 	return	&(_items[0].value());
 }
 template <typename T, Size const LEN> auto
 StaticStableListStack<T,LEN>::
 data() -> T*
 {
-	ASSERT_PROPER_INSTANCE();
+	if (USE_EXCEPTION_CHECKINGS)
+	{
+		_halt_if_this_is_null();
+	}
+	
+	////
+	
 	return	&(_items[0].value());
 }
 
@@ -243,11 +280,13 @@ template <typename T, Size const LEN> auto
 StaticStableListStack<T,LEN>::
 at(Size const& index) const -> T const&
 {
-	ASSERT_PROPER_INSTANCE();
-	if (USE_EXCEPTIONS)
+	if (USE_EXCEPTION_CHECKINGS)
 	{
-		_except(index >= _used, "Specified index is out of range.");
+		_halt_if_this_is_null();
+		error_if(index >= _used, "Specified index is out of range.");
 	}
+	
+	////
 	
 	return	_items[index].value();
 }
@@ -255,11 +294,13 @@ template <typename T, Size const LEN> auto
 StaticStableListStack<T,LEN>::
 at(Size const& index) -> T&
 {
-	ASSERT_PROPER_INSTANCE();
-	if (USE_EXCEPTIONS)
+	if (USE_EXCEPTION_CHECKINGS)
 	{
-		_except(index >= _used, "Specified index is out of range.");
+		_halt_if_this_is_null();
+		error_if(index >= _used, "Specified index is out of range.");
 	}
+	
+	////
 	
 	return	_items[index].value();
 }
@@ -268,11 +309,13 @@ template <typename T, Size const LEN> auto
 StaticStableListStack<T,LEN>::
 front() const -> T const&
 {
-	ASSERT_PROPER_INSTANCE();
-	if (USE_EXCEPTIONS)
+	if (USE_EXCEPTION_CHECKINGS)
 	{
-		_except(_used == 0, "This stack is empty, and there's no front element.");
+		_halt_if_this_is_null();
+		error_if(_used == 0, "This stack is empty, and there's no front element.");
 	}
+	
+	////
 	
 	return	at(0);
 }
@@ -280,11 +323,13 @@ template <typename T, Size const LEN> auto
 StaticStableListStack<T,LEN>::
 front() -> T&
 {
-	ASSERT_PROPER_INSTANCE();
-	if (USE_EXCEPTIONS)
+	if (USE_EXCEPTION_CHECKINGS)
 	{
-		_except(_used == 0, "This stack is empty, and there's no front element.");
+		_halt_if_this_is_null();
+		error_if(_used == 0, "This stack is empty, and there's no front element.");
 	}
+	
+	////
 	
 	return	at(0);
 }
@@ -292,11 +337,13 @@ template <typename T, Size const LEN> auto
 StaticStableListStack<T,LEN>::
 back() const -> T const&
 {
-	ASSERT_PROPER_INSTANCE();
-	if (USE_EXCEPTIONS)
+	if (USE_EXCEPTION_CHECKINGS)
 	{
-		_except(_used == 0, "This stack is empty, and there's no back element.");
+		_halt_if_this_is_null();
+		error_if(_used == 0, "This stack is empty, and there's no back element.");
 	}
+	
+	////
 	
 	return	at(size()-1);
 }
@@ -304,11 +351,13 @@ template <typename T, Size const LEN> auto
 StaticStableListStack<T,LEN>::
 back() -> T&
 {
-	ASSERT_PROPER_INSTANCE();
-	if (USE_EXCEPTIONS)
+	if (USE_EXCEPTION_CHECKINGS)
 	{
-		_except(_used == 0, "This stack is empty, and there's no back element.");
+		_halt_if_this_is_null();
+		error_if(_used == 0, "This stack is empty, and there's no back element.");
 	}
+	
+	////
 	
 	return	at(size()-1);
 }
@@ -346,7 +395,13 @@ template <typename T, Size const LEN> auto
 StaticStableListStack<T,LEN>::
 clear() -> void
 {
-	ASSERT_PROPER_INSTANCE();
+	if (USE_EXCEPTION_CHECKINGS)
+	{
+		_halt_if_this_is_null();
+	}
+	
+	////
+	
 	
 	if (std::is_trivially_destructible<T>::value)
 	{
@@ -369,11 +424,13 @@ template <typename ...ARGS> auto
 StaticStableListStack<T,LEN>::
 emplace(ARGS&&... args) -> void
 {
-	ASSERT_PROPER_INSTANCE();
-	if (USE_EXCEPTIONS)
+	if (USE_EXCEPTION_CHECKINGS)
 	{
-		_except(_used == LEN, "This stack is full. Cannot push anymore.");
+		_halt_if_this_is_null();
+		error_if(_used == LEN, "This stack is full. Cannot push anymore.");
 	}
+	
+	////
 	
 	_items[_used].initialize(std::forward<ARGS>(args)...);
 	_used++;
@@ -382,11 +439,13 @@ template <typename T, Size const LEN> auto
 StaticStableListStack<T,LEN>::
 push(const T &v) -> void
 {
-	ASSERT_PROPER_INSTANCE();
-	if (USE_EXCEPTIONS)
+	if (USE_EXCEPTION_CHECKINGS)
 	{
-		_except(_used == LEN, "This stack is full. Cannot push anymore.");
+		_halt_if_this_is_null();
+		error_if(_used == LEN, "This stack is full. Cannot push anymore.");
 	}
+	
+	////
 	
 	_items[_used].initialize(v);
 	_used++;
@@ -395,11 +454,13 @@ template <typename T, Size const LEN> auto
 StaticStableListStack<T,LEN>::
 push(T &&v) -> void
 {
-	ASSERT_PROPER_INSTANCE();
-	if (USE_EXCEPTIONS)
+	if (USE_EXCEPTION_CHECKINGS)
 	{
-		_except(_used == LEN, "This stack is full. Cannot push anymore.");
+		_halt_if_this_is_null();
+		error_if(_used == LEN, "This stack is full. Cannot push anymore.");
 	}
+	
+	////
 	
 	_items[_used].initialize(std::move(v));
 	_used++;
@@ -408,11 +469,13 @@ template <typename T, Size const LEN> auto
 StaticStableListStack<T,LEN>::
 pop() -> void
 {
-	ASSERT_PROPER_INSTANCE();
-	if (USE_EXCEPTIONS)
+	if (USE_EXCEPTION_CHECKINGS)
 	{
-		_except(_used == 0, "This stack is empty. Cannot pop anymore.");
+		_halt_if_this_is_null();
+		error_if(_used == 0, "This stack is empty. Cannot pop anymore.");
 	}
+	
+	////
 	
 	_used--;
 	_items[_used].terminate();

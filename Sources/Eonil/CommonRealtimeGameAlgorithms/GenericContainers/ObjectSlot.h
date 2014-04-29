@@ -21,6 +21,10 @@ EONIL_COMMON_REALTIME_GAME_ALGORITHMS_GENERIC_CONTAINERS_BEGIN
 /*!
  A `MemoryStorage` with explicit occupation flag and copy/move support.
  
+ @classdesign
+ This is designed to be laid out consecutively. Iterating is provided by `ObjectSlotIterator`.
+ Last slot must be a sential by being marked with sentinel flag to provide iteration properly.
+ 
  @exception
  All methods guarantees strong exception safety as long as the type `T` provides strong exception
  safety for all of these methods. (no state change if there's an exception thrown)
@@ -42,17 +46,8 @@ EONIL_COMMON_REALTIME_GAME_ALGORITHMS_GENERIC_CONTAINERS_BEGIN
  */
 template <typename T>
 class
-ObjectSlot
+ObjectSlot : ExceptionSupportTools
 {
-	friend class	ObjectSlotDebugginSupport;
-
-	MemoryStorage<T>	_mem;
-	bool				_occupation{false};
-	
-	static bool const	USE_EXCEPTIONS		=	(EONIL_COMMON_REALTIME_GAME_ALGORITHMS_DEBUG_MODE == 1);
-	
-	static auto			_except_if(bool const condition, str const& message) -> void;
-	
 public:
 	class
 	Exception : public std::logic_error
@@ -74,6 +69,9 @@ public:
 	
 	auto	occupation() const -> bool;
 	
+//	auto	data() const -> T const*;				//!	Returns just address of the value memory regardless of occupancy.
+//	auto	data() -> T*;							//!	Returns just address of the value memory regardless of occupancy.
+	
 	auto	value() const -> T const&;
 	auto	value() -> T&;
 	
@@ -81,6 +79,35 @@ public:
 	auto	initialize(ARGS&&... args) -> void;
 	auto	initialize(T&&) -> void;
 	auto	terminate() -> void;
+	
+	auto	sentinel() const -> bool;
+	auto	sentinelize() -> void;
+	
+public:
+	/*!
+	 Gets proper pointer address to a `ObjectSlot` from given pointer address to `T`
+	 by assuming the `T` object is placed in an `ObjectSlot` object.
+	 
+	 @discussion
+	 The memory for the object (`_mem`) is expected to be at offset `0`.
+	 But I am not sure that whether that is guaranteed by the standard,
+	 so this function is provided. 
+	 
+	 This is all about address calculation, and does not check object validity.
+	 */
+	static auto		resolveAddressOfSlot(T const*) -> ObjectSlot const*;
+	static auto		resolveAddressOfValue(ObjectSlot const*) -> T const*;
+	
+	
+private:
+	friend class	ObjectSlotDebugginSupport;
+	
+	MemoryStorage<T>	_mem;
+	struct
+	{
+		bool			_occupation{false};
+		bool			_is_last{false};
+	};
 };
 
 
@@ -95,21 +122,26 @@ public:
 
 
 
-template <typename T> auto
-ObjectSlot<T>::
-_except_if(const bool condition, const str &message) -> void
-{
-	if (condition)
-	{
-		throw	Exception(message);
-	}
-}
+
+
+
+
+
+
+
+
 
 template <typename T>
 ObjectSlot<T>::
-ObjectSlot(ObjectSlot const& o)
+ObjectSlot(ObjectSlot const& o) : _is_last(o._is_last)
 {
-	EONIL_COMMON_REALTIME_GAME_ALGORITHMS_DEBUG_ASSERT(&o != nullptr);
+	if (USE_EXCEPTION_CHECKINGS)
+	{
+		_halt_if_this_is_null();
+		error_if(&o == nullptr, "The supplied pointer shouldn't be `nullptr`.");
+	}
+	
+	////
 	
 	if (o.occupation())
 	{
@@ -118,9 +150,15 @@ ObjectSlot(ObjectSlot const& o)
 }
 template <typename T>
 ObjectSlot<T>::
-ObjectSlot(ObjectSlot&& o)
+ObjectSlot(ObjectSlot&& o) : _is_last(std::move(o._is_last))
 {
-	EONIL_COMMON_REALTIME_GAME_ALGORITHMS_DEBUG_ASSERT(&o != nullptr);
+	if (USE_EXCEPTION_CHECKINGS)
+	{
+		_halt_if_this_is_null();
+		error_if(&o == nullptr, "The supplied pointer shouldn't be `nullptr`.");
+	}
+	
+	////
 	
 	if (o.occupation())
 	{
@@ -146,11 +184,13 @@ ObjectSlot<T>::
 template <typename T> auto
 ObjectSlot<T>::operator=(const ObjectSlot<T> &o) -> ObjectSlot&
 {
-	if (USE_EXCEPTIONS)
+	if (USE_EXCEPTION_CHECKINGS)
 	{
-		_except_if(&o == nullptr, "Cannot copy-assign from a value pointed by a `nullptr`.");
+		_halt_if_this_is_null();
+		error_if(&o == nullptr, "Cannot copy-assign from a value pointed by a `nullptr`.");
 	}
-	EONIL_COMMON_REALTIME_GAME_ALGORITHMS_DEBUG_ASSERT(this != nullptr);
+	
+	////
 	
 	if (&o == this)
 	{
@@ -166,17 +206,21 @@ ObjectSlot<T>::operator=(const ObjectSlot<T> &o) -> ObjectSlot&
 		{
 			initialize(o.value());
 		}
+		
+		_is_last	=	o._is_last;
 	}
 	return	*this;
 }
 template <typename T> auto
 ObjectSlot<T>::operator=(ObjectSlot<T> &&o) -> ObjectSlot&
 {
-	if (USE_EXCEPTIONS)
+	if (USE_EXCEPTION_CHECKINGS)
 	{
-		_except_if(&o == nullptr, "Cannot copy-assign from a value pointed by a `nullptr`.");
+		_halt_if_this_is_null();
+		error_if(&o == nullptr, "Cannot move-assign from a value pointed by a `nullptr`.");
 	}
-	EONIL_COMMON_REALTIME_GAME_ALGORITHMS_DEBUG_ASSERT(this != nullptr);
+	
+	////
 	
 	if (&o == this)
 	{
@@ -192,36 +236,70 @@ ObjectSlot<T>::operator=(ObjectSlot<T> &&o) -> ObjectSlot&
 		{
 			initialize(std::move(o.value()));
 		}
+		
+		_is_last	=	std::move(o._is_last);
 	}
 	return	*this;
 }
 template <typename T> auto
 ObjectSlot<T>::occupation() const -> bool
 {
-	EONIL_COMMON_REALTIME_GAME_ALGORITHMS_DEBUG_ASSERT(this != nullptr);
+	if (USE_EXCEPTION_CHECKINGS)
+	{
+		_halt_if_this_is_null();
+	}
+	
+	////
+	
 	return	_occupation;
 }
+//template <typename T> auto
+//ObjectSlot<T>::data() const -> T const*
+//{
+//	if (USE_EXCEPTION_CHECKINGS)
+//	{
+//		_halt_if_this_is_null();
+//	}
+//	
+//	////
+//	
+//	return	&_mem.value();
+//}
+//template <typename T> auto
+//ObjectSlot<T>::data() -> T*
+//{
+//	if (USE_EXCEPTION_CHECKINGS)
+//	{
+//		_halt_if_this_is_null();
+//	}
+//	
+//	////
+//	
+//	return	&_mem.value();
+//}
 template <typename T> auto
 ObjectSlot<T>::value() const -> T const&
 {
-	EONIL_COMMON_REALTIME_GAME_ALGORITHMS_DEBUG_ASSERT(this != nullptr);
-	if (USE_EXCEPTIONS)
+	if (USE_EXCEPTION_CHECKINGS)
 	{
-		_except_if(not _occupation, "This object-slot is not occupied yet.");
+		_halt_if_this_is_null();
+		error_if(not _occupation, "This object-slot is not occupied yet.");
 	}
-	EONIL_COMMON_REALTIME_GAME_ALGORITHMS_DEBUG_ASSERT(_occupation);
+	
+	////
 	
 	return	_mem.value();
 }
 template <typename T> auto
 ObjectSlot<T>::value() -> T&
 {
-	EONIL_COMMON_REALTIME_GAME_ALGORITHMS_DEBUG_ASSERT(this != nullptr);
-	if (USE_EXCEPTIONS)
+	if (USE_EXCEPTION_CHECKINGS)
 	{
-		_except_if(not _occupation, "This object-slot is not occupied yet.");
+		_halt_if_this_is_null();
+		error_if(not _occupation, "This object-slot is not occupied yet.");
 	}
-	EONIL_COMMON_REALTIME_GAME_ALGORITHMS_DEBUG_ASSERT(_occupation);
+	
+	////
 	
 	return	_mem.value();
 }
@@ -231,12 +309,13 @@ template <typename ...ARGS> auto
 ObjectSlot<T>::
 initialize(ARGS&&... args) -> void
 {
-	EONIL_COMMON_REALTIME_GAME_ALGORITHMS_DEBUG_ASSERT(this != nullptr);
-	if (USE_EXCEPTIONS)
+	if (USE_EXCEPTION_CHECKINGS)
 	{
-		_except_if(_occupation, "This object-slot is already occupied.");
+		_halt_if_this_is_null();
+		error_if(_occupation, "This object-slot is already occupied.");
 	}
-	EONIL_COMMON_REALTIME_GAME_ALGORITHMS_DEBUG_ASSERT(not _occupation);
+	
+	////
 	
 	_mem.initialize(std::forward<ARGS>(args)...);
 	_occupation	=	true;
@@ -245,12 +324,13 @@ template <typename T> auto
 ObjectSlot<T>::
 initialize(T&& o) -> void
 {
-	EONIL_COMMON_REALTIME_GAME_ALGORITHMS_DEBUG_ASSERT(this != nullptr);
-	if (USE_EXCEPTIONS)
+	if (USE_EXCEPTION_CHECKINGS)
 	{
-		_except_if(_occupation, "This object-slot is already occupied.");
+		_halt_if_this_is_null();
+		error_if(_occupation, "This object-slot is already occupied.");
 	}
-	EONIL_COMMON_REALTIME_GAME_ALGORITHMS_DEBUG_ASSERT(not _occupation);
+	
+	////
 	
 	_mem.initialize(std::move(o));
 	_occupation	=	true;
@@ -259,18 +339,65 @@ template <typename T> auto
 ObjectSlot<T>::
 terminate() -> void
 {
-	EONIL_COMMON_REALTIME_GAME_ALGORITHMS_DEBUG_ASSERT(this != nullptr);
-	if (USE_EXCEPTIONS)
+	if (USE_EXCEPTION_CHECKINGS)
 	{
-		_except_if(not _occupation, "This object-slot is not occupied yet.");
+		_halt_if_this_is_null();
+		error_if(not _occupation, "This object-slot is not occupied yet.");
 	}
-	EONIL_COMMON_REALTIME_GAME_ALGORITHMS_DEBUG_ASSERT(_occupation);
+	
+	////
 	
 	_occupation	=	false;
 	_mem.terminate();
 }
+template <typename T> auto
+ObjectSlot<T>::
+sentinel() const -> bool
+{
+	if (USE_EXCEPTION_CHECKINGS)
+	{
+		_halt_if_this_is_null();
+	}
+	
+	////
+	
+	return	_is_last;
+}
+
+template <typename T> auto
+ObjectSlot<T>::
+sentinelize() -> void
+{
+	if (USE_EXCEPTION_CHECKINGS)
+	{
+		_halt_if_this_is_null();
+		error_if(_is_last, "This object-slot is alreday a sentinel.");
+	}
+	
+	////
+	
+	_is_last	=	true;
+}
 
 
+template <typename T> auto
+ObjectSlot<T>::
+resolveAddressOfSlot(const T *o) -> ObjectSlot const*
+{
+	if (USE_EXCEPTION_CHECKINGS)
+	{
+		error_if(o == nullptr, "`nullptr` is not supported.");
+	}
+	
+	////
+	
+	static constexpr Size const		byte_offset		=	offsetof(ObjectSlot, _mem);
+	uint8_t const*					target_ptr		=	reinterpret_cast<uint8_t const*>(o);
+	uint8_t const*					slot_ptr1		=	target_ptr - byte_offset;
+	ObjectSlot const*				slot_ptr2		=	reinterpret_cast<ObjectSlot const*>(slot_ptr1);
+
+	return	slot_ptr2;
+}
 
 
 

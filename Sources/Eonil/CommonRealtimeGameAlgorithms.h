@@ -18,3 +18,5 @@
 #include "CommonRealtimeGameAlgorithms/GenericContainers/StaticStableListMap.h"
 #include "CommonRealtimeGameAlgorithms/GenericContainers/StaticUnstableOrderlessSet.h"
 #include "CommonRealtimeGameAlgorithms/GenericContainers/StaticStableOrderlessSet.h"
+
+#include "CommonRealtimeGameAlgorithms/GenericContainers/ObjectPack.h"

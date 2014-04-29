@@ -54,9 +54,7 @@ private:
 	Size	_count	{};
 	ITEMS	_slots	{};
 	
-	static bool const		USE_EXCEPTIONS	=	(EONIL_COMMON_REALTIME_GAME_ALGORITHMS_DEBUG_MODE == 1);
-	static auto				_except_if(bool const condition, str const& message) -> void;
-	auto					_last() -> MemoryStorage<T>&;
+	auto	_last() -> MemoryStorage<T>&;
 	
 	
 	
@@ -127,9 +125,9 @@ template <typename T, Size const LEN> auto
 StaticUnstableOrderlessSet<T,LEN>::
 insert(T const &o) -> void
 {
-	if (USE_EXCEPTIONS)
+	if (USE_EXCEPTION_CHECKINGS)
 	{
-		_except_if(_count == LEN, "This set is full.");
+		error_if(_count == LEN, "This set is full.");
 	}
 	
 	_slots.at(_count).initialize(o);
@@ -139,9 +137,9 @@ template <typename T, Size const LEN> auto
 StaticUnstableOrderlessSet<T,LEN>::
 insert(T &&o) -> void
 {
-	if (USE_EXCEPTIONS)
+	if (USE_EXCEPTION_CHECKINGS)
 	{
-		_except_if(_count == LEN, "This set is full.");
+		error_if(_count == LEN, "This set is full.");
 	}
 	
 	_slots.at(_count).initialize(std::move(o));
@@ -151,9 +149,9 @@ template <typename T, Size const LEN> auto
 StaticUnstableOrderlessSet<T,LEN>::
 erase(T *ptr1) -> void
 {
-	if (USE_EXCEPTIONS)
+	if (USE_EXCEPTION_CHECKINGS)
 	{
-		_except_if(_count == 0, "This set is empty.");
+		error_if(_count == 0, "This set is empty.");
 	}
 	
 	if (ptr1 != &_last().value())
@@ -191,22 +189,15 @@ clear() -> void
 
 
 
-template <typename T, Size const LEN> auto
-StaticUnstableOrderlessSet<T,LEN>::
-_except_if(const bool condition, const str &message) -> void
-{
-	if (condition)
-	{
-		throw	 Exception(message);
-	}
-}
+
+
 template <typename T, Size const LEN> auto
 StaticUnstableOrderlessSet<T,LEN>::
 _last() -> MemoryStorage<T>&
 {
-	if (USE_EXCEPTIONS)
+	if (USE_EXCEPTION_CHECKINGS)
 	{
-		_except_if(_count == 0, "No items, no last item.");
+		error_if(_count == 0, "No items, no last item.");
 	}
 	return	_slots.at(_count-1);
 }

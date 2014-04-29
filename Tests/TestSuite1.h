@@ -438,11 +438,14 @@ test_list_map() -> void
 		map1.insert(1, 222);
 		map1.insert(2, 333);
 		
+		int		cc1		=	0;
 		int		sum1	=	0;
 		for (auto const& a1: map1)
 		{
 			sum1	+=	a1;
+			cc1++;
 		}
+		test_assert(cc1 == 3);
 		test_assert(sum1 == 111 + 222 + 333);
 	}
 	{
@@ -474,8 +477,8 @@ test_list_map() -> void
 				sum1	+=	a1;
 				cc1		++;
 			}
-			test_assert(sum1 == 555);
 			test_assert(cc1 == 2);
+			test_assert(sum1 == 555);
 			
 			////
 			
@@ -500,9 +503,9 @@ test_list_map() -> void
 		map1.insert(0, "AAA");
 		map1.insert(1, "BBB");
 		map1.insert(2, "CCC");
-		test_assert(map1.index(map1.at(0)) == 0);
-		test_assert(map1.index(map1.at(1)) == 1);
-		test_assert(map1.index(map1.at(2)) == 2);
+		test_assert(map1.index(&map1.at(0)) == 0);
+		test_assert(map1.index(&map1.at(1)) == 1);
+		test_assert(map1.index(&map1.at(2)) == 2);
 	}
 }
 
@@ -570,21 +573,26 @@ test_static_stable_orderless_set() -> void
 	
 	using	SET		=	StaticStableOrderlessSet<int, 3>;
 	SET	s1	{};
-	SET::Iterator	it1	=	s1.insert(111);
-	SET::Iterator	it2	=	s1.insert(222);
-	SET::Iterator	it3	=	s1.insert(333);
+	auto*	ptr1	=	s1.insert(111);
+	auto*	ptr2	=	s1.insert(222);
+	auto*	ptr3	=	s1.insert(333);
+	
+	test_assert(s1.end() == ObjectSlotIterator<int>(nullptr));
+	test_assert(*ptr1 == 111);
+	test_assert(*ptr2 == 222);
+	test_assert(*ptr3 == 333);
 	test_assert(s1.size() == 3);
 	test_assert(get_all_atoms(s1) == std::set<int>{111,222,333});
 	test_assert_always_exception([&](){ s1.insert(444); });
 	test_assert(s1.size() == 3);
 	test_assert(get_all_atoms(s1) == std::set<int>{111,222,333});
-	s1.erase(it2);
+	s1.erase(ptr2);
 	test_assert(s1.size() == 2);
 	test_assert(get_all_atoms(s1) == std::set<int>{111,333});
-	s1.erase(it1);
+	s1.erase(ptr1);
 	test_assert(s1.size() == 1);
 	test_assert(get_all_atoms(s1) == std::set<int>{333});
-	s1.erase(it3);
+	s1.erase(ptr3);
 	test_assert(get_all_atoms(s1) == std::set<int>{});
 	test_assert(s1.size() == 0);
 	
@@ -607,30 +615,20 @@ test_static_stable_orderless_set() -> void
 
 
 
-//template <typename T>
-//struct
-//slot
-//{
-//};
-//template <typename T>
-//struct
-//it
-//{
-//	using	JUST_T	=	typename std::remove_const<T>::type;
-//	using	SLOT	=	typename std::conditional<std::is_const<T>::value, slot<JUST_T> const, slot<JUST_T>>::type;
-//	
-//	SLOT*	ptr;
-//	
-//	it(SLOT* ptr) : ptr(ptr)
-//	{
-//	}
-//	
-//	//	operator it<T const>()
-//	//	{
-//	//		slot<T> const*	ptr2	=	ptr;
-//	//		return	it<int const>(ptr2);
-//	//	}
-//};
+
+
+
+
+inline auto
+test_object_pack() -> void
+{
+//	ObjectPack<int, 32>	p1	{};
+}
+
+
+
+
+
 
 
 inline auto
@@ -642,12 +640,7 @@ test_all() -> void
 	test_list_map();
 	test_static_unstable_orderless_set();
 	test_static_stable_orderless_set();
-	
-	
-	
-//	slot<int>		slot2	=	{};
-//	it<int>			it2		=	&slot2;
-//	it<int const>	it3		=	(slot<int> const*)it2.ptr;
+	test_object_pack();
 }
 
 

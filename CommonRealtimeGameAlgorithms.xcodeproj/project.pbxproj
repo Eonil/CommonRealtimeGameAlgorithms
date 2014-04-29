@@ -32,6 +32,12 @@
 		455B1209190F55F3007997D8 /* Range.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 455B1207190F55F3007997D8 /* Range.cpp */; };
 		455B120A190F55F3007997D8 /* Range.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 455B1207190F55F3007997D8 /* Range.cpp */; };
 		455B120B190F55F3007997D8 /* Range.h in Headers */ = {isa = PBXBuildFile; fileRef = 455B1208190F55F3007997D8 /* Range.h */; };
+		455B125019101018007997D8 /* Exception.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 455B124E19101018007997D8 /* Exception.cpp */; };
+		455B125119101018007997D8 /* Exception.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 455B124E19101018007997D8 /* Exception.cpp */; };
+		455B125219101018007997D8 /* Exception.h in Headers */ = {isa = PBXBuildFile; fileRef = 455B124F19101018007997D8 /* Exception.h */; };
+		455B125519103C13007997D8 /* ObjectPack.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 455B125319103C13007997D8 /* ObjectPack.cpp */; };
+		455B125619103C13007997D8 /* ObjectPack.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 455B125319103C13007997D8 /* ObjectPack.cpp */; };
+		455B125719103C13007997D8 /* ObjectPack.h in Headers */ = {isa = PBXBuildFile; fileRef = 455B125419103C13007997D8 /* ObjectPack.h */; };
 		45D97619190EF5830093F471 /* StaticStableListMap.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 45D97617190EF5830093F471 /* StaticStableListMap.cpp */; };
 		45D9761A190EF5830093F471 /* StaticStableListMap.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 45D97617190EF5830093F471 /* StaticStableListMap.cpp */; };
 		45D9761B190EF5830093F471 /* StaticStableListMap.h in Headers */ = {isa = PBXBuildFile; fileRef = 45D97618190EF5830093F471 /* StaticStableListMap.h */; };
@@ -123,6 +129,10 @@
 		455B11C6190F44C9007997D8 /* ObjectSlotRange.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ObjectSlotRange.h; sourceTree = "<group>"; };
 		455B1207190F55F3007997D8 /* Range.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Range.cpp; sourceTree = "<group>"; };
 		455B1208190F55F3007997D8 /* Range.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Range.h; sourceTree = "<group>"; };
+		455B124E19101018007997D8 /* Exception.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Exception.cpp; sourceTree = "<group>"; };
+		455B124F19101018007997D8 /* Exception.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Exception.h; sourceTree = "<group>"; };
+		455B125319103C13007997D8 /* ObjectPack.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ObjectPack.cpp; sourceTree = "<group>"; };
+		455B125419103C13007997D8 /* ObjectPack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ObjectPack.h; sourceTree = "<group>"; };
 		45D97617190EF5830093F471 /* StaticStableListMap.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = StaticStableListMap.cpp; sourceTree = "<group>"; };
 		45D97618190EF5830093F471 /* StaticStableListMap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StaticStableListMap.h; sourceTree = "<group>"; };
 		45D9761C190F0B570093F471 /* ObjectSlotIterator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ObjectSlotIterator.cpp; sourceTree = "<group>"; };
@@ -206,6 +216,8 @@
 				45D9761D190F0B570093F471 /* ObjectSlotIterator.h */,
 				455B11C5190F44C9007997D8 /* ObjectSlotRange.cpp */,
 				455B11C6190F44C9007997D8 /* ObjectSlotRange.h */,
+				455B125319103C13007997D8 /* ObjectPack.cpp */,
+				455B125419103C13007997D8 /* ObjectPack.h */,
 				450EF2D0190ED65A00FC3FE3 /* StaticStableListStack.cpp */,
 				450EF2D1190ED65A00FC3FE3 /* StaticStableListStack.h */,
 				45D97617190EF5830093F471 /* StaticStableListMap.cpp */,
@@ -282,6 +294,8 @@
 			children = (
 				45FC7005190EB8380018BC59 /* CommonRealtimeGameAlgorithmsCommon.cpp */,
 				45FC7006190EB8380018BC59 /* CommonRealtimeGameAlgorithmsCommon.h */,
+				455B124E19101018007997D8 /* Exception.cpp */,
+				455B124F19101018007997D8 /* Exception.h */,
 				450EF2C5190ECA3000FC3FE3 /* DebuggingTools */,
 				455B1206190F55ED007997D8 /* GenericUtilities */,
 				45FC6FA5190EB6FD0018BC59 /* GenericContainers */,
@@ -333,6 +347,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				45FC7020190EB8920018BC59 /* StableCircularQueue.h in Headers */,
+				455B125719103C13007997D8 /* ObjectPack.h in Headers */,
 				45FC702C190EB8920018BC59 /* UnstableOrderlessSet.h in Headers */,
 				45FC7023190EB8920018BC59 /* StableDenseStack.h in Headers */,
 				450EF2CA190ECA3700FC3FE3 /* MemoryTracer.h in Headers */,
@@ -350,6 +365,7 @@
 				450EF2D4190ED65A00FC3FE3 /* StaticStableListStack.h in Headers */,
 				45D97620190F0B570093F471 /* ObjectSlotIterator.h in Headers */,
 				450EF2B9190EBE7000FC3FE3 /* CommonRealtimeGameAlgorithms.h in Headers */,
+				455B125219101018007997D8 /* Exception.h in Headers */,
 				450EF2BF190EC06300FC3FE3 /* MemoryStorage.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -454,6 +470,7 @@
 				450EF2B7190EBE7000FC3FE3 /* CommonRealtimeGameAlgorithms.cpp in Sources */,
 				455B11C7190F44C9007997D8 /* ObjectSlotRange.cpp in Sources */,
 				45FC7007190EB8380018BC59 /* CommonRealtimeGameAlgorithmsCommon.cpp in Sources */,
+				455B125019101018007997D8 /* Exception.cpp in Sources */,
 				45FC702A190EB8920018BC59 /* UnstableOrderlessSet.cpp in Sources */,
 				45FC7021190EB8920018BC59 /* StableDenseStack.cpp in Sources */,
 				450EF2CD190ED1A100FC3FE3 /* ObjectSlot.cpp in Sources */,
@@ -462,6 +479,7 @@
 				450EF2BD190EC06300FC3FE3 /* MemoryStorage.cpp in Sources */,
 				45FC7018190EB8920018BC59 /* IndexMap.cpp in Sources */,
 				455B1209190F55F3007997D8 /* Range.cpp in Sources */,
+				455B125519103C13007997D8 /* ObjectPack.cpp in Sources */,
 				45D97623190F17F50093F471 /* StaticStableOrderlessSet.cpp in Sources */,
 				450EF2D2190ED65A00FC3FE3 /* StaticStableListStack.cpp in Sources */,
 				45D9761E190F0B570093F471 /* ObjectSlotIterator.cpp in Sources */,
@@ -489,6 +507,8 @@
 				45FC7019190EB8920018BC59 /* IndexMap.cpp in Sources */,
 				455B120A190F55F3007997D8 /* Range.cpp in Sources */,
 				45D97624190F17F50093F471 /* StaticStableOrderlessSet.cpp in Sources */,
+				455B125619103C13007997D8 /* ObjectPack.cpp in Sources */,
+				455B125119101018007997D8 /* Exception.cpp in Sources */,
 				450EF2D3190ED65A00FC3FE3 /* StaticStableListStack.cpp in Sources */,
 				45D9761F190F0B570093F471 /* ObjectSlotIterator.cpp in Sources */,
 				45D9761A190EF5830093F471 /* StaticStableListMap.cpp in Sources */,
@@ -594,7 +614,10 @@
 		45FC6FA0190EB6890018BC59 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				DEAD_CODE_STRIPPING = YES;
 				GCC_PREPROCESSOR_DEFINITIONS = "EONIL_COMMON_REALTIME_GAME_ALGORITHMS_DEBUG_MODE=1";
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
 				PRODUCT_NAME = "Eonil$(PROJECT_NAME)";
 			};
 			name = Debug;
@@ -602,7 +625,10 @@
 		45FC6FA1190EB6890018BC59 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				DEAD_CODE_STRIPPING = YES;
 				GCC_PREPROCESSOR_DEFINITIONS = "EONIL_COMMON_REALTIME_GAME_ALGORITHMS_DEBUG_MODE=0";
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
 				PRODUCT_NAME = "Eonil$(PROJECT_NAME)";
 			};
 			name = Release;
@@ -639,8 +665,6 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
-				GCC_WARN_UNUSED_FUNCTION = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = "-ObjC";
@@ -675,8 +699,6 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
-				GCC_WARN_UNUSED_FUNCTION = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				OTHER_LDFLAGS = "-ObjC";
 				SDKROOT = iphoneos;
@@ -716,8 +738,6 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
-				GCC_WARN_UNUSED_FUNCTION = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.8;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = macosx;
@@ -750,8 +770,6 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
-				GCC_WARN_UNUSED_FUNCTION = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.8;
 				SDKROOT = macosx;
 			};

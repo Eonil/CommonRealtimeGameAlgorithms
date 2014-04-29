@@ -42,6 +42,11 @@ EONIL_COMMON_REALTIME_GAME_ALGORITHMS_BEGIN
 using	Size		=	std::size_t;
 using	str			=	std::string;
 template <typename T>	using	vec		=	std::vector<T>;
+constexpr bool const	USE_EXCEPTION_CHECKINGS				=	(EONIL_COMMON_REALTIME_GAME_ALGORITHMS_DEBUG_MODE == 1);
+constexpr bool const	USE_HEAVY_EXCEPTION_CHECKINGS		=	(EONIL_COMMON_REALTIME_GAME_ALGORITHMS_DEBUG_MODE == 1);
+constexpr char const*	EXCEPTION_DEFAULT_MESSAGE			=	"Reason unspecified. Use debugger to track source of the exception.";
+auto	halt_if(bool const condition, std::string const& message = EXCEPTION_DEFAULT_MESSAGE) -> void;
+auto	error_if(bool const condition, std::string const& message = EXCEPTION_DEFAULT_MESSAGE) -> void;
 #if		EONIL_COMMON_REALTIME_GAME_ALGORITHMS_DEBUG_MODE
 auto	EONIL_COMMON_REALTIME_GAME_ALGORITHMS_DEBUG_ASSERT(bool const condition, std::string const& message = "[Eonil::CommonRealtimeGameAlgorithms] Assertion failure") -> void;
 #else
@@ -52,6 +57,19 @@ auto	EONIL_COMMON_REALTIME_GAME_ALGORITHMS_DEBUG_ASSERT(bool const condition, st
 //#else
 //#define EONIL_COMMON_REALTIME_GAME_ALGORITHMS_HEAVY_TRACE_DEBUG_ASSERT(...)				//	Erase the macro for release mode.
 //#endif
+struct
+ExceptionSupportTools
+{
+protected:
+	auto	_halt_if_this_is_null() const -> void;
+	
+	template <typename T> auto
+	_error_if_supplied_reference_is_dereference_of_null(T const&o, std::string const& extra_description = "") const -> void
+	{
+		std::string	ex_desc2	=	extra_description.length() == 0 ? "" : (" (" + extra_description + ")");
+		error_if(&o == nullptr, "Supplied object reference is actually dereference of `nullptr` and cannot be used on this operation." + ex_desc2);
+	}
+};
 EONIL_COMMON_REALTIME_GAME_ALGORITHMS_END
 
 
@@ -71,6 +89,30 @@ EONIL_COMMON_REALTIME_GAME_ALGORITHMS_GENERIC_CONTAINERS_END
 EONIL_COMMON_REALTIME_GAME_ALGORITHMS_GENERIC_UTILITIES_BEGIN
 template <typename IT>						class	Range;
 EONIL_COMMON_REALTIME_GAME_ALGORITHMS_GENERIC_UTILITIES_END
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
