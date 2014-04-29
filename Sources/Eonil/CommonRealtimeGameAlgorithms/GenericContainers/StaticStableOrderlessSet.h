@@ -22,26 +22,6 @@ EONIL_COMMON_REALTIME_GAME_ALGORITHMS_GENERIC_CONTAINERS_BEGIN
 
 
 
-/*!
- A map which maps an integer to a value slot.
- Capacity is statically fixed.
- 
- @classdesign
- The internal storage starts with uninitialize memory block, and will be
- initialized when you insert, and deinitialized when you erase.
- 
- This object tracks and keeps occupation state of each slots, and this increases
- instance size of this object.
- 
- @discussion
- This is very dense at full with a small padding for marking occupation of each slots.
- If map is not full, there can be many empty slots, and filled slots can be treated as sparse list.
- 
- @exception
- All methods guarantees strong safety as far as the type `T` provides strong safety for all methods.
- Anyway those guarantees are applied only on debug build. There's no check, safety
- guarantee or throwing on release build. (data just be will corrupted.)
- */
 template <typename T, Size const LEN>
 class
 StaticStableOrderlessSet
@@ -70,6 +50,16 @@ public:
 	auto	insert(T&&) -> Iterator;
 	auto	erase(Iterator) -> void;
 	auto	clear() -> void;
+	
+	/*!
+	 Returns index for the iterator as a concept of perfect-hash.
+	 Value range N is:
+	 
+		0 <= N < size()
+
+	 You can use this value as a perfect-hash key to link another object.
+	 */
+	auto	hash(Iterator) const -> Size;
 	
 private:
 	StaticStableListMap<T, LEN>			_items			{};
@@ -180,7 +170,12 @@ clear() -> void
 	_free_slot_idxs.clear();
 }
 
-
+template <typename T, Size const LEN> auto
+StaticStableOrderlessSet<T,LEN>::
+hash(Iterator o) const -> Size
+{
+	return	_items.index(o);
+}
 
 
 
