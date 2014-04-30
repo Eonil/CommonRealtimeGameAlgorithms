@@ -179,7 +179,7 @@ template <typename T, Size const LEN> auto
 StaticStableOrderlessSet<T,LEN>::
 hash(T const& o) const -> Size
 {
-	return	_items.index(o);
+	return	_items.index(&o);
 }
 
 

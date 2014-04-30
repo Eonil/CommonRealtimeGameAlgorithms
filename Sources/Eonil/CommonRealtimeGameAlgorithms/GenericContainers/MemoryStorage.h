@@ -65,8 +65,8 @@ MemoryStorage
 {
 	friend class	MemoryStorageDebugginSupport;
 	
-//	using	MEM	=	typename std::aligned_storage<sizeof(T)>::type;
-	using	MEM	=	std::array<uint8_t, sizeof(T)>;
+	using	MEM	=	typename std::aligned_storage<sizeof(T)>::type;
+//	using	MEM	=	std::array<uint8_t, sizeof(T)>;
 	
 	MEM		_mem;
 	
@@ -93,7 +93,8 @@ private:
 	auto	_halt_if_this_is_null() const -> void;
 };
 
-
+//template <typename T>
+//static_assert(sizeof(MemoryStorage<T>) == sizeof(T), "Memory layout doesn't work as I expected.");
 
 
 
@@ -110,7 +111,7 @@ private:
 template <typename T> auto
 MemoryStorage<T>::value() const -> T const&
 {
-	static_assert(sizeof(T) == sizeof(MemoryStorage<T>), "Size of memory-storage must be equal to size of type `T`. If compiler does not support precise memory layout, it can't be used for this library. Some compiler may need using of some extra extensions.");
+//	static_assert(sizeof(T) <= sizeof(MemoryStorage<T>), "Size of memory-storage must be equal to size of type `T`. If compiler does not support precise memory layout, it can't be used for this library. Some compiler may need using of some extra extensions.");
 	if (USE_EXCEPTION_CHECKINGS)
 	{
 		_halt_if_this_is_null();

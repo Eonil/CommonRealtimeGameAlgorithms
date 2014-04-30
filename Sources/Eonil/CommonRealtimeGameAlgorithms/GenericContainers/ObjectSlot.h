@@ -110,6 +110,9 @@ private:
 	};
 };
 
+//template <typename T>
+//static_assert(sizeof(ObjectSlot<T>) == sizeof(MemoryStorage<T>) + sizeof(bool) + sizeof(bool), "Memory alignment failure.");
+
 
 
 

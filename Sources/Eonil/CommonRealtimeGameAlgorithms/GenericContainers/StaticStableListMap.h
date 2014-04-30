@@ -104,6 +104,9 @@ public:
 	auto	end() const -> ConstIterator;
 	auto	end() -> Iterator;
 	
+	auto	find(Size const index) const -> T const*;			//!	Returns `nullptr` if the value is not available at the index.
+	auto	find(Size const index) -> T*;						//!	Returns `nullptr` if the value is not available at the index.
+	
 	template <typename... ARGS>
 	auto	emplace(Size const index, ARGS&&... args) -> void;
 	auto	insert(Size const index, T const& v) -> void;
@@ -416,6 +419,33 @@ end() -> Iterator
 }
 
 
+
+template <typename T, Size const LEN> auto
+StaticStableListMap<T,LEN>::
+find(Size const index) const -> T const*
+{
+	if (_items[index].occupation())
+	{
+		return	&_items[index].value();
+	}
+	else
+	{
+		return	nullptr;
+	}
+}
+template <typename T, Size const LEN> auto
+StaticStableListMap<T,LEN>::
+find(Size const index) -> T*
+{
+	if (_items[index].occupation())
+	{
+		return	&_items[index].value();
+	}
+	else
+	{
+		return	nullptr;
+	}
+}
 
 
 
