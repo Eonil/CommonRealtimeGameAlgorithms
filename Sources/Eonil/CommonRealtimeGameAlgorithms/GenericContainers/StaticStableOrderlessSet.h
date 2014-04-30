@@ -21,7 +21,11 @@ EONIL_COMMON_REALTIME_GAME_ALGORITHMS_GENERIC_CONTAINERS_BEGIN
 
 
 
-
+/*!
+ Do not `erase` any object while iterating. It will invalidate all existing iterators which pointing the object.
+ As a result, further iteration will fail. Anyway, any other iterators which pointer other object will not be
+ affected. Calling `clear` has same effect on all objects.
+ */
 template <typename T, Size const LEN>
 class
 StaticStableOrderlessSet : ExceptionSupportTools
@@ -48,8 +52,8 @@ public:
 	
 	auto	insert(T const&) -> T*;
 	auto	insert(T&&) -> T*;
-	auto	erase(T*) -> void;
-	auto	clear() -> void;
+	auto	erase(T*) -> void;										//!	This will invalidate all existing iterators which pointing target object.
+	auto	clear() -> void;										//!	This will invalidate all existing iterators.
 	
 	/*!
 	 Returns index for the iterator as a concept of perfect-hash.
