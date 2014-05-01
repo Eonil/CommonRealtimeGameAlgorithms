@@ -138,6 +138,26 @@ private:
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 template <typename T, Size const LEN>
 StaticStableListMap<T,LEN>::
 StaticStableListMap()

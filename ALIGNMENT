@@ -1,0 +1,27 @@
+
+
+
+
+
+In ARM processors, memory alignment is very sensitive issue because
+access to unaligned memory will cause an `EXC_ARM_DA_ALIGN` exception.
+
+In most cases, this won't be an issue because compiler handles alignment
+correctly. Compiler basically tries to align every structures to machine's
+native word size by padding empty space. If user specified explicit size 
+(such as `char`), compiler will emit special instructions to access unaligned
+memory location. This costs more, but at least, the code will work correctly.
+
+The problem comes from direct memory accessing tricks. If compiler cannot 
+determine the type of the object at compile-time, it's impossible to pad or
+mit special instructions. Unaligned memory access is very likely to happen
+in this case. In this case, programmers are responsible to ensure the alignment
+because it's the programmers who hid the type information to compilers!
+
+
+
+
+
+It's hard to handle alignment manually and correctly. It's far better to let
+the compiler do the job. The point is exposing the type to the compiler rather
+than erasing it.
