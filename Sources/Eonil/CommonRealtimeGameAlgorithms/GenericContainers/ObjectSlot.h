@@ -25,10 +25,6 @@ EONIL_COMMON_REALTIME_GAME_ALGORITHMS_GENERIC_CONTAINERS_BEGIN
  This is designed to be laid out consecutively. Iterating is provided by `ObjectSlotIterator`.
  Last slot must be a sential by being marked with sentinel flag to provide iteration properly.
  
- This class does not try to align memory, and will just use provided class size as is.
- You have to manage the alignment. This class contains extra data other than `T`, so do not
- expect size of `T`.
- 
  @exception
  All methods guarantees strong exception safety as long as the type `T` provides strong exception
  safety for all of these methods. (no state change if there's an exception thrown)

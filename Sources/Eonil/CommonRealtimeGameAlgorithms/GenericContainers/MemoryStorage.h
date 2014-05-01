@@ -167,9 +167,6 @@ MemoryStorage<T>::value() const -> T const&
 	
 	////
 	
-//	MEM const&	ref1	=	_mem;
-//	T const&	ref2	=	reinterpret_cast<T const&>(ref1);
-//	return		ref2;
 	return	_obj;
 }
 template <typename T> auto
@@ -184,9 +181,6 @@ MemoryStorage<T>::value() -> T&
 	
 	////
 	
-//	MEM&	ref1	=	_mem;
-//	T&		ref2	=	reinterpret_cast<T&>(ref1);
-//	return	ref2;
 	return	_obj;
 }
 
@@ -241,8 +235,6 @@ terminate() noexcept -> void
 	
 	////
 	
-//	MEM&	ref1	=	_mem;
-//	T&		ref2	=	reinterpret_cast<T&>(ref1);
 	_obj.~T();
 }
 
