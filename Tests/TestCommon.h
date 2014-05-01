@@ -15,6 +15,12 @@
 
 using namespace	Eonil::CommonRealtimeGameAlgorithms::GenericContainers;
 
+template <typename T>
+inline auto
+test_log(T const& v) -> void
+{
+	std::cout << v << "\n";
+}
 inline auto
 test_assert(bool const cond) -> void
 {

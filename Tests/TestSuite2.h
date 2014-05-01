@@ -10,6 +10,8 @@
 
 #include "TestCommon.h"
 
+#include <memory>
+#include <cmath>
 
 
 
@@ -20,170 +22,192 @@
 
 
 
-//
-//
-//
-//
-//
-//
-//
-//struct
-//Finish
-//{
-//	static auto
-//	test1() -> void
+inline auto
+test_mem_alignment() -> void
+{
+	
+	{
+		struct
+		ITEM
+		{
+			char	a, b, c;
+		};
+		std::array<ITEM, 3>	a1{};
+		test_log(sizeof(ITEM));
+		test_log(sizeof(a1));
+		test_assert(sizeof(a1) == sizeof(ITEM) * 3);
+		a1.at(0).a	=	1;
+		a1.at(1).a	=	1;
+	}
+	
+	
+	////
+	
+	test_assert(sizeof(uint32_t) == 4);
+	test_assert(sizeof(std::float_t) == 4);
+	
+	{
+		struct
+		ITEM
+		{
+			uint32_t		a;
+		};
+		std::array<ITEM, 3>	a1{};
+		test_log(sizeof(ITEM));
+		test_log(sizeof(a1));
+		test_assert(sizeof(a1) == sizeof(ITEM) * 3);
+		a1.at(0).a	=	1;
+		a1.at(1).a	=	1;
+	}
+	
+	{
+		struct
+		ITEM
+		{
+			std::float_t	a;
+		};
+		std::array<ITEM, 3>	a1{};
+		test_log(sizeof(ITEM));
+		test_log(sizeof(a1));
+		test_assert(sizeof(a1) == sizeof(ITEM) * 3);
+		a1.at(0).a	=	1;
+		a1.at(1).a	=	1;
+	}
+
+	{
+		struct
+		ITEM
+		{
+			uint32_t		a;
+			bool			f1, f2;
+		};
+		std::array<ITEM, 3>	a1{};
+		test_log(sizeof(ITEM));
+		test_log(sizeof(a1));
+		test_assert(sizeof(a1) == sizeof(ITEM) * 3);
+		a1.at(0).a	=	1;
+		a1.at(1).a	=	1;
+	}
+	
+	{
+		struct
+		ITEM
+		{
+			std::float_t	a;
+			bool			f1, f2;
+		};
+		std::array<ITEM, 3>	a1{};
+		test_log(sizeof(ITEM));
+		test_log(sizeof(a1));
+		test_assert(sizeof(a1) == sizeof(ITEM) * 3);
+		a1.at(0).a	=	1;
+		a1.at(1).a	=	1;
+	}
+
+	{
+		using	ITEM	=	ObjectSlot<uint32_t>;
+		using	ARR		=	std::array<ObjectSlot<uint32_t>, 3>;
+		ARR	a1{};
+		test_log(sizeof(ITEM));
+		test_log(sizeof(ARR));
+		/*
+		 Compiler will put extra padding to provide memory alignment.
+		 This is possible because the type `T` is known at compiler time
+		 on `ObjectSlot` type.
+		 */
+		test_assert(sizeof(ITEM) == (4+2)+2);
+		test_assert(sizeof(a1) == ((4+2)+2) * 3);
+		a1.at(0).initialize(1);
+		a1.at(1).initialize(2);
+		test_assert(a1.at(0).value() == 1);
+		test_assert(a1.at(1).value() == 2);
+		a1.at(0).terminate();
+		a1.at(1).terminate();
+	}
+	
+	{
+		std::array<ObjectSlot<std::float_t>, 3>	a1{};
+		test_assert(sizeof(a1) == ((4+2)+2) * 3);
+		a1.at(0).initialize(1);
+		a1.at(1).initialize(2);
+		test_assert(a1.at(0).value() == 1);
+		test_assert(a1.at(1).value() == 2);
+		a1.at(0).terminate();
+		a1.at(1).terminate();
+	}
+	
+	
+	
+//	std::array<ObjectSlot<char>, 366>	a1{};
+//	for (int i=0; i<366; i ++)
 //	{
+//		a1[i].initialize(i);
 //	}
-//};
-//
-//template <size_t const IDX, size_t const COUNT>
-//struct
-//Tester1
-//{
-//	using	NEXT_TESTER	=	typename std::conditional<IDX < COUNT, Tester1<IDX+1, COUNT>, Finish>::type;
-//	
-//	///
-//	
-//	
-//	static auto
-//	test1() -> void
+//	for (int i=0; i<366; i ++)
 //	{
-//		std::cout << IDX << "\n";
-//		
-//		using	T1	=	typename std::aligned_storage<IDX>::type;
-//		StaticStableListMap<T1, 1024>	m1	{};
-//		for (size_t i=0; i<1024; i++)
-//		{
-//			m1.insert(i, {});
-//			for (size_t j=0; j<IDX; j++)
-//			{
-//				m1.at(i).data[j]	=	1;
-//			}
-//		}
-//		
-//		////
-//		
-//		NEXT_TESTER::test1();
+//		std::cout << a1[i].value() << "\n";
 //	}
-//};
-//
-//
-//inline auto
-//test_mem_alingment() -> void
-//{
+//	for (int i=0; i<366; i ++)
+//	{
+//		a1[i].terminate();
+//	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
 //	struct
-//	bad1
+//	AAA
 //	{
-//		char a = 0, b = 0, c = 0;
+//		char aaa[3];
 //	};
-//
-//	{
-//		size_t	sz1		=	sizeof(MemoryStorage<bad1>);
-//		test_assert(sz1 == 3);
-//		
-//		size_t	sz2	=	sizeof(ObjectSlot<bad1>);
-//		test_assert(sz2 == 3 + 1 + 1);
-//		
-//		size_t	sz3			=	sizeof(std::array<ObjectSlot<bad1>, 3>);
-//		test_assert(sz3 == (3+1+1) * 3);
-//	}
-//	{
-//		MemoryStorage<bad1>	o1	=	{};
-//		size_t	sz1	=	sizeof(o1);
-//		test_assert(sz1 == 3);
-//		
-//		ObjectSlot<bad1>	o2	=	{};
-//		size_t	sz2	=	sizeof(o2);
-//		test_assert(sz2 == 3 + 1 + 1);
-//		
-//		std::array<ObjectSlot<bad1>, 3>	o3	=	{};
-//		size_t	sz3	=	sizeof(o3);
-//		test_assert(sz3 == (3+1+1) * 3);
-//
-//		using	o3_aligned_storage	=	std::aligned_storage<sizeof(std::array<ObjectSlot<bad1>, 3>)>::type;
-//		size_t	sz3_aleign			=	sizeof(o3_aligned_storage);
-//		test_assert(sz3_aleign == (3+1+1) * 3 +	1);
-//		
-//		StaticStableListMap<bad1, 3>	o4	=	{};
-//		size_t	sz4				=	sizeof(o4);
-//
-//		test_assert(sz4 == sizeof(o3_aligned_storage) + sizeof(size_t));
-//		
-//	}
-//	{
-////		using	K	=	StaticStableListMap<bad1, 3>;
-////		K		k1	{};
-////		size_t	sz1	=	sizeof(k1);
-////		
-////		test_assert(sz1 == sizeof(size_t) + sizeof(ObjectSlot<bad1>) * 3);
-////		for (size_t i=0; i<k1.capacity(); i++)
-////		{
-////			k1.insert(i, {});
-////		}
-////		
-////		for (size_t i=0; i<k1.capacity(); i++)
-////		{
-////			k1.at(i).a++;
-////			k1.at(i).b++;
-////			k1.at(i).c++;
-////		}
-//		
-//		Tester1<1,100>::test1();
-//	}
-////	struct
-////	Particle1
-////	{
-////		std::unique_ptr<size_t>	_sight_sensor	{nullptr};
-////		intptr_t				_polarity		{0};
-////		
-////		////
-////		
-////		size_t			phase	{0};
-////		
-////		struct
-////		{
-////			float			flashing_intensity		=	0.0;
-////			float			lighting_intensity		=	0.0;
-////			size_t			decaying_life			=	0;				//	Life length...
-////			size_t			decaying_age			=	0;
-////			
-////			size_t			jump_cooltime_in_tiks	=	0;
-////		}
-////		factors			{};
-////		
-////		class
-////		KnownToAnyCounter
-////		{
-////			size_t	_state	{0};
-////		};
-////		
-////		struct
-////		{
-////			KnownToAnyCounter	known_to_any_counter	{};
-////
-////		}
-////		flags			{};
-////		
-////	};
-////	
-////	{
-////		using	K	=	StaticStableListMap<Particle1, 64>;
-////		K		k1	{};
-////		
-////		for (size_t i=0; i<64; i++)
-////		{
-////			k1.insert(0, {});
-////		}
-////		
-////		for (size_t i=0; i<64; i++)
-////		{
-////			k1.at(i).factors.flashing_intensity	+= 1.0;
-////		}
-////	}
-//}
+//	std::array<ObjectSlot<AAA>, 3> a2{};
+//	a2.at(1).initialize();
+//	auto v1 = a2.at(1).value();
+//	a2.at(1).value().aaa[0] = 1;
+//	a2.at(1).terminate();
+//	
+//	////
+//	
+//	StaticStableListMap<AAA, 3>	m1{};
+//	m1.insert(0, {});
+//	m1.insert(1, {});
+//	m1.insert(2, {});
+//	
+//	std::cout << sizeof(m1) << "\n";
+//	std::cout << uintptr_t(&m1) << "\n";
+//	std::cout << uintptr_t(&m1.at(0).aaa) << "\n";
+//	std::cout << uintptr_t(&m1.at(1).aaa) << "\n";
+//	std::cout << uintptr_t(&m1.at(2).aaa) << "\n";
+//	
+//	uintptr_t	map_ptr	=	uintptr_t(&m1);
+//	uintptr_t	a0_ptr	=	uintptr_t(&m1.at(0));
+//	uintptr_t	a1_ptr	=	uintptr_t(&m1.at(1));
+//	uintptr_t	a2_ptr	=	uintptr_t(&m1.at(2));
+//	
+//	uintptr_t	diff_o		=	a0_ptr - map_ptr;
+//	uintptr_t	diff_0_1	=	a1_ptr - a0_ptr;
+//	uintptr_t	diff_1_2	=	a2_ptr - a1_ptr;
+//	
+//	test_assert(diff_o % sizeof(uintptr_t) == 0);
+//	test_assert(diff_0_1 % sizeof(uintptr_t) == 0);
+//	test_assert(diff_1_2 % sizeof(uintptr_t) == 0);
+//	
+}
 
-
-
+inline auto
+raise_EXC_ARM_DA_ALIGN() -> void
+{
+	char mem[16];
+	char* p1 = mem;
+	double* p2 = (double*)(p1 + 1);
+	*p2 =  10;
+	
+}
 
 
 
@@ -196,6 +220,6 @@
 inline auto
 test_all2() -> void
 {
-//	test_mem_alingment();
+	test_mem_alignment();
 }
 
