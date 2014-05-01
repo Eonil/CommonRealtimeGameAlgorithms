@@ -50,6 +50,8 @@ public:
 	auto	end() const -> ConstIterator;
 	auto	end() -> Iterator;
 	
+	template <typename... ARGS>
+	auto	emplace(ARGS&&... args) -> T*;
 	auto	insert(T const&) -> T*;
 	auto	insert(T&&) -> T*;
 	auto	erase(T*) -> void;										//!	This will invalidate all existing iterators which pointing target object.
@@ -84,43 +86,70 @@ private:
 
 
 
-template <typename T, Size const LEN> auto
+template <typename T, Size const LEN>
+auto
 StaticStableOrderlessSet<T,LEN>::
 size() const -> Size
 {
 	return	_items.size();
 }
-template <typename T, Size const LEN> auto
+template <typename T, Size const LEN>
+auto
 StaticStableOrderlessSet<T,LEN>::
 begin() const -> ConstIterator
 {
 	return	_items.begin();
 }
-template <typename T, Size const LEN> auto
+template <typename T, Size const LEN>
+auto
 StaticStableOrderlessSet<T,LEN>::
 begin() -> Iterator
 {
 	return	_items.begin();
 }
-template <typename T, Size const LEN> auto
+template <typename T, Size const LEN>
+auto
 StaticStableOrderlessSet<T,LEN>::
 end() const -> ConstIterator
 {
 	return	_items.end();
 }
-template <typename T, Size const LEN> auto
+template <typename T, Size const LEN>
+auto
 StaticStableOrderlessSet<T,LEN>::
 end() -> Iterator
 {
 	return	_items.end();
 }
-template <typename T, Size const LEN> auto
+
+template <typename T, Size const LEN>
+template <typename ...ARGS>
+auto
+StaticStableOrderlessSet<T,LEN>::
+emplace(ARGS&&... args) -> T*
+{
+	if (USE_EXCEPTION_CHECKINGS)
+	{
+		_halt_if_this_is_null();
+		error_if(_items.size() == LEN, "This set is full.");
+		halt_if(_items.size() > LEN, "Inconsistent internal array state. Serious bug!");
+	}
+	
+	////
+	
+	Size	idx1	=	_feed_available_slot_idx();
+	_items.emplace(idx1, std::forward<ARGS>(args)...);
+	return	&_items.at(idx1);
+}
+template <typename T, Size const LEN>
+auto
 StaticStableOrderlessSet<T,LEN>::
 insert(const T &o) -> T*
 {
 	return	insert(T(o));
 }
-template <typename T, Size const LEN> auto
+template <typename T, Size const LEN>
+auto
 StaticStableOrderlessSet<T,LEN>::
 insert(T &&o) -> T*
 {
@@ -137,7 +166,8 @@ insert(T &&o) -> T*
 	_items.insert(idx1, std::move(o));
 	return	&_items.at(idx1);
 }
-template <typename T, Size const LEN> auto
+template <typename T, Size const LEN>
+auto
 StaticStableOrderlessSet<T,LEN>::
 erase(T* o) -> void
 {
@@ -159,7 +189,8 @@ erase(T* o) -> void
 	_items.erase(idx1);
 	_free_slot_idxs.push(idx1);
 }
-template <typename T, Size const LEN> auto
+template <typename T, Size const LEN>
+auto
 StaticStableOrderlessSet<T,LEN>::
 clear() -> void
 {
@@ -167,19 +198,22 @@ clear() -> void
 	_free_slot_idxs.clear();
 }
 
-template <typename T, Size const LEN> auto
+template <typename T, Size const LEN>
+auto
 StaticStableOrderlessSet<T,LEN>::
 hash(ConstIterator o) const -> Size
 {
 	return	_items.index(o);
 }
-template <typename T, Size const LEN> auto
+template <typename T, Size const LEN>
+auto
 StaticStableOrderlessSet<T,LEN>::
 hash(T const* o) const -> Size
 {
 	return	_items.index(o);
 }
-template <typename T, Size const LEN> auto
+template <typename T, Size const LEN>
+auto
 StaticStableOrderlessSet<T,LEN>::
 hash(T const& o) const -> Size
 {
@@ -202,7 +236,8 @@ hash(T const& o) const -> Size
 
 
 
-template <typename T, Size const LEN> auto
+template <typename T, Size const LEN>
+auto
 StaticStableOrderlessSet<T,LEN>::
 _feed_available_slot_idx() -> Size
 {
