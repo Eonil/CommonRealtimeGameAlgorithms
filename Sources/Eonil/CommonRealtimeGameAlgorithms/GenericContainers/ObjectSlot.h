@@ -402,7 +402,6 @@ resolveAddressOfSlot(const T *o) -> ObjectSlot const*
 	if (USE_EXCEPTION_CHECKINGS)
 	{
 		error_if(o == nullptr, "`nullptr` is not supported.");
-		halt_if(offsetof(ObjectSlot, _mem) != 0);
 	}
 	
 	////
