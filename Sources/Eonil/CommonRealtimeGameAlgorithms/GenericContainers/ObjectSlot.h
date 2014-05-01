@@ -108,8 +108,15 @@ private:
 		bool			_occupation{false};
 		bool			_is_last{false};
 	};
+	
+	////
+	
+	inline auto
+	_halt_if_memory_layout_is_bad() const -> void
+	{
+		halt_if(uintptr_t(this) != uintptr_t(&_mem), "Bad memory layout.");
+	}
 };
-
 
 
 
@@ -138,6 +145,7 @@ ObjectSlot(ObjectSlot const& o) : _is_last(o._is_last)
 	if (USE_EXCEPTION_CHECKINGS)
 	{
 		_halt_if_this_is_null();
+		_halt_if_memory_layout_is_bad();
 		error_if(&o == nullptr, "The supplied pointer shouldn't be `nullptr`.");
 	}
 	
@@ -155,6 +163,7 @@ ObjectSlot(ObjectSlot&& o) : _is_last(std::move(o._is_last))
 	if (USE_EXCEPTION_CHECKINGS)
 	{
 		_halt_if_this_is_null();
+		_halt_if_memory_layout_is_bad();
 		error_if(&o == nullptr, "The supplied pointer shouldn't be `nullptr`.");
 	}
 	
@@ -187,6 +196,7 @@ ObjectSlot<T>::operator=(const ObjectSlot<T> &o) -> ObjectSlot&
 	if (USE_EXCEPTION_CHECKINGS)
 	{
 		_halt_if_this_is_null();
+		_halt_if_memory_layout_is_bad();
 		error_if(&o == nullptr, "Cannot copy-assign from a value pointed by a `nullptr`.");
 	}
 	
@@ -217,6 +227,7 @@ ObjectSlot<T>::operator=(ObjectSlot<T> &&o) -> ObjectSlot&
 	if (USE_EXCEPTION_CHECKINGS)
 	{
 		_halt_if_this_is_null();
+		_halt_if_memory_layout_is_bad();
 		error_if(&o == nullptr, "Cannot move-assign from a value pointed by a `nullptr`.");
 	}
 	
@@ -247,6 +258,7 @@ ObjectSlot<T>::occupation() const -> bool
 	if (USE_EXCEPTION_CHECKINGS)
 	{
 		_halt_if_this_is_null();
+		_halt_if_memory_layout_is_bad();
 	}
 	
 	////
@@ -283,6 +295,7 @@ ObjectSlot<T>::value() const -> T const&
 	if (USE_EXCEPTION_CHECKINGS)
 	{
 		_halt_if_this_is_null();
+		_halt_if_memory_layout_is_bad();
 		error_if(not _occupation, "This object-slot is not occupied yet.");
 	}
 	
@@ -296,6 +309,7 @@ ObjectSlot<T>::value() -> T&
 	if (USE_EXCEPTION_CHECKINGS)
 	{
 		_halt_if_this_is_null();
+		_halt_if_memory_layout_is_bad();
 		error_if(not _occupation, "This object-slot is not occupied yet.");
 	}
 	
@@ -312,6 +326,7 @@ initialize(ARGS&&... args) -> void
 	if (USE_EXCEPTION_CHECKINGS)
 	{
 		_halt_if_this_is_null();
+		_halt_if_memory_layout_is_bad();
 		error_if(_occupation, "This object-slot is already occupied.");
 	}
 	
@@ -326,8 +341,8 @@ initialize(T&& o) -> void
 {
 	if (USE_EXCEPTION_CHECKINGS)
 	{
-		halt_if(this == nullptr);
 		_halt_if_this_is_null();
+		_halt_if_memory_layout_is_bad();
 		error_if(_occupation, "This object-slot is already occupied.");
 	}
 	
@@ -343,6 +358,7 @@ terminate() -> void
 	if (USE_EXCEPTION_CHECKINGS)
 	{
 		_halt_if_this_is_null();
+		_halt_if_memory_layout_is_bad();
 		error_if(not _occupation, "This object-slot is not occupied yet.");
 	}
 	
@@ -358,6 +374,7 @@ sentinel() const -> bool
 	if (USE_EXCEPTION_CHECKINGS)
 	{
 		_halt_if_this_is_null();
+		_halt_if_memory_layout_is_bad();
 	}
 	
 	////
@@ -372,6 +389,7 @@ sentinelize() -> void
 	if (USE_EXCEPTION_CHECKINGS)
 	{
 		_halt_if_this_is_null();
+		_halt_if_memory_layout_is_bad();
 		error_if(_is_last, "This object-slot is alreday a sentinel.");
 	}
 	

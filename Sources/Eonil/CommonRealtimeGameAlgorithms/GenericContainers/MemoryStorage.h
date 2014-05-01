@@ -125,7 +125,9 @@ public:
 	
 private:
 	auto	_halt_if_this_is_null() const -> void;
+	auto	_halt_if_memory_layout_is_bad() const -> void;
 };
+
 
 
 
@@ -161,6 +163,7 @@ MemoryStorage<T>::value() const -> T const&
 	if (USE_EXCEPTION_CHECKINGS)
 	{
 		_halt_if_this_is_null();
+		_halt_if_memory_layout_is_bad();
 		halt_if(uintptr_t(this) != uintptr_t(&_mem), "Bad memory layout.");
 		halt_if(sizeof(MemoryStorage) != sizeof(T), "Bad memory layout.");
 	}
@@ -175,6 +178,7 @@ MemoryStorage<T>::value() -> T&
 	if (USE_EXCEPTION_CHECKINGS)
 	{
 		_halt_if_this_is_null();
+		_halt_if_memory_layout_is_bad();
 		halt_if(uintptr_t(this) != uintptr_t(&_mem), "Bad memory layout.");
 		halt_if(sizeof(MemoryStorage) != sizeof(T), "Bad memory layout.");
 	}
@@ -192,6 +196,7 @@ initialize(ARGS&&... args) -> void
 	if (USE_EXCEPTION_CHECKINGS)
 	{
 		_halt_if_this_is_null();
+		_halt_if_memory_layout_is_bad();
 	}
 	
 	////
@@ -205,6 +210,7 @@ initialize(T const& o) -> void
 	if (USE_EXCEPTION_CHECKINGS)
 	{
 		_halt_if_this_is_null();
+		_halt_if_memory_layout_is_bad();
 	}
 	
 	////
@@ -218,6 +224,7 @@ initialize(T&& o) -> void
 	if (USE_EXCEPTION_CHECKINGS)
 	{
 		_halt_if_this_is_null();
+		_halt_if_memory_layout_is_bad();
 	}
 	
 	////
@@ -231,6 +238,7 @@ terminate() noexcept -> void
 	if (USE_EXCEPTION_CHECKINGS)
 	{
 		_halt_if_this_is_null();
+		_halt_if_memory_layout_is_bad();
 	}
 	
 	////
@@ -254,6 +262,13 @@ MemoryStorage<T>::
 _halt_if_this_is_null() const -> void
 {
 	halt_if(this == nullptr, "You cannot call this method on `nullptr`.");
+}
+template <typename T> auto
+MemoryStorage<T>::
+_halt_if_memory_layout_is_bad() const -> void
+{
+	halt_if(uintptr_t(this) != uintptr_t(&_mem), "Bad memory layout.");
+	halt_if(uintptr_t(this) != uintptr_t(&_obj), "Bad memory layout.");
 }
 
 
