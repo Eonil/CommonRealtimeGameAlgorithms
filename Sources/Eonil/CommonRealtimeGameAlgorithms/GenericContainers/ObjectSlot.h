@@ -111,11 +111,7 @@ private:
 	
 	////
 	
-	inline auto
-	_halt_if_memory_layout_is_bad() const -> void
-	{
-		halt_if(uintptr_t(this) != uintptr_t(&_mem), "Bad memory layout.");
-	}
+	auto	_halt_if_memory_layout_is_bad() const -> void;
 };
 
 
@@ -443,6 +439,14 @@ resolveAddressOfSlot(const T *o) -> ObjectSlot const*
 
 
 
+
+
+template <typename T> auto
+ObjectSlot<T>::
+_halt_if_memory_layout_is_bad() const -> void
+{
+	halt_if(uintptr_t(this) != uintptr_t(&_mem), "Bad memory layout.");
+}
 
 
 
