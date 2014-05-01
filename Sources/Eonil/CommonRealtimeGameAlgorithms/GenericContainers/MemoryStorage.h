@@ -38,6 +38,7 @@ EONIL_COMMON_REALTIME_GAME_ALGORITHMS_GENERIC_CONTAINERS_BEGIN
  This is checked by runtime assertion in debug build.
  
  Anyway, the size of this object will be exactly same with `T`.
+ This class does not produce algined memory. Users are responsible to keep alignment.
 	
  
  @discussion
@@ -53,6 +54,26 @@ EONIL_COMMON_REALTIME_GAME_ALGORITHMS_GENERIC_CONTAINERS_BEGIN
  -	copy assignment
  -	move assignment
  
+ @note
+ In ARM processors, memory alignment is very sensitive issue because
+ access to unaligned memory will cause an `EXC_ARM_DA_ALIGN` exception.
+ 
+ In most cases, this won't be an issue because compiler handles alignment
+ correctly. Compiler basically tries to align every structures to machine's
+ native word size by padding empty space. If user specified explicit size
+ (such as `char`), compiler will emit special instructions to access unaligned
+ memory location. This costs more, but at least, the code will work correctly.
+ 
+ The problem comes from direct memory accessing tricks. If compiler cannot
+ determine the type of the object at compile-time, it's impossible to pad or
+ mit special instructions. Unaligned memory access is very likely to happen
+ in this case. In this case, programmers are responsible to ensure the alignment
+ because it's the programmers who hid the type information to compilers!
+ 
+ It's hard to handle alignment manually and correctly. It's far better to let
+ the compiler do the job. The point is exposing the type to the compiler rather
+ than erasing it.
+ 
  @warning
  Do not use this class for usualy/daily object management. This class is designed for specially
  designed classes.
@@ -60,20 +81,33 @@ EONIL_COMMON_REALTIME_GAME_ALGORITHMS_GENERIC_CONTAINERS_BEGIN
  EXPLICITLY to trigger C++ destructor correctly.
  */
 template <typename T>
-class
+union
 MemoryStorage
 {
 	friend class	MemoryStorageDebugginSupport;
 	
-	using	MEM	=	typename std::aligned_storage<sizeof(T)>::type;
-//	using	MEM	=	std::array<uint8_t, sizeof(T)>;
+	/*!
+	 Default initializer of `unsigned char` will do nothing - memory will remain indeterminate values.
+	 Value initialization will not be performed.
+	 */
+	using	MEM	=	std::array<unsigned char, sizeof(T)>;
 	
-	MEM		_mem;
+	static_assert(sizeof(MEM) == sizeof(T), "MEM must be same sized with `T`.");
+	
+	MEM		_mem;		//	First member will be handled for ctor/dtor.
+	T		_obj;		//	Second member will not be handled by ctor/dtor.
+	
+	/*
+	 Second member is REQUIRED to provide type information to compiler at compile
+	 time to gain proper memory alignment support by the compiler. This also removes
+	 all `reinterpret_cast`.
+	 */
 	
 public:
-	MemoryStorage() = default;
+	MemoryStorage();
 	MemoryStorage(MemoryStorage const&) = delete;
 	MemoryStorage(MemoryStorage&&) = delete;
+	~MemoryStorage();
 	
 	auto	operator=(MemoryStorage const&) -> MemoryStorage& = delete;
 	auto	operator=(MemoryStorage&&) -> MemoryStorage& = delete;
@@ -93,14 +127,26 @@ private:
 	auto	_halt_if_this_is_null() const -> void;
 };
 
-//template <typename T>
-//static_assert(sizeof(MemoryStorage<T>) == sizeof(T), "Memory layout doesn't work as I expected.");
 
 
 
 
 
 
+template <typename T>
+MemoryStorage<T>::MemoryStorage()
+{
+	/*
+	 No initialization.
+	 */
+}
+template <typename T>
+MemoryStorage<T>::~MemoryStorage()
+{
+	/*
+	 No cleanup.
+	 */
+}
 
 
 
@@ -116,13 +162,15 @@ MemoryStorage<T>::value() const -> T const&
 	{
 		_halt_if_this_is_null();
 		halt_if(uintptr_t(this) != uintptr_t(&_mem), "Bad memory layout.");
+		halt_if(sizeof(MemoryStorage) != sizeof(T), "Bad memory layout.");
 	}
 	
 	////
 	
-	MEM const&	ref1	=	_mem;
-	T const&	ref2	=	reinterpret_cast<T const&>(ref1);
-	return		ref2;
+//	MEM const&	ref1	=	_mem;
+//	T const&	ref2	=	reinterpret_cast<T const&>(ref1);
+//	return		ref2;
+	return	_obj;
 }
 template <typename T> auto
 MemoryStorage<T>::value() -> T&
@@ -131,13 +179,15 @@ MemoryStorage<T>::value() -> T&
 	{
 		_halt_if_this_is_null();
 		halt_if(uintptr_t(this) != uintptr_t(&_mem), "Bad memory layout.");
+		halt_if(sizeof(MemoryStorage) != sizeof(T), "Bad memory layout.");
 	}
 	
 	////
 	
-	MEM&	ref1	=	_mem;
-	T&		ref2	=	reinterpret_cast<T&>(ref1);
-	return	ref2;
+//	MEM&	ref1	=	_mem;
+//	T&		ref2	=	reinterpret_cast<T&>(ref1);
+//	return	ref2;
+	return	_obj;
 }
 
 template <typename T>
@@ -152,7 +202,7 @@ initialize(ARGS&&... args) -> void
 	
 	////
 	
-	new (&_mem) T(std::forward<ARGS>(args)...);
+	new (&_obj) T(std::forward<ARGS>(args)...);
 }
 template <typename T> auto
 MemoryStorage<T>::
@@ -165,7 +215,7 @@ initialize(T const& o) -> void
 	
 	////
 	
-	new (&_mem) T(o);
+	new (&_obj) T(o);
 }
 template <typename T> auto
 MemoryStorage<T>::
@@ -178,7 +228,7 @@ initialize(T&& o) -> void
 	
 	////
 	
-	new (&_mem) T(std::move(o));
+	new (&_obj) T(std::move(o));
 }
 template <typename T> auto
 MemoryStorage<T>::
@@ -191,9 +241,9 @@ terminate() noexcept -> void
 	
 	////
 	
-	MEM&	ref1	=	_mem;
-	T&		ref2	=	reinterpret_cast<T&>(ref1);
-	ref2.~T();
+//	MEM&	ref1	=	_mem;
+//	T&		ref2	=	reinterpret_cast<T&>(ref1);
+	_obj.~T();
 }
 
 

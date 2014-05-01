@@ -25,6 +25,10 @@ EONIL_COMMON_REALTIME_GAME_ALGORITHMS_GENERIC_CONTAINERS_BEGIN
  This is designed to be laid out consecutively. Iterating is provided by `ObjectSlotIterator`.
  Last slot must be a sential by being marked with sentinel flag to provide iteration properly.
  
+ This class does not try to align memory, and will just use provided class size as is.
+ You have to manage the alignment. This class contains extra data other than `T`, so do not
+ expect size of `T`.
+ 
  @exception
  All methods guarantees strong exception safety as long as the type `T` provides strong exception
  safety for all of these methods. (no state change if there's an exception thrown)
@@ -96,22 +100,19 @@ public:
 	 This is all about address calculation, and does not check object validity.
 	 */
 	static auto		resolveAddressOfSlot(T const*) -> ObjectSlot const*;
-	static auto		resolveAddressOfValue(ObjectSlot const*) -> T const*;
+//	static auto		resolveAddressOfValue(ObjectSlot const*) -> T const*;
 	
 	
 private:
 	friend class	ObjectSlotDebugginSupport;
 	
-	MemoryStorage<T>	_mem;
+	MemoryStorage<T>	_mem	{};
 	struct
 	{
 		bool			_occupation{false};
 		bool			_is_last{false};
 	};
 };
-
-//template <typename T>
-//static_assert(sizeof(ObjectSlot<T>) == sizeof(MemoryStorage<T>) + sizeof(bool) + sizeof(bool), "Memory alignment failure.");
 
 
 
@@ -329,6 +330,7 @@ initialize(T&& o) -> void
 {
 	if (USE_EXCEPTION_CHECKINGS)
 	{
+		halt_if(this == nullptr);
 		_halt_if_this_is_null();
 		error_if(_occupation, "This object-slot is already occupied.");
 	}
@@ -390,16 +392,24 @@ resolveAddressOfSlot(const T *o) -> ObjectSlot const*
 	if (USE_EXCEPTION_CHECKINGS)
 	{
 		error_if(o == nullptr, "`nullptr` is not supported.");
+		halt_if(offsetof(ObjectSlot, _mem) != 0);
 	}
 	
 	////
 	
-	static constexpr Size const		byte_offset		=	offsetof(ObjectSlot, _mem);
-	uint8_t const*					target_ptr		=	reinterpret_cast<uint8_t const*>(o);
-	uint8_t const*					slot_ptr1		=	target_ptr - byte_offset;
-	ObjectSlot const*				slot_ptr2		=	reinterpret_cast<ObjectSlot const*>(slot_ptr1);
-
-	return	slot_ptr2;
+	return	reinterpret_cast<ObjectSlot const*>(o);
+	
+//	static constexpr Size const		byte_offset		=	offsetof(ObjectSlot, _mem);
+//	uint8_t const*					target_ptr		=	reinterpret_cast<uint8_t const*>(o);
+//	uint8_t const*					slot_ptr1		=	target_ptr - byte_offset;
+//	ObjectSlot const*				slot_ptr2		=	reinterpret_cast<ObjectSlot const*>(slot_ptr1);
+//	
+//	if (USE_EXCEPTION_CHECKINGS)
+//	{
+//		halt_if(target_ptr != slot_ptr1);
+//	}
+//
+//	return	slot_ptr2;
 }
 
 
