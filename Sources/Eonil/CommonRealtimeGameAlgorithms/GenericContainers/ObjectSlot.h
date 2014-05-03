@@ -96,17 +96,17 @@ public:
 	 This is all about address calculation, and does not check object validity.
 	 */
 	static auto		resolveAddressOfSlot(T const*) -> ObjectSlot const*;
-//	static auto		resolveAddressOfValue(ObjectSlot const*) -> T const*;
+//	static auto		resolveAddressOfValue(ObjectSlot const*) -> T const*;		//	Just use `value` method instead of this indirection.
 	
 	
 private:
 	friend class	ObjectSlotDebugginSupport;
 	
-	MemoryStorage<T>	_mem	{};
+	MemoryStorage<T>	_mem			=	{};
 	struct
 	{
-		bool			_occupation{false};
-		bool			_is_last{false};
+		bool			_occupation		=	false;
+		bool			_is_last		=	false;
 	};
 	
 	////
@@ -408,6 +408,10 @@ resolveAddressOfSlot(const T *o) -> ObjectSlot const*
 	
 	return	reinterpret_cast<ObjectSlot const*>(o);
 	
+	/*
+	 Trick to get slot pointer from value pointer.
+	 Kept for legacy archive purpose.
+	 */
 //	static constexpr Size const		byte_offset		=	offsetof(ObjectSlot, _mem);
 //	uint8_t const*					target_ptr		=	reinterpret_cast<uint8_t const*>(o);
 //	uint8_t const*					slot_ptr1		=	target_ptr - byte_offset;

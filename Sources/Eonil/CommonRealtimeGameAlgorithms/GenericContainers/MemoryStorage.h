@@ -45,6 +45,10 @@ EONIL_COMMON_REALTIME_GAME_ALGORITHMS_GENERIC_CONTAINERS_BEGIN
  Copy and move cannot be defined by definition of this class because we cannot track current object
  aliveness state. So all copy/move related stuffs are prohibited by explicit delete.
  
+ @discussion
+ This class seems to be same with `std::aligned_union`, but using the class was harder than writing
+ thi class to me due to desired behaviors.
+ 
  @exception
  All methods guarantees strong exception safety as long as the type `T` provides strong exception 
  safety for all of these methods. (no state change if there's an exception thrown)
