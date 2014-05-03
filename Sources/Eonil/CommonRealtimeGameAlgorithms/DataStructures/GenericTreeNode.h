@@ -113,7 +113,16 @@ public:
 
 
 
-
+/*!
+ A tree-node which is providing strong typing via CRTP technique.
+ 
+ @discussion
+ Designed to be used in CRTP manner. Subclass this class and pass the final type to `T`.
+ The reason of using CRTP is providing maximum flexibility. You can add any members
+ as much as you want with full type checking support. Unlike flat containers, structural
+ containers usually need to handle thier own types very much, and CRTP is the only solution
+ for proper type support.
+ */
 template <typename T>
 class
 GenericTreeNode : private TreeNode

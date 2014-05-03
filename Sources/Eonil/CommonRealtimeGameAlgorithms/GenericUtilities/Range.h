@@ -19,10 +19,13 @@ EONIL_COMMON_REALTIME_GAME_ALGORITHMS_GENERIC_UTILITIES_BEGIN
 
 /*!
  Two iterator pairs.
+ 
+ @discussion
+ Generalizes begin/end pair to represent a range of objects.
+ 
+ @classdesign
  Default initialization will create default initialized iterator pairs.
  */
-
-
 template <typename IT>
 class
 Range final
@@ -32,7 +35,7 @@ public:
 	Range(IT begin, IT end);
 	
 	/*!
-	 Any classes which has `begin/end` method pairs can be used.
+	 Any classes which has `begin/end` (of standard C++11 concepts) method pairs can be used.
 	 Or proper `std::begin/std::end` pairs are also supported.
 	 */
 	template <typename C>

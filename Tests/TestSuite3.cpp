@@ -11,7 +11,7 @@
 using namespace	Eonil::CommonRealtimeGameAlgorithms;
 using namespace	Eonil::CommonRealtimeGameAlgorithms::DataStructures;
 using namespace	Eonil::CommonRealtimeGameAlgorithms::GenericUtilities;
-using namespace	Eonil::CommonRealtimeGameAlgorithms::GenericContainers;
+using namespace	Eonil::CommonRealtimeGameAlgorithms::FlatContainers;
 
 
 

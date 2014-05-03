@@ -14,7 +14,7 @@
 //#include <Eonil/CommonRealtimeGameAlgorithms.h>
 #include "CommonRealtimeGameAlgorithms.h"
 
-using namespace	Eonil::CommonRealtimeGameAlgorithms::GenericContainers;
+using namespace	Eonil::CommonRealtimeGameAlgorithms::FlatContainers;
 
 template <typename T>
 inline auto

@@ -26,8 +26,8 @@
 #define EONIL_COMMON_REALTIME_GAME_ALGORITHMS_DATA_STRUCTURES_TOOLS_BEGIN			namespace Eonil { namespace CommonRealtimeGameAlgorithms { namespace DataStructures {
 #define EONIL_COMMON_REALTIME_GAME_ALGORITHMS_DATA_STRUCTURES_TOOLS_END				} } }
 
-#define EONIL_COMMON_REALTIME_GAME_ALGORITHMS_GENERIC_CONTAINERS_BEGIN				namespace Eonil { namespace CommonRealtimeGameAlgorithms { namespace GenericContainers {
-#define EONIL_COMMON_REALTIME_GAME_ALGORITHMS_GENERIC_CONTAINERS_END				} } }
+#define EONIL_COMMON_REALTIME_GAME_ALGORITHMS_FLAT_CONTAINERS_BEGIN					namespace Eonil { namespace CommonRealtimeGameAlgorithms { namespace FlatContainers {
+#define EONIL_COMMON_REALTIME_GAME_ALGORITHMS_FLAT_CONTAINERS_END					} } }
 
 #define EONIL_COMMON_REALTIME_GAME_ALGORITHMS_GENERIC_UTILITIES_BEGIN				namespace Eonil { namespace CommonRealtimeGameAlgorithms { namespace GenericUtilities {
 #define EONIL_COMMON_REALTIME_GAME_ALGORITHMS_GENERIC_UTILITIES_END					} } }
@@ -81,7 +81,7 @@ EONIL_COMMON_REALTIME_GAME_ALGORITHMS_END
 
 
 
-EONIL_COMMON_REALTIME_GAME_ALGORITHMS_GENERIC_CONTAINERS_BEGIN
+EONIL_COMMON_REALTIME_GAME_ALGORITHMS_FLAT_CONTAINERS_BEGIN
 template <typename T>						class	ObjectSlot;
 template <typename T>						class	ObjectSlotIterator;
 //template <typename T>						class	ObjectSlotRange;
@@ -89,7 +89,7 @@ template <typename T, Size const LEN>		class	StaticStableListStack;
 template <typename T, Size const LEN>		class	StaticStableListMap;
 template <typename T, Size const LEN>		class	StaticStableOrderlessSet;
 template <typename T, Size const LEN>		class	StaticUnstableOrderlessSet;
-EONIL_COMMON_REALTIME_GAME_ALGORITHMS_GENERIC_CONTAINERS_END
+EONIL_COMMON_REALTIME_GAME_ALGORITHMS_FLAT_CONTAINERS_END
 
 
 

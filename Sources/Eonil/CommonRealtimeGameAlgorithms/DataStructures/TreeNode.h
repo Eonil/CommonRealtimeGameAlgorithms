@@ -35,6 +35,17 @@ template <bool const CONSTNESS>		class	TreeNodeRange;
  @classdesign
  A tree-node is all about identity. Copy or move semantics cannot be defined.
  As a result, you cannot create this in a container which doesn't support `emplace`.
+ 
+ This class does not manage storage of each nodes. You're responsible to manage
+ a container for to store. This class manages only relationship between nodes.
+ 
+ This spends memory for faster navigation. At least 5 pointers are used for each
+ tree-node object.
+ 
+ @note
+ This class is base class of `GenericTreeNode` class which is recommended to use.
+ Because this class is purely about a pointer management, implementation is using
+ 2-tier layered design --- (1) type-less pointer manager and (2) strong-typing manager.
  */
 class
 TreeNode
