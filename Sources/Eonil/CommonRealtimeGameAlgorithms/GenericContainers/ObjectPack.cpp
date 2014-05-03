@@ -1,9 +1,9 @@
+////
+////  ObjectPack.cpp
+////  CommonRealtimeGameAlgorithms
+////
+////  Created by Hoon H. on 14/4/30.
+////
+////
 //
-//  ObjectPack.cpp
-//  CommonRealtimeGameAlgorithms
-//
-//  Created by Hoon H. on 14/4/30.
-//
-//
-
-#include "ObjectPack.h"
+//#include "ObjectPack.h"

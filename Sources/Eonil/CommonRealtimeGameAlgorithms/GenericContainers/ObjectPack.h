@@ -1,47 +1,47 @@
+////
+////  ObjectPack.h
+////  CommonRealtimeGameAlgorithms
+////
+////  Created by Hoon H. on 14/4/30.
+////
+////
 //
-//  ObjectPack.h
-//  CommonRealtimeGameAlgorithms
+//#pragma once
 //
-//  Created by Hoon H. on 14/4/30.
+//#include "../CommonRealtimeGameAlgorithmsCommon.h"
+//#include "MemoryStorage.h"
+//#include <bitset>
+//
+//EONIL_COMMON_REALTIME_GAME_ALGORITHMS_GENERIC_CONTAINERS_BEGIN
 //
 //
-
-#pragma once
-
-#include "../CommonRealtimeGameAlgorithmsCommon.h"
-#include "MemoryStorage.h"
-#include <bitset>
-
-EONIL_COMMON_REALTIME_GAME_ALGORITHMS_GENERIC_CONTAINERS_BEGIN
-
-
-
-
-
-
-
-
-/*
- Implement this later...
- */
-
-
-
-
-
-
-
-
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 ///*!
 // More compact/batched version of `ObjectSlot`.
 // 
 // Length of a pack is fixed by hardware system.
 // 
+// @classdesign
+// An array of `ObjectSlot` with compacted occupation marker prefix.
+// 
 // @param
 // LEN
-// It's recommended to set this to a multiplication of machine native word-size.
+// It's recommended to set this to a multiplication of machine native alignment.
+// I recommend to use just default value.
 // */
-//template <typename T, Size const LEN>
+//template <typename T, Size const LEN = alignof(uintptr_t) * std::numeric_limits<uintptr_t>::digits>
 //class
 //ObjectPack : ExceptionSupportTools
 //{
@@ -51,13 +51,15 @@ EONIL_COMMON_REALTIME_GAME_ALGORITHMS_GENERIC_CONTAINERS_BEGIN
 //	
 //	static_assert(sizeof(MEMS) == sizeof(MEM) * LEN, "Unsupported system. Cannot satisfy precise memory layout assumption.");
 //	
+//	
+//	
 //public:
 //	~ObjectPack();
 //	
-//	auto	capacity() const -> Size;
-//	auto	size() const -> Size;
-//	auto	empty() const -> bool;
-//	auto	full() const -> bool;
+//	auto	capacity() const noexcept -> Size;
+//	auto	size() const noexcept -> Size;
+//	auto	empty() const noexcept -> bool;
+//	auto	full() const noexcept -> bool;
 //	
 //	/*!
 //	 Resolves index from a pointer to a value.
@@ -115,6 +117,31 @@ EONIL_COMMON_REALTIME_GAME_ALGORITHMS_GENERIC_CONTAINERS_BEGIN
 //
 //template <typename T, Size const LEN> auto
 //ObjectPack<T,LEN>::
+//capacity() const noexcept -> Size
+//{
+//	return	LEN;
+//}
+//template <typename T, Size const LEN> auto
+//ObjectPack<T,LEN>::
+//size() const noexcept -> Size
+//{
+//	return	_occupations.count();
+//}
+//template <typename T, Size const LEN> auto
+//ObjectPack<T,LEN>::
+//empty() const noexcept -> bool
+//{
+//	return	_occupations.none();
+//}
+//template <typename T, Size const LEN> auto
+//ObjectPack<T,LEN>::
+//full() const noexcept -> bool
+//{
+//	return	_occupations.all();
+//}
+//
+//template <typename T, Size const LEN> auto
+//ObjectPack<T,LEN>::
 //at(const Size &index) const -> T const&
 //{
 //	if (USE_EXCEPTION_CHECKINGS)
@@ -128,7 +155,75 @@ EONIL_COMMON_REALTIME_GAME_ALGORITHMS_GENERIC_CONTAINERS_BEGIN
 //	return	_memories.at(index).value();
 //}
 //
-//template <typename T, Size const LEN> auto
+//
+//
+//template <typename T, Size const LEN>
+//template <typename... ARGS>
+//auto
+//ObjectPack<T,LEN>::
+//emplace(Size const index, ARGS&&... args) -> void
+//{
+//	if (USE_EXCEPTION_CHECKINGS)
+//	{
+//		_halt_if_this_is_null();
+//		error_if(_occupations[index], "A value was already set to the slot at index.");
+//	}
+//	
+//	////
+//	
+//	_memories.at(index).initialize(std::forward<ARGS>(args)...);
+//	_occupations[index]	=	true;
+//}
+//template <typename T, Size const LEN>
+//auto
+//ObjectPack<T,LEN>::
+//insert(Size const index, T const& v) -> void
+//{
+//	if (USE_EXCEPTION_CHECKINGS)
+//	{
+//		_halt_if_this_is_null();
+//		error_if(_occupations[index], "A value was already set to the slot at index.");
+//	}
+//	
+//	////
+//	
+//	_memories.at(index).initialize(v);
+//	_occupations[index]	=	true;
+//}
+//template <typename T, Size const LEN>
+//auto
+//ObjectPack<T,LEN>::
+//insert(Size const index, T&& v) -> void
+//{
+//	if (USE_EXCEPTION_CHECKINGS)
+//	{
+//		_halt_if_this_is_null();
+//		error_if(_occupations[index], "A value was already set to the slot at index.");
+//	}
+//	
+//	////
+//	
+//	_memories.at(index).initialize(std::move(v));
+//	_occupations[index]	=	true;
+//}
+//template <typename T, Size const LEN>
+//auto
+//ObjectPack<T,LEN>::
+//erase(Size const index) -> void
+//{
+//	if (USE_EXCEPTION_CHECKINGS)
+//	{
+//		_halt_if_this_is_null();
+//		error_if(not _occupations[index], "No value was set to the slot at index.");
+//	}
+//	
+//	////
+//	
+//	_occupations[index]	=	false;
+//	_memories.at(index).terminate();
+//}
+//template <typename T, Size const LEN>
+//auto
 //ObjectPack<T,LEN>::
 //clear() -> void
 //{
@@ -139,33 +234,37 @@ EONIL_COMMON_REALTIME_GAME_ALGORITHMS_GENERIC_CONTAINERS_BEGIN
 //	
 //	////
 //	
-//	for (Size i=0; i<LEN; i++)
+//	if (size() > 0)
 //	{
-//		if (_occupations[i])
+//		for (Size i=0; i<LEN; i++)
 //		{
-//			_memories.at(i).terminate();
+//			if (_occupations[i])
+//			{
+//				_memories.at(i).terminate();
+//			}
 //		}
+//		_occupations.reset();
 //	}
 //}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-EONIL_COMMON_REALTIME_GAME_ALGORITHMS_GENERIC_CONTAINERS_END
-
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//EONIL_COMMON_REALTIME_GAME_ALGORITHMS_GENERIC_CONTAINERS_END
+//
