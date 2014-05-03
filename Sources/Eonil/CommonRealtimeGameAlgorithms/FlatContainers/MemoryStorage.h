@@ -79,10 +79,12 @@ EONIL_COMMON_REALTIME_GAME_ALGORITHMS_FLAT_CONTAINERS_BEGIN
  than erasing it.
  
  @warning
- Do not use this class for usualy/daily object management. This class is designed for specially
- designed classes.
- It is very easy to forget to call `terminate` at last. You MUST call the `terminate` function 
- EXPLICITLY to trigger C++ destructor correctly.
+ This class is designed to be used in specially designed classes to manage object
+ lifetime explicitly. This require explicit call of `terminate` function to trigger
+ C++ destructor correctly, and it is very easy to forget. This effectively remove
+ benefits of automatic resource management of RIIA.
+ 
+ So **DO NOT USE this class** for daily coding.
  */
 template <typename T>
 union

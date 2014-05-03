@@ -34,6 +34,22 @@ Design Policy
 
 
 
+Namespaces
+----------
+
+-	`FlatContainers` 
+
+	Provides classes to *store* objects.
+	Usually uses plain generic template pattern because recusive type referencing is not 
+	required.
+
+-	`DataStructures`
+
+	Provides classes to *make relationships* between object to organize some structure.
+	Classes does not care about storing related objects. Users are responsible to store
+	the objects. Usually uses CRTP due to need for recursive type referencing.
+
+
 
 
 
