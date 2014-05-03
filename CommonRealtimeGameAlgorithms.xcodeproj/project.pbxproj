@@ -188,7 +188,7 @@
 		457604121914E28A002D3E7A /* TreeNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TreeNode.h; sourceTree = "<group>"; };
 		4576041619150188002D3E7A /* GenericTreeNode.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GenericTreeNode.cpp; sourceTree = "<group>"; };
 		4576041719150188002D3E7A /* GenericTreeNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GenericTreeNode.h; sourceTree = "<group>"; };
-		4581BD441912F6BE00B2FC44 /* ALIGNMENT */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = ALIGNMENT; sourceTree = "<group>"; };
+		4581BD441912F6BE00B2FC44 /* NOTE.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = NOTE.md; sourceTree = "<group>"; };
 		45D560DD1914558100E76437 /* StaticStableSharingList.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = StaticStableSharingList.cpp; sourceTree = "<group>"; };
 		45D560DE1914558100E76437 /* StaticStableSharingList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StaticStableSharingList.h; sourceTree = "<group>"; };
 		45D560FC19148B5F00E76437 /* DynamicStableListMap.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DynamicStableListMap.cpp; sourceTree = "<group>"; };
@@ -355,7 +355,7 @@
 			isa = PBXGroup;
 			children = (
 				450EF2BA190EBF4700FC3FE3 /* README.md */,
-				4581BD441912F6BE00B2FC44 /* ALIGNMENT */,
+				4581BD441912F6BE00B2FC44 /* NOTE.md */,
 				45FC6FA2190EB6FD0018BC59 /* Sources */,
 				45FC6FA7190EB6FD0018BC59 /* Tests */,
 				450EF2A7190EBD6E00FC3FE3 /* CommonRealtimeGameAlgorithms */,
