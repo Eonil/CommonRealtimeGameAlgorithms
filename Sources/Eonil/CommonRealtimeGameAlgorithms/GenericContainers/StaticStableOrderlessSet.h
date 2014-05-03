@@ -54,16 +54,17 @@ public:
 	auto	emplace(ARGS&&... args) -> T*;
 	auto	insert(T const&) -> T*;
 	auto	insert(T&&) -> T*;
-	auto	erase(T*) -> void;										//!	This will invalidate all existing iterators which pointing target object.
+	auto	erase(T*) -> void;										//!	This will invalidate all existing iterators which are pointing target object.
 	auto	clear() -> void;										//!	This will invalidate all existing iterators.
 	
 	/*!
-	 Returns index for the iterator as a concept of perfect-hash.
+	 Returns an integer for the iterator as a concept of perfect-hash.
 	 Value range N is:
 	 
 		0 <= N < size()
 
 	 You can use this value as a perfect-hash key to link another object.
+	 Retunring number is actually an index (memory offset).
 	 */
 	auto	hash(ConstIterator) const -> Size;
 	auto	hash(T const*) const -> Size;
