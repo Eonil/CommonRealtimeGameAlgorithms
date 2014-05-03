@@ -46,7 +46,7 @@ template <typename T, Size const LEN>
 class
 StaticStableListMap : ExceptionSupportTools
 {
-	using	ITEM	=	ObjectSlot<T>;
+	using	ITEM	=	ObjectSlot<T>;					//!	Occupation marking is required for iteration. That's why this is `ObjectSlot` instead of `MemoryStorage`.
 	using	ITEMS	=	std::array<ITEM, LEN>;
 	
 	

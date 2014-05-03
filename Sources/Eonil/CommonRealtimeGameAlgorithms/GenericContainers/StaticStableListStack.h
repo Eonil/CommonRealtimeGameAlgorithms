@@ -29,6 +29,8 @@ EONIL_COMMON_REALTIME_GAME_ALGORITHMS_GENERIC_CONTAINERS_BEGIN
  The internal storage starts with uninitialize memory block, and will be 
  initialized when you push, and deinitialized when you pop.
  
+ All items are fully consecutive.
+ 
  @exception
  All methods guarantees strong safety as far as the type `T` provides strong safety for all methods.
  Anyway those guarantees are applied only on debug build. There's no check, safety
@@ -43,13 +45,7 @@ StaticStableListStack : ExceptionSupportTools
 	using	ITEM	=	MemoryStorage<T>;
 	using	ITEMS	=	std::array<ITEM, LEN>;
 	
-//	union
-//	{
-//		Size	_used		{0};											//	I think it would be better to place size at first.
-//		typename std::aligned_storage<sizeof(ITEM)>::type	padding;		//	Align by size of the ITEM.
-//	};
-	
-	Size	_used		{0};											//	I think it would be better to place size at first.
+	Size	_used		{0};												//	I think it would be better to place size at first.
 	ITEMS	_items		{};
 	
 public:
