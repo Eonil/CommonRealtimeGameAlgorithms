@@ -11,7 +11,8 @@
 #include <exception>
 #include <array>
 #include <iostream>
-#include <Eonil/CommonRealtimeGameAlgorithms.h>
+//#include <Eonil/CommonRealtimeGameAlgorithms.h>
+#include "CommonRealtimeGameAlgorithms.h"
 
 using namespace	Eonil::CommonRealtimeGameAlgorithms::GenericContainers;
 

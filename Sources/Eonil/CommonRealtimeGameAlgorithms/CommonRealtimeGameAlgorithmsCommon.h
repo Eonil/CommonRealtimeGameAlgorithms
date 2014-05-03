@@ -23,6 +23,9 @@
 #define EONIL_COMMON_REALTIME_GAME_ALGORITHMS_DEBUGGING_TOOLS_BEGIN					namespace Eonil { namespace CommonRealtimeGameAlgorithms { namespace DebuggingTools {
 #define EONIL_COMMON_REALTIME_GAME_ALGORITHMS_DEBUGGING_TOOLS_END					} } }
 
+#define EONIL_COMMON_REALTIME_GAME_ALGORITHMS_DATA_STRUCTURES_TOOLS_BEGIN			namespace Eonil { namespace CommonRealtimeGameAlgorithms { namespace DataStructures {
+#define EONIL_COMMON_REALTIME_GAME_ALGORITHMS_DATA_STRUCTURES_TOOLS_END				} } }
+
 #define EONIL_COMMON_REALTIME_GAME_ALGORITHMS_GENERIC_CONTAINERS_BEGIN				namespace Eonil { namespace CommonRealtimeGameAlgorithms { namespace GenericContainers {
 #define EONIL_COMMON_REALTIME_GAME_ALGORITHMS_GENERIC_CONTAINERS_END				} } }
 
@@ -42,8 +45,8 @@ EONIL_COMMON_REALTIME_GAME_ALGORITHMS_BEGIN
 using	Size		=	std::size_t;
 using	str			=	std::string;
 template <typename T>	using	vec		=	std::vector<T>;
-constexpr bool const	USE_EXCEPTION_CHECKINGS				=	(EONIL_COMMON_REALTIME_GAME_ALGORITHMS_DEBUG_MODE == 1);
-constexpr bool const	USE_HEAVY_EXCEPTION_CHECKINGS		=	(EONIL_COMMON_REALTIME_GAME_ALGORITHMS_DEBUG_MODE == 1);
+constexpr bool const	USE_EXCEPTION_CHECKINGS				=	(EONIL_COMMON_REALTIME_GAME_ALGORITHMS_DEBUG_MODE == 1);		//	Performs only checkings with O(1) complexity.
+constexpr bool const	USE_HEAVY_EXCEPTION_CHECKINGS		=	(EONIL_COMMON_REALTIME_GAME_ALGORITHMS_DEBUG_MODE == 1);		//	*HEAVY* means O(n) or more complex operations.
 constexpr char const*	EXCEPTION_DEFAULT_MESSAGE			=	"Reason unspecified. Use debugger to track source of the exception.";
 auto	halt_if(bool const condition, std::string const& message = EXCEPTION_DEFAULT_MESSAGE) -> void;
 auto	error_if(bool const condition, std::string const& message = EXCEPTION_DEFAULT_MESSAGE) -> void;
@@ -71,6 +74,10 @@ protected:
 	}
 };
 EONIL_COMMON_REALTIME_GAME_ALGORITHMS_END
+
+
+
+
 
 
 
