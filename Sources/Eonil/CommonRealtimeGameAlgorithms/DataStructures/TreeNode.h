@@ -42,6 +42,9 @@ template <bool const CONSTNESS>		class	TreeNodeRange;
  This spends memory for faster navigation. At least 5 pointers are used for each
  tree-node object.
  
+ @discussion
+ All operations are O(1), and any more expensive operations are all prohibited.
+ 
  @note
  This class is base class of `GenericTreeNode` class which is recommended to use.
  Because this class is purely about a pointer management, implementation is using
@@ -77,7 +80,7 @@ public:
 	
 	auto	parent() const -> TreeNode const*;
 	auto	parent() -> TreeNode*;
-	auto	setParent(TreeNode*) -> void;					//!	Take care that this method is valid only for single child node. (supplied node should have no linked prior/next node) Because it's impossible to set parent/child/prior/next at once.
+	auto	setParent(TreeNode*) -> void;					//!	Take care that this method is valid only for single child node. (supplied node should have no linked prior/next node) Because it's impossible to set parent/child/prior/next at once. Also, parent must have no child node.
 	auto	unsetParent() -> void;
 	
 	auto	children() const -> TreeNodeRange<true>;
@@ -168,7 +171,17 @@ protected:
 	NODE*	_last	=	nullptr;
 };
 
-
+//template <bool const CONSTNESS>
+//class
+//TreeSubnodeList : public TreeNodeRange<CONSTNESS>
+//{
+//	using	NODE	=	typename std::conditional<CONSTNESS, TreeNode const, TreeNode>::type;
+//	
+//public:
+//	auto	insert(
+//	auto	pushFront()
+//	auto	pushBack();
+//};
 
 
 

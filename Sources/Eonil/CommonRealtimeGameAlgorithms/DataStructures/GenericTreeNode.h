@@ -19,6 +19,12 @@ EONIL_COMMON_REALTIME_GAME_ALGORITHMS_DATA_STRUCTURES_TOOLS_BEGIN
 
 
 template <typename T>	class	GenericTreeNode;
+template <typename T>	class	GenericTreeNodeIterator;
+template <typename T>	class	GenericTreeNodeRange;
+
+
+
+
 
 
 
@@ -30,7 +36,7 @@ GenericTreeNodeIterator : private TreeNodeIterator<std::is_const<T>::value>
 	static bool const CONSTNESS	=	std::is_const<T>::value;
 
 	using	BASE	=	TreeNodeIterator<CONSTNESS>;
-	using	NODE	=	typename std::conditional<std::is_const<T>::value, T const, T>::type;
+	using	NODE	=	T;
 
 public:
 	/*!
@@ -57,14 +63,20 @@ public:
 	}
 };
 
+
+
 template <typename T>
 class
 GenericTreeNodeRange : private TreeNodeRange<std::is_const<T>::value>
 {
+	friend class	GenericTreeNode<T const>;
+	friend class	GenericTreeNode<T>;
+	
 	static bool const CONSTNESS	=	std::is_const<T>::value;
 	
 	using	BASE	=	TreeNodeRange<CONSTNESS>;
-	using	NODE	=	typename std::conditional<std::is_const<T>::value, T const, T>::type;
+	using	NODE	=	T;
+//	using	NODE	=	typename std::conditional<std::is_const<T>::value, T const, T>::type;
 	using	ITER	=	typename std::conditional<std::is_const<T>::value, GenericTreeNodeIterator<T const>, GenericTreeNodeIterator<T>>::type;
 	
 public:
@@ -127,7 +139,9 @@ template <typename T>
 class
 GenericTreeNode : private TreeNode
 {
+	friend class	GenericTreeNodeIterator<T const>;
 	friend class	GenericTreeNodeIterator<T>;
+	friend class	GenericTreeNodeRange<T const>;
 	friend class	GenericTreeNodeRange<T>;
 	
 	using			NODE	=	T;
@@ -223,7 +237,35 @@ public:
 	{
 		TreeNode::unsetChildren();
 	}
+	
+	
+	
+private:
+	auto
+	_as_base_ptr() const -> TreeNode const*
+	{
+		return	this;
+	}
+	auto
+	_as_base_ptr() -> TreeNode*
+	{
+		return	this;
+	}
 };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

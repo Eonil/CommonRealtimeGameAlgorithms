@@ -310,6 +310,8 @@ TreeNode::setParent(TreeNode *o) -> void
 		_error_if_supplied_node_would_make_circular_linkage(o);
 		error_if(_prior != nullptr, "Only single child node can set its parent directly. Current node already has a prior node.");
 		error_if(_next != nullptr, "Only single child node can set its parent directly. Current node already has a next node.");
+		error_if(o->_fchild != nullptr, "`setParent` is allowed only if the parent has no child.");
+		error_if(o->_lchild != nullptr, "`setParent` is allowed only if the parent has no child.");
 	}
 	
 	////

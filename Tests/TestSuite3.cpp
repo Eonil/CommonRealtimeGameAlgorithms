@@ -230,7 +230,7 @@ test_tree2() -> void
 {
 	{
 		struct
-		TestTreeNode1 : GenericTreeNode<TestTreeNode1>
+		TestTreeNode1 : public GenericTreeNode<TestTreeNode1>
 		{
 			std::string		string1		=	"AAA";
 		};
@@ -253,6 +253,71 @@ test_tree2() -> void
 			s3	+=	a2.string1;
 		}
 		test_assert(s3 == "AAAAAA");
+	}
+	{
+		struct
+		TestTreeNode1 : GenericTreeNode<TestTreeNode1>
+		{
+			std::string		string1		=	"AAA";
+		};
+		
+		using	TTN	=	TestTreeNode1;
+		
+		TTN	n1	=	{};
+		TTN	n2	=	{};
+		TTN	n3	=	{};
+		
+		n2.setParent(&n1);
+		n3.setParent(&n2);
+		
+		int	f1	=	0;
+		for (TTN const& sub: n1.children())
+		{
+			for (TTN const& sub2: sub.children())
+			{
+				f1	++;
+			}
+		}
+		test_assert(f1 == 1);
+	}
+	{
+		struct
+		TestTreeNode1 : GenericTreeNode<TestTreeNode1>
+		{
+			std::string		string1		=	"AAA";
+		};
+		
+		using	TTN	=	TestTreeNode1;
+		
+		TTN	a1	=	{};
+		TTN	b1	=	{};
+		TTN	b2	=	{};
+		TTN	b3	=	{};
+		TTN	c1	=	{};
+		TTN	c2	=	{};
+		TTN	c3	=	{};
+		
+		a1.setChildren({&b1,&b1});
+		
+		b1.setNext(&b2);
+		b2.setNext(&b3);
+		
+		b1.setChildren({&c1, &c1});
+		
+		c1.setNext(&c2);
+		c2.setNext(&c3);
+		
+		int	f1	=	0;
+		auto a1_children	=	a1.children();
+		for (TTN const& sub1: a1_children)
+		{
+			f1++;
+			for (TTN const& sub2: sub1.children())
+			{
+				f1++;
+			}
+		}
+		test_assert(f1 == 6);
 	}
 }
 

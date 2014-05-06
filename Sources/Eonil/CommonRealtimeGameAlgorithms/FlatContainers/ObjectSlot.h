@@ -18,6 +18,13 @@ EONIL_COMMON_REALTIME_GAME_ALGORITHMS_FLAT_CONTAINERS_BEGIN
 
 
 
+
+
+
+
+
+
+
 /*!
  A `MemoryStorage` with explicit occupation flag and copy/move support.
  
