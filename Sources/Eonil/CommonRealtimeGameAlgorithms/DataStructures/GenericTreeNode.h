@@ -103,6 +103,27 @@ public:
 	}
 	
 	auto
+	front() const -> NODE const&
+	{
+		return	static_cast<NODE&>(BASE::front());
+	}
+	auto
+	front() -> NODE&
+	{
+		return	static_cast<NODE&>(BASE::front());
+	}
+	auto
+	back() const -> NODE const&
+	{
+		return	static_cast<NODE&>(BASE::back());
+	}
+	auto
+	back() -> NODE&
+	{
+		return	static_cast<NODE&>(BASE::back());
+	}
+	
+	auto
 	begin() const -> ITER
 	{
 		return	ITER(&static_cast<NODE&>(*BASE::begin()));
@@ -224,14 +245,26 @@ public:
 	auto
 	children() const -> GenericTreeNodeRange<T const>
 	{
+		using	RANGE	=	GenericTreeNodeRange<T const>;
+		
+		/*
+		 Children object may be empty.
+		 */
+		
 		auto	cr	=	TreeNode::children();
-		return	{static_cast<NODE const*>(&cr.front()), static_cast<NODE const*>(&cr.back())};
+		return	cr.empty() ? RANGE{nullptr, nullptr} : RANGE{static_cast<NODE const*>(&cr.front()), static_cast<NODE const*>(&cr.back())};
 	}
 	auto
 	children() -> GenericTreeNodeRange<T>
 	{
+		using	RANGE	=	GenericTreeNodeRange<T>;
+		
+		/*
+		 Children object may be empty.
+		 */
+		
 		auto	cr	=	TreeNode::children();
-		return	{static_cast<NODE*>(&cr.front()), static_cast<NODE*>(&cr.back())};
+		return	cr.empty() ? RANGE{nullptr, nullptr} : RANGE{static_cast<NODE*>(&cr.front()), static_cast<NODE*>(&cr.back())};
 	}
 	auto
 	setChildren(GenericTreeNodeRange<T> o) -> void

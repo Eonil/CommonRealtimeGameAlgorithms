@@ -314,10 +314,32 @@ test_tree2() -> void
 			f1++;
 			for (TTN const& sub2: sub1.children())
 			{
-				f1++;
+				if (&sub2 != nullptr)
+				{
+					f1++;
+				}
 			}
 		}
 		test_assert(f1 == 6);
+	}
+	{
+		
+		struct
+		TestTreeNode1 : GenericTreeNode<TestTreeNode1>
+		{
+			std::string		string1		=	"AAA";
+		};
+		
+		using	TTN	=	TestTreeNode1;
+		
+		TTN	n1	{};
+		TTN	n2	{};
+		TTN	n3	{};
+
+		n2.setParent(&n1);
+		n2.setNext(&n3);
+
+		test_assert(&n1.children().back() == &n3);
 	}
 }
 

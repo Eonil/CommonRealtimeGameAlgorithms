@@ -119,10 +119,7 @@ TreeNodeRange<CONSTNESS>::front() const -> NODE&
 {
 	if (USE_EXCEPTION_CHECKINGS)
 	{
-		if (USE_HEAVY_EXCEPTION_CHECKINGS)
-		{
-			_halt_if_state_is_inconsistent();
-		}
+		halt_if(empty());
 	}
 	
 	////
@@ -135,10 +132,7 @@ TreeNodeRange<CONSTNESS>::back() const -> NODE&
 {
 	if (USE_EXCEPTION_CHECKINGS)
 	{
-		if (USE_HEAVY_EXCEPTION_CHECKINGS)
-		{
-			_halt_if_state_is_inconsistent();
-		}
+		halt_if(empty());
 	}
 	
 	////
