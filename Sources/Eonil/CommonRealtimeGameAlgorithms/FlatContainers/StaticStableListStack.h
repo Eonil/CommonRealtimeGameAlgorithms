@@ -65,8 +65,9 @@ public:
 	auto	operator=(StaticStableListStack const& o) -> StaticStableListStack&;
 	auto	operator=(StaticStableListStack&& o) -> StaticStableListStack&;
 	
+	constexpr static auto	capacity() -> Size;
+	
 	auto	empty() const -> bool;
-	auto	capacity() const -> Size;
 	auto	size() const -> Size;
 	
 	auto	data() const -> T const*;
@@ -216,17 +217,11 @@ empty() const -> bool
 	return	_used == 0;
 }
 
-template <typename T, Size const LEN> auto
+template <typename T, Size const LEN>
+constexpr auto
 StaticStableListStack<T,LEN>::
-capacity() const -> Size
+capacity() -> Size
 {
-	if (USE_EXCEPTION_CHECKINGS)
-	{
-		_halt_if_this_is_null();
-	}
-	
-	////
-	
 	return	LEN;
 }
 
