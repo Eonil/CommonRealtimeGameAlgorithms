@@ -54,8 +54,8 @@ public:
 	auto	emplace(ARGS&&... args) -> T*;
 	auto	insert(T const&) -> T*;
 	auto	insert(T&&) -> T*;
-	auto	erase(T const*) -> void;								//!	This will invalidate all existing iterators which are pointing target object.
-	auto	clear() -> void;										//!	This will invalidate all existing iterators.
+	auto	erase(T*) -> void;		//!	This will invalidate all existing iterators which are pointing target object.
+	auto	clear() -> void;		//!	This will invalidate all existing iterators.
 	
 	/*!
 	 Returns an integer for the iterator as a concept of perfect-hash.
@@ -170,7 +170,7 @@ insert(T &&o) -> T*
 template <typename T, Size const LEN>
 auto
 StaticStableOrderlessSet<T,LEN>::
-erase(T const* o) -> void
+erase(T* o) -> void
 {
 	if (USE_EXCEPTION_CHECKINGS)
 	{
