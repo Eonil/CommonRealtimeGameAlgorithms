@@ -150,7 +150,7 @@ TreeNodeRange
 	
 public:
 	TreeNodeRange() = default;								//!	Creates empty (zero-node) range (list).
-//	TreeNodeRange(std::nullptr_t) = default;			//!	Creates empty (zero-node) range (list).
+//	TreeNodeRange(std::nullptr_t) = default;				//!	Creates empty (zero-node) range (list).
 	
 	operator TreeNodeRange<true>() const;
 	
@@ -158,6 +158,7 @@ public:
 	
 	TreeNodeRange(NODE* first, NODE* last);					//!	Creates non-empty (one or more nodes) range. Both parameters cannot be null.
 	
+	auto	empty() const -> bool;
 	auto	front() const -> NODE&;
 	auto	back() const -> NODE&;
 	
@@ -169,6 +170,8 @@ protected:
 	friend class		TreeNode;
 	NODE*	_first	=	nullptr;
 	NODE*	_last	=	nullptr;
+	
+	auto	_halt_if_state_is_inconsistent() const -> void;
 };
 
 //template <bool const CONSTNESS>

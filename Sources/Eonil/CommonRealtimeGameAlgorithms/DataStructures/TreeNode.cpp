@@ -80,13 +80,17 @@ TreeNodeIterator<CONSTNESS>::operator++() -> void
 template <bool const CONSTNESS>
 TreeNodeRange<CONSTNESS>::TreeNodeRange(NODE* first, NODE* last) : _first(first), _last(last)
 {
-	/*
-	 Halted because state is already corrupted.
-	 */
-	
-	halt_if((_first == nullptr and last != nullptr) or (_first != nullptr and last == nullptr), "Inconsistent node range state. One of first or last pointer is null. (not both)");
-	halt_if(_first != nullptr and _first->_last() != _last, "Inconsistent node range state. Cannot navigate to last from first.");
-	halt_if(_last != nullptr and _last->_first() != _first, "Inconsistent node range state. Cannot navigate to first from last.");
+	if (USE_EXCEPTION_CHECKINGS)
+	{
+		if (USE_HEAVY_EXCEPTION_CHECKINGS)
+		{
+			/*
+			 Halted because state is already corrupted.
+			 */
+			
+			_halt_if_state_is_inconsistent();
+		}
+	}
 }
 template <bool const CONSTNESS>
 TreeNodeRange<CONSTNESS>::operator TreeNodeRange<true>() const
@@ -95,27 +99,92 @@ TreeNodeRange<CONSTNESS>::operator TreeNodeRange<true>() const
 }
 template <bool const CONSTNESS>
 auto
+TreeNodeRange<CONSTNESS>::empty() const -> bool
+{
+	if (USE_EXCEPTION_CHECKINGS)
+	{
+		if (USE_HEAVY_EXCEPTION_CHECKINGS)
+		{
+			_halt_if_state_is_inconsistent();
+		}
+	}
+	
+	////
+	
+	return	_first == nullptr and _last == nullptr;
+}
+template <bool const CONSTNESS>
+auto
 TreeNodeRange<CONSTNESS>::front() const -> NODE&
 {
+	if (USE_EXCEPTION_CHECKINGS)
+	{
+		if (USE_HEAVY_EXCEPTION_CHECKINGS)
+		{
+			_halt_if_state_is_inconsistent();
+		}
+	}
+	
+	////
+	
 	return	*_first;
 }
 template <bool const CONSTNESS>
 auto
 TreeNodeRange<CONSTNESS>::back() const -> NODE&
 {
+	if (USE_EXCEPTION_CHECKINGS)
+	{
+		if (USE_HEAVY_EXCEPTION_CHECKINGS)
+		{
+			_halt_if_state_is_inconsistent();
+		}
+	}
+	
+	////
+	
 	return	*_last;
 }
 template <bool const CONSTNESS>
 auto
 TreeNodeRange<CONSTNESS>::begin() const -> TreeNodeIterator<CONSTNESS>
 {
+	if (USE_EXCEPTION_CHECKINGS)
+	{
+		if (USE_HEAVY_EXCEPTION_CHECKINGS)
+		{
+			_halt_if_state_is_inconsistent();
+		}
+	}
+	
+	////
+	
 	return	TreeNodeIterator<CONSTNESS>{_first};
 }
 template <bool const CONSTNESS>
 auto
 TreeNodeRange<CONSTNESS>::end() const -> TreeNodeIterator<CONSTNESS>
 {
+	if (USE_EXCEPTION_CHECKINGS)
+	{
+		if (USE_HEAVY_EXCEPTION_CHECKINGS)
+		{
+			_halt_if_state_is_inconsistent();
+		}
+	}
+	
+	////
+	
 	return	nullptr;
+}
+
+template <bool const CONSTNESS>
+auto
+TreeNodeRange<CONSTNESS>::_halt_if_state_is_inconsistent() const -> void
+{
+	halt_if((_first == nullptr and _last != nullptr) or (_first != nullptr and _last == nullptr), "Inconsistent node range state. One of first or last pointer is null. (not both)");
+	halt_if(_first != nullptr and _first->_last() != _last, "Inconsistent node range state. Cannot navigate to last from first.");
+	halt_if(_last != nullptr and _last->_first() != _first, "Inconsistent node range state. Cannot navigate to first from last.");
 }
 
 
