@@ -97,6 +97,12 @@ public:
 	}
 	
 	auto
+	empty() const -> bool
+	{
+		return	BASE::empty();
+	}
+	
+	auto
 	begin() const -> ITER
 	{
 		return	ITER(&static_cast<NODE&>(*BASE::begin()));
