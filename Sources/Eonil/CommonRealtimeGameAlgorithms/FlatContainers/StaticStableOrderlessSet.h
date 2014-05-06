@@ -42,6 +42,9 @@ public:
 	using	Iterator		=	ObjectSlotIterator<T>;
 	
 public:
+	static constexpr auto	capacity() -> Size;
+	
+public:
 	auto	empty() const -> bool;
 	auto	size() const -> Size;
 	
@@ -84,6 +87,15 @@ private:
 
 
 
+
+
+template <typename T, Size const LEN>
+constexpr auto
+StaticStableOrderlessSet<T,LEN>::
+capacity() -> Size
+{
+	return	LEN;
+}
 
 
 
