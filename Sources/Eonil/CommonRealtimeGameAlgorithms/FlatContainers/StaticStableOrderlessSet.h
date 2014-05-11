@@ -23,7 +23,7 @@ EONIL_COMMON_REALTIME_GAME_ALGORITHMS_FLAT_CONTAINERS_BEGIN
 
 /*!
  Do not `erase` any object while iterating. It will invalidate all existing iterators which pointing the object.
- As a result, further iteration will fail. Anyway, any other iterators which pointer other object will not be
+ As a result, further iteration will fail. Anyway, any other iterators which are pointing other objects will not be
  affected. Calling `clear` has same effect on all objects.
  */
 template <typename T, Size const LEN>

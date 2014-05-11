@@ -22,8 +22,8 @@ EONIL_COMMON_REALTIME_GAME_ALGORITHMS_FLAT_CONTAINERS_BEGIN
 
 
 /*!
- A stack with no allocation, and all the operations are O(1),
- but capacity is statically fixed.
+ A stack with no internal allocation, and all the operations are O(1) excepting `clear` and `destructor`.
+ Capacity is statically fixed.
  
  @classdesign
  The internal storage starts with uninitialize memory block, and will be 
@@ -60,7 +60,7 @@ public:
 	StaticStableListStack() = default;
 	StaticStableListStack(StaticStableListStack&&);
 	StaticStableListStack(StaticStableListStack const&);
-	~StaticStableListStack();
+	~StaticStableListStack();					//!	Costs up to O(n) by calling `clear`.
 	
 	auto	operator=(StaticStableListStack const& o) -> StaticStableListStack&;
 	auto	operator=(StaticStableListStack&& o) -> StaticStableListStack&;
@@ -86,7 +86,7 @@ public:
 	auto	end() const -> T const*;
 	auto	end() -> T*;
 	
-	auto	clear() -> void;					//!	Resets all internal state to initial state by popping all elements. Use this instead of re-creating object to avoid reallocation.
+	auto	clear() -> void;					//!	Resets all internal state to initial state by popping all elements. Use this instead of re-creating object to avoid reallocation. O(n) if `T` is not purgeable.
 	auto	push(T const& v) -> void;
 	auto	push(T&& v) -> void;
 	auto	pop() -> void;
