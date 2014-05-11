@@ -9,7 +9,7 @@
 #pragma once
 
 #include "../CommonRealtimeGameAlgorithmsCommon.h"
-#include "ObjectSlot.h"
+#include "ListAtomSlot.h"
 
 EONIL_COMMON_REALTIME_GAME_ALGORITHMS_FLAT_CONTAINERS_BEGIN
 

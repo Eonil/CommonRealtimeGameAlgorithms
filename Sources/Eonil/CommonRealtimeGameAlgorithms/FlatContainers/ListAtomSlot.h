@@ -1,5 +1,5 @@
 //
-//  ObjectSlot.h
+//  ListAtomSlot.h
 //  CommonRealtimeGameAlgorithms
 //
 //  Created by Hoon H. on 14/4/29.
@@ -29,7 +29,7 @@ EONIL_COMMON_REALTIME_GAME_ALGORITHMS_FLAT_CONTAINERS_BEGIN
  A `MemoryStorage` with explicit occupation flag and copy/move support.
  
  @classdesign
- This is designed to be laid out consecutively. Iterating is provided by `ObjectSlotIterator`.
+ This is designed to be laid out consecutively. Iterating is provided by `ListAtomSlotIterator`.
  Last slot must be a sential by being marked with sentinel flag to provide iteration properly.
  
  @exception
@@ -53,7 +53,7 @@ EONIL_COMMON_REALTIME_GAME_ALGORITHMS_FLAT_CONTAINERS_BEGIN
  */
 template <typename T>
 class
-ObjectSlot : ExceptionSupportTools
+ListAtomSlot : ExceptionSupportTools
 {
 public:
 	class
@@ -64,13 +64,13 @@ public:
 	};
 	
 public:
-	ObjectSlot() = default;
-	ObjectSlot(ObjectSlot const&);
-	ObjectSlot(ObjectSlot&&);
-	~ObjectSlot();
+	ListAtomSlot() = default;
+	ListAtomSlot(ListAtomSlot const&);
+	ListAtomSlot(ListAtomSlot&&);
+	~ListAtomSlot();
 	
-	auto	operator=(ObjectSlot const&) -> ObjectSlot&;
-	auto	operator=(ObjectSlot&&) -> ObjectSlot&;
+	auto	operator=(ListAtomSlot const&) -> ListAtomSlot&;
+	auto	operator=(ListAtomSlot&&) -> ListAtomSlot&;
 	
 	////
 	
@@ -92,8 +92,8 @@ public:
 	
 public:
 	/*!
-	 Gets proper pointer address to a `ObjectSlot` from given pointer address to `T`
-	 by assuming the `T` object is placed in an `ObjectSlot` object.
+	 Gets proper pointer address to a `ListAtomSlot` from given pointer address to `T`
+	 by assuming the `T` object is placed in an `ListAtomSlot` object.
 	 
 	 @discussion
 	 The memory for the object (`_mem`) is expected to be at offset `0`.
@@ -102,12 +102,12 @@ public:
 	 
 	 This is all about address calculation, and does not check object validity.
 	 */
-	static auto		resolveAddressOfSlot(T const*) -> ObjectSlot const*;
-//	static auto		resolveAddressOfValue(ObjectSlot const*) -> T const*;		//	Just use `value` method instead of this indirection.
+	static auto		resolveAddressOfSlot(T const*) -> ListAtomSlot const*;
+//	static auto		resolveAddressOfValue(ListAtomSlot const*) -> T const*;		//	Just use `value` method instead of this indirection.
 	
 	
 private:
-	friend class	ObjectSlotDebugginSupport;
+	friend class	ListAtomSlotDebugginSupport;
 	
 	MemoryStorage<T>	_mem			=	{};
 	struct
@@ -142,8 +142,8 @@ private:
 
 
 template <typename T>
-ObjectSlot<T>::
-ObjectSlot(ObjectSlot const& o) : _is_last(o._is_last)
+ListAtomSlot<T>::
+ListAtomSlot(ListAtomSlot const& o) : _is_last(o._is_last)
 {
 	if (USE_EXCEPTION_CHECKINGS)
 	{
@@ -160,8 +160,8 @@ ObjectSlot(ObjectSlot const& o) : _is_last(o._is_last)
 	}
 }
 template <typename T>
-ObjectSlot<T>::
-ObjectSlot(ObjectSlot&& o) : _is_last(std::move(o._is_last))
+ListAtomSlot<T>::
+ListAtomSlot(ListAtomSlot&& o) : _is_last(std::move(o._is_last))
 {
 	if (USE_EXCEPTION_CHECKINGS)
 	{
@@ -183,8 +183,8 @@ ObjectSlot(ObjectSlot&& o) : _is_last(std::move(o._is_last))
 	 */
 }
 template <typename T>
-ObjectSlot<T>::
-~ObjectSlot()
+ListAtomSlot<T>::
+~ListAtomSlot()
 {
 	/*
 	 This assertion is only for debugging convenience.
@@ -194,7 +194,7 @@ ObjectSlot<T>::
 
 
 template <typename T> auto
-ObjectSlot<T>::operator=(const ObjectSlot<T> &o) -> ObjectSlot&
+ListAtomSlot<T>::operator=(const ListAtomSlot<T> &o) -> ListAtomSlot&
 {
 	if (USE_EXCEPTION_CHECKINGS)
 	{
@@ -225,7 +225,7 @@ ObjectSlot<T>::operator=(const ObjectSlot<T> &o) -> ObjectSlot&
 	return	*this;
 }
 template <typename T> auto
-ObjectSlot<T>::operator=(ObjectSlot<T> &&o) -> ObjectSlot&
+ListAtomSlot<T>::operator=(ListAtomSlot<T> &&o) -> ListAtomSlot&
 {
 	if (USE_EXCEPTION_CHECKINGS)
 	{
@@ -256,7 +256,7 @@ ObjectSlot<T>::operator=(ObjectSlot<T> &&o) -> ObjectSlot&
 	return	*this;
 }
 template <typename T> auto
-ObjectSlot<T>::occupation() const -> bool
+ListAtomSlot<T>::occupation() const -> bool
 {
 	if (USE_EXCEPTION_CHECKINGS)
 	{
@@ -269,7 +269,7 @@ ObjectSlot<T>::occupation() const -> bool
 	return	_occupation;
 }
 //template <typename T> auto
-//ObjectSlot<T>::data() const -> T const*
+//ListAtomSlot<T>::data() const -> T const*
 //{
 //	if (USE_EXCEPTION_CHECKINGS)
 //	{
@@ -281,7 +281,7 @@ ObjectSlot<T>::occupation() const -> bool
 //	return	&_mem.value();
 //}
 //template <typename T> auto
-//ObjectSlot<T>::data() -> T*
+//ListAtomSlot<T>::data() -> T*
 //{
 //	if (USE_EXCEPTION_CHECKINGS)
 //	{
@@ -293,13 +293,13 @@ ObjectSlot<T>::occupation() const -> bool
 //	return	&_mem.value();
 //}
 template <typename T> auto
-ObjectSlot<T>::value() const -> T const&
+ListAtomSlot<T>::value() const -> T const&
 {
 	if (USE_EXCEPTION_CHECKINGS)
 	{
 		_halt_if_this_is_null();
 		_halt_if_memory_layout_is_bad();
-		error_if(not _occupation, "This object-slot is not occupied yet.");
+		error_if(not _occupation, "This list-atom-slot is not occupied yet.");
 	}
 	
 	////
@@ -307,13 +307,13 @@ ObjectSlot<T>::value() const -> T const&
 	return	_mem.value();
 }
 template <typename T> auto
-ObjectSlot<T>::value() -> T&
+ListAtomSlot<T>::value() -> T&
 {
 	if (USE_EXCEPTION_CHECKINGS)
 	{
 		_halt_if_this_is_null();
 		_halt_if_memory_layout_is_bad();
-		error_if(not _occupation, "This object-slot is not occupied yet.");
+		error_if(not _occupation, "This list-atom-slot is not occupied yet.");
 	}
 	
 	////
@@ -323,14 +323,14 @@ ObjectSlot<T>::value() -> T&
 
 template <typename T>
 template <typename ...ARGS> auto
-ObjectSlot<T>::
+ListAtomSlot<T>::
 initialize(ARGS&&... args) -> void
 {
 	if (USE_EXCEPTION_CHECKINGS)
 	{
 		_halt_if_this_is_null();
 		_halt_if_memory_layout_is_bad();
-		error_if(_occupation, "This object-slot is already occupied.");
+		error_if(_occupation, "This list-atom-slot is already occupied.");
 	}
 	
 	////
@@ -339,14 +339,14 @@ initialize(ARGS&&... args) -> void
 	_occupation	=	true;
 }
 template <typename T> auto
-ObjectSlot<T>::
+ListAtomSlot<T>::
 initialize(T&& o) -> void
 {
 	if (USE_EXCEPTION_CHECKINGS)
 	{
 		_halt_if_this_is_null();
 		_halt_if_memory_layout_is_bad();
-		error_if(_occupation, "This object-slot is already occupied.");
+		error_if(_occupation, "This list-atom-slot is already occupied.");
 	}
 	
 	////
@@ -355,14 +355,14 @@ initialize(T&& o) -> void
 	_occupation	=	true;
 }
 template <typename T> auto
-ObjectSlot<T>::
+ListAtomSlot<T>::
 terminate() -> void
 {
 	if (USE_EXCEPTION_CHECKINGS)
 	{
 		_halt_if_this_is_null();
 		_halt_if_memory_layout_is_bad();
-		error_if(not _occupation, "This object-slot is not occupied yet.");
+		error_if(not _occupation, "This list-atom-slot is not occupied yet.");
 	}
 	
 	////
@@ -371,7 +371,7 @@ terminate() -> void
 	_mem.terminate();
 }
 template <typename T> auto
-ObjectSlot<T>::
+ListAtomSlot<T>::
 sentinel() const -> bool
 {
 	if (USE_EXCEPTION_CHECKINGS)
@@ -386,14 +386,14 @@ sentinel() const -> bool
 }
 
 template <typename T> auto
-ObjectSlot<T>::
+ListAtomSlot<T>::
 sentinelize() -> void
 {
 	if (USE_EXCEPTION_CHECKINGS)
 	{
 		_halt_if_this_is_null();
 		_halt_if_memory_layout_is_bad();
-		error_if(_is_last, "This object-slot is alreday a sentinel.");
+		error_if(_is_last, "This list-atom-slot is alreday a sentinel.");
 	}
 	
 	////
@@ -403,8 +403,8 @@ sentinelize() -> void
 
 
 template <typename T> auto
-ObjectSlot<T>::
-resolveAddressOfSlot(const T *o) -> ObjectSlot const*
+ListAtomSlot<T>::
+resolveAddressOfSlot(const T *o) -> ListAtomSlot const*
 {
 	if (USE_EXCEPTION_CHECKINGS)
 	{
@@ -413,16 +413,16 @@ resolveAddressOfSlot(const T *o) -> ObjectSlot const*
 	
 	////
 	
-	return	reinterpret_cast<ObjectSlot const*>(o);
+	return	reinterpret_cast<ListAtomSlot const*>(o);
 	
 	/*
 	 Trick to get slot pointer from value pointer.
 	 Kept for legacy archive purpose.
 	 */
-//	static constexpr Size const		byte_offset		=	offsetof(ObjectSlot, _mem);
+//	static constexpr Size const		byte_offset		=	offsetof(ListAtomSlot, _mem);
 //	uint8_t const*					target_ptr		=	reinterpret_cast<uint8_t const*>(o);
 //	uint8_t const*					slot_ptr1		=	target_ptr - byte_offset;
-//	ObjectSlot const*				slot_ptr2		=	reinterpret_cast<ObjectSlot const*>(slot_ptr1);
+//	ListAtomSlot const*				slot_ptr2		=	reinterpret_cast<ListAtomSlot const*>(slot_ptr1);
 //	
 //	if (USE_EXCEPTION_CHECKINGS)
 //	{
@@ -452,7 +452,7 @@ resolveAddressOfSlot(const T *o) -> ObjectSlot const*
 
 
 template <typename T> auto
-ObjectSlot<T>::
+ListAtomSlot<T>::
 _halt_if_memory_layout_is_bad() const -> void
 {
 	halt_if(uintptr_t(this) != uintptr_t(&_mem), "Bad memory layout.");
@@ -464,11 +464,11 @@ _halt_if_memory_layout_is_bad() const -> void
 
 //#if EONIL_COMMON_REALTIME_GAME_ALGORITHMS_DEBUG_MODE
 //struct
-//ObjectSlotDebugginSupport
+//ListAtomSlotDebugginSupport
 //{
 //	template <typename T>
 //	static inline auto
-//	get_value_ptr_without_check(ObjectSlot<T>& o) -> T&
+//	get_value_ptr_without_check(ListAtomSlot<T>& o) -> T&
 // 	{
 //		return	o._mem.value();
 //	}

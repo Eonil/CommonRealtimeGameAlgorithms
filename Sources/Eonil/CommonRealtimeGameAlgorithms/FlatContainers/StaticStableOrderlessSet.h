@@ -38,8 +38,8 @@ public:
 		using	logic_error::logic_error;
 	};
 	
-	using	ConstIterator	=	ObjectSlotIterator<T const>;
-	using	Iterator		=	ObjectSlotIterator<T>;
+	using	ConstIterator	=	ListAtomSlotIterator<T const>;
+	using	Iterator		=	ListAtomSlotIterator<T>;
 	
 public:
 	static constexpr auto	capacity() -> Size;

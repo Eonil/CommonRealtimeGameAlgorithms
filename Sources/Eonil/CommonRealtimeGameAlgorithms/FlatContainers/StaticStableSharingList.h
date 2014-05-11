@@ -69,7 +69,7 @@
 //	struct
 //	ITEM
 //	{
-//		ObjectSlot<T>	slot	=	{};
+//		ListAtomSlot<T>	slot	=	{};
 //		uint16_t		nidx	=	~(0x0);
 //	};
 //	

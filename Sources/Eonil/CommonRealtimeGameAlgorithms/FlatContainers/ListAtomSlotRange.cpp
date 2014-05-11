@@ -1,9 +1,9 @@
 //
-//  ObjectSlotIterator.cpp
+//  ListAtomSlotRange.cpp
 //  CommonRealtimeGameAlgorithms
 //
 //  Created by Hoon H. on 14/4/29.
 //
 //
 
-#include "ObjectSlotIterator.h"
+#include "ListAtomSlotRange.h"

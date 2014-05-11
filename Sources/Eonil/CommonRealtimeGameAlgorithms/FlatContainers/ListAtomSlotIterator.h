@@ -1,5 +1,5 @@
 //
-//  ObjectSlotIterator.h
+//  ListAtomSlotIterator.h
 //  CommonRealtimeGameAlgorithms
 //
 //  Created by Hoon H. on 14/4/29.
@@ -9,7 +9,7 @@
 #pragma once
 
 #include "../CommonRealtimeGameAlgorithmsCommon.h"
-#include "ObjectSlot.h"
+#include "ListAtomSlot.h"
 
 EONIL_COMMON_REALTIME_GAME_ALGORITHMS_FLAT_CONTAINERS_BEGIN
 
@@ -19,7 +19,7 @@ EONIL_COMMON_REALTIME_GAME_ALGORITHMS_FLAT_CONTAINERS_BEGIN
  A forward-only iterator. (no random access)
  
  @discussion
- Single pointer sized object which wraps pointer to an object-slot.
+ Single pointer sized object which wraps pointer to an list-atom-slot.
  Accessing target value-object in the slot will become effectively zero-cost
  because it will ultimately reduced into a same pointer at machine level.
  
@@ -30,31 +30,31 @@ EONIL_COMMON_REALTIME_GAME_ALGORITHMS_FLAT_CONTAINERS_BEGIN
  */
 template <typename T>
 class
-ObjectSlotIterator final : ExceptionSupportTools
+ListAtomSlotIterator final : ExceptionSupportTools
 {
 	using	JUST_T	=	typename std::remove_const<T>::type;
-	using	SLOT	=	typename std::conditional<std::is_const<T>::value, ObjectSlot<JUST_T> const, ObjectSlot<JUST_T>>::type;
+	using	SLOT	=	typename std::conditional<std::is_const<T>::value, ListAtomSlot<JUST_T> const, ListAtomSlot<JUST_T>>::type;
 	
 public:
-	ObjectSlotIterator() = default;
-	ObjectSlotIterator(SLOT* ptr);
+	ListAtomSlotIterator() = default;
+	ListAtomSlotIterator(SLOT* ptr);
 	
-	operator ObjectSlotIterator<JUST_T const>();
-	explicit operator ObjectSlot<JUST_T> const*() const;
+	operator ListAtomSlotIterator<JUST_T const>();
+	explicit operator ListAtomSlot<JUST_T> const*() const;
 	
 public:
 	auto	operator*() const -> T&;
 	auto	operator->() const -> T*;
 	
-	auto	operator==(ObjectSlotIterator const&) const -> bool;
-	auto	operator!=(ObjectSlotIterator const&) const -> bool;
-	auto	operator<(ObjectSlotIterator const&) const -> bool;
-	auto	operator>(ObjectSlotIterator const&) const -> bool;
-	auto	operator<=(ObjectSlotIterator const&) const -> bool;
-	auto	operator>=(ObjectSlotIterator const&) const -> bool;
-//	auto	operator+(Size const) const -> ObjectSlotIterator;
-//	auto	operator-(Size const) const -> ObjectSlotIterator;
-//	auto	operator-(ObjectSlotIterator const&) const -> Size;
+	auto	operator==(ListAtomSlotIterator const&) const -> bool;
+	auto	operator!=(ListAtomSlotIterator const&) const -> bool;
+	auto	operator<(ListAtomSlotIterator const&) const -> bool;
+	auto	operator>(ListAtomSlotIterator const&) const -> bool;
+	auto	operator<=(ListAtomSlotIterator const&) const -> bool;
+	auto	operator>=(ListAtomSlotIterator const&) const -> bool;
+//	auto	operator+(Size const) const -> ListAtomSlotIterator;
+//	auto	operator-(Size const) const -> ListAtomSlotIterator;
+//	auto	operator-(ListAtomSlotIterator const&) const -> Size;
 
 	auto	operator++() -> void;
 	
@@ -62,7 +62,7 @@ private:
 	SLOT*	_ptr	{nullptr};
 	
 	auto	_halt_if_current_iterator_is_bad() const -> void;
-	auto	_halt_if_supplied_iterator_is_bad(ObjectSlotIterator const& o) const -> void;
+	auto	_halt_if_supplied_iterator_is_bad(ListAtomSlotIterator const& o) const -> void;
 	
 	auto	_skip_all_unoccupied_slots(bool advance_one_unconditionally) -> void;
 	
@@ -85,7 +85,7 @@ private:
 
 
 template <typename T>
-ObjectSlotIterator<T>::ObjectSlotIterator(SLOT* slot_ptr) : _ptr(slot_ptr)
+ListAtomSlotIterator<T>::ListAtomSlotIterator(SLOT* slot_ptr) : _ptr(slot_ptr)
 {
 	if (USE_EXCEPTION_CHECKINGS)
 	{
@@ -101,17 +101,17 @@ ObjectSlotIterator<T>::ObjectSlotIterator(SLOT* slot_ptr) : _ptr(slot_ptr)
 	_skip_all_unoccupied_slots(false);
 }
 template <typename T>
-ObjectSlotIterator<T>::operator ObjectSlotIterator<JUST_T const>()
+ListAtomSlotIterator<T>::operator ListAtomSlotIterator<JUST_T const>()
 {
 	return	_ptr;
 }
 template <typename T>
-ObjectSlotIterator<T>::operator ObjectSlot<JUST_T> const*() const
+ListAtomSlotIterator<T>::operator ListAtomSlot<JUST_T> const*() const
 {
 	return	_ptr;
 }
 template <typename T> auto
-ObjectSlotIterator<T>::operator*() const -> T&
+ListAtomSlotIterator<T>::operator*() const -> T&
 {
 	if (USE_EXCEPTION_CHECKINGS)
 	{
@@ -125,7 +125,7 @@ ObjectSlotIterator<T>::operator*() const -> T&
 	return	_ptr->value();
 }
 template <typename T> auto
-ObjectSlotIterator<T>::operator->() const -> T*
+ListAtomSlotIterator<T>::operator->() const -> T*
 {
 	if (USE_EXCEPTION_CHECKINGS)
 	{
@@ -139,7 +139,7 @@ ObjectSlotIterator<T>::operator->() const -> T*
 	return	&_ptr->value();
 }
 template <typename T> auto
-ObjectSlotIterator<T>::operator==(const ObjectSlotIterator &o) const -> bool
+ListAtomSlotIterator<T>::operator==(const ListAtomSlotIterator &o) const -> bool
 {
 	if (USE_EXCEPTION_CHECKINGS)
 	{
@@ -153,7 +153,7 @@ ObjectSlotIterator<T>::operator==(const ObjectSlotIterator &o) const -> bool
 	return	_ptr == o._ptr;
 }
 template <typename T> auto
-ObjectSlotIterator<T>::operator!=(const ObjectSlotIterator &o) const -> bool
+ListAtomSlotIterator<T>::operator!=(const ListAtomSlotIterator &o) const -> bool
 {
 	if (USE_EXCEPTION_CHECKINGS)
 	{
@@ -167,7 +167,7 @@ ObjectSlotIterator<T>::operator!=(const ObjectSlotIterator &o) const -> bool
 	return	_ptr != o._ptr;
 }
 template <typename T> auto
-ObjectSlotIterator<T>::operator<(const ObjectSlotIterator &o) const -> bool
+ListAtomSlotIterator<T>::operator<(const ListAtomSlotIterator &o) const -> bool
 {
 	if (USE_EXCEPTION_CHECKINGS)
 	{
@@ -181,7 +181,7 @@ ObjectSlotIterator<T>::operator<(const ObjectSlotIterator &o) const -> bool
 	return	_ptr < o._ptr;
 }
 template <typename T> auto
-ObjectSlotIterator<T>::operator>(const ObjectSlotIterator &o) const -> bool
+ListAtomSlotIterator<T>::operator>(const ListAtomSlotIterator &o) const -> bool
 {
 	if (USE_EXCEPTION_CHECKINGS)
 	{
@@ -195,7 +195,7 @@ ObjectSlotIterator<T>::operator>(const ObjectSlotIterator &o) const -> bool
 	return	_ptr > o._ptr;
 }
 template <typename T> auto
-ObjectSlotIterator<T>::operator<=(const ObjectSlotIterator &o) const -> bool
+ListAtomSlotIterator<T>::operator<=(const ListAtomSlotIterator &o) const -> bool
 {
 	if (USE_EXCEPTION_CHECKINGS)
 	{
@@ -209,7 +209,7 @@ ObjectSlotIterator<T>::operator<=(const ObjectSlotIterator &o) const -> bool
 	return	_ptr <= o._ptr;
 }
 template <typename T> auto
-ObjectSlotIterator<T>::operator>=(const ObjectSlotIterator &o) const -> bool
+ListAtomSlotIterator<T>::operator>=(const ListAtomSlotIterator &o) const -> bool
 {
 	if (USE_EXCEPTION_CHECKINGS)
 	{
@@ -223,19 +223,19 @@ ObjectSlotIterator<T>::operator>=(const ObjectSlotIterator &o) const -> bool
 	return	_ptr >= o._ptr;
 }
 //template <typename T> auto
-//ObjectSlotIterator<T>::operator+(const Size o) const -> ObjectSlotIterator
+//ListAtomSlotIterator<T>::operator+(const Size o) const -> ListAtomSlotIterator
 //{
 //	EONIL_COMMON_REALTIME_GAME_ALGORITHMS_DEBUG_ASSERT(_ptr != nullptr);
 //	return	_ptr + o;
 //}
 //template <typename T> auto
-//ObjectSlotIterator<T>::operator-(const Size o) const -> ObjectSlotIterator
+//ListAtomSlotIterator<T>::operator-(const Size o) const -> ListAtomSlotIterator
 //{
 //	EONIL_COMMON_REALTIME_GAME_ALGORITHMS_DEBUG_ASSERT(_ptr != nullptr);
 //	return	_ptr - o;
 //}
 //template <typename T> auto
-//ObjectSlotIterator<T>::operator-(ObjectSlotIterator const& o) const -> Size
+//ListAtomSlotIterator<T>::operator-(ListAtomSlotIterator const& o) const -> Size
 //{
 //	EONIL_COMMON_REALTIME_GAME_ALGORITHMS_DEBUG_ASSERT(_ptr != nullptr);
 //	EONIL_COMMON_REALTIME_GAME_ALGORITHMS_DEBUG_ASSERT(o._ptr != nullptr);
@@ -245,7 +245,7 @@ ObjectSlotIterator<T>::operator>=(const ObjectSlotIterator &o) const -> bool
 //	return	offset;
 //}
 template <typename T> auto
-ObjectSlotIterator<T>::operator++() -> void
+ListAtomSlotIterator<T>::operator++() -> void
 {
 	if (USE_EXCEPTION_CHECKINGS)
 	{
@@ -268,13 +268,13 @@ ObjectSlotIterator<T>::operator++() -> void
 	
 	
 template <typename T> auto
-ObjectSlotIterator<T>::_halt_if_current_iterator_is_bad() const -> void
+ListAtomSlotIterator<T>::_halt_if_current_iterator_is_bad() const -> void
 {
 //	halt_if(_ptr == nullptr, "Current iterator is bad.");
 	halt_if(_ptr != nullptr and _ptr->occupation() == false, "Current iterator is bad. Object slot is not occupied.");
 }
 template <typename T> auto
-ObjectSlotIterator<T>::_halt_if_supplied_iterator_is_bad(const ObjectSlotIterator &o) const -> void
+ListAtomSlotIterator<T>::_halt_if_supplied_iterator_is_bad(const ListAtomSlotIterator &o) const -> void
 {
 //	halt_if(o._ptr == nullptr, "Supplied iterator is bad.");
 	halt_if(o._ptr != nullptr and o._ptr->occupation() == false, "Supplied iterator is bad. Object slot is not occupied.");
@@ -288,7 +288,7 @@ ObjectSlotIterator<T>::_halt_if_supplied_iterator_is_bad(const ObjectSlotIterato
  or (past-the-)end one.
  */
 template <typename T> auto
-ObjectSlotIterator<T>::_skip_all_unoccupied_slots(bool advance_one_unconditionally) -> void
+ListAtomSlotIterator<T>::_skip_all_unoccupied_slots(bool advance_one_unconditionally) -> void
 {
 	if (USE_EXCEPTION_CHECKINGS)
 	{

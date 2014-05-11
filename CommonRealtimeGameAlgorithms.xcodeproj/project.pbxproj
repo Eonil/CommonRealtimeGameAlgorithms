@@ -20,15 +20,15 @@
 		450EF2C8190ECA3700FC3FE3 /* MemoryTracer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 450EF2C6190ECA3700FC3FE3 /* MemoryTracer.cpp */; };
 		450EF2C9190ECA3700FC3FE3 /* MemoryTracer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 450EF2C6190ECA3700FC3FE3 /* MemoryTracer.cpp */; };
 		450EF2CA190ECA3700FC3FE3 /* MemoryTracer.h in Headers */ = {isa = PBXBuildFile; fileRef = 450EF2C7190ECA3700FC3FE3 /* MemoryTracer.h */; };
-		450EF2CD190ED1A100FC3FE3 /* ObjectSlot.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 450EF2CB190ED1A100FC3FE3 /* ObjectSlot.cpp */; };
-		450EF2CE190ED1A100FC3FE3 /* ObjectSlot.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 450EF2CB190ED1A100FC3FE3 /* ObjectSlot.cpp */; };
-		450EF2CF190ED1A100FC3FE3 /* ObjectSlot.h in Headers */ = {isa = PBXBuildFile; fileRef = 450EF2CC190ED1A100FC3FE3 /* ObjectSlot.h */; };
+		450EF2CD190ED1A100FC3FE3 /* ListAtomSlot.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 450EF2CB190ED1A100FC3FE3 /* ListAtomSlot.cpp */; };
+		450EF2CE190ED1A100FC3FE3 /* ListAtomSlot.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 450EF2CB190ED1A100FC3FE3 /* ListAtomSlot.cpp */; };
+		450EF2CF190ED1A100FC3FE3 /* ListAtomSlot.h in Headers */ = {isa = PBXBuildFile; fileRef = 450EF2CC190ED1A100FC3FE3 /* ListAtomSlot.h */; };
 		450EF2D2190ED65A00FC3FE3 /* StaticStableListStack.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 450EF2D0190ED65A00FC3FE3 /* StaticStableListStack.cpp */; };
 		450EF2D3190ED65A00FC3FE3 /* StaticStableListStack.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 450EF2D0190ED65A00FC3FE3 /* StaticStableListStack.cpp */; };
 		450EF2D4190ED65A00FC3FE3 /* StaticStableListStack.h in Headers */ = {isa = PBXBuildFile; fileRef = 450EF2D1190ED65A00FC3FE3 /* StaticStableListStack.h */; };
-		455B11C7190F44C9007997D8 /* ObjectSlotRange.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 455B11C5190F44C9007997D8 /* ObjectSlotRange.cpp */; };
-		455B11C8190F44C9007997D8 /* ObjectSlotRange.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 455B11C5190F44C9007997D8 /* ObjectSlotRange.cpp */; };
-		455B11C9190F44C9007997D8 /* ObjectSlotRange.h in Headers */ = {isa = PBXBuildFile; fileRef = 455B11C6190F44C9007997D8 /* ObjectSlotRange.h */; };
+		455B11C7190F44C9007997D8 /* ListAtomSlotRange.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 455B11C5190F44C9007997D8 /* ListAtomSlotRange.cpp */; };
+		455B11C8190F44C9007997D8 /* ListAtomSlotRange.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 455B11C5190F44C9007997D8 /* ListAtomSlotRange.cpp */; };
+		455B11C9190F44C9007997D8 /* ListAtomSlotRange.h in Headers */ = {isa = PBXBuildFile; fileRef = 455B11C6190F44C9007997D8 /* ListAtomSlotRange.h */; };
 		455B1209190F55F3007997D8 /* Range.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 455B1207190F55F3007997D8 /* Range.cpp */; };
 		455B120A190F55F3007997D8 /* Range.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 455B1207190F55F3007997D8 /* Range.cpp */; };
 		455B120B190F55F3007997D8 /* Range.h in Headers */ = {isa = PBXBuildFile; fileRef = 455B1208190F55F3007997D8 /* Range.h */; };
@@ -74,9 +74,9 @@
 		45D97619190EF5830093F471 /* StaticStableListMap.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 45D97617190EF5830093F471 /* StaticStableListMap.cpp */; };
 		45D9761A190EF5830093F471 /* StaticStableListMap.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 45D97617190EF5830093F471 /* StaticStableListMap.cpp */; };
 		45D9761B190EF5830093F471 /* StaticStableListMap.h in Headers */ = {isa = PBXBuildFile; fileRef = 45D97618190EF5830093F471 /* StaticStableListMap.h */; };
-		45D9761E190F0B570093F471 /* ObjectSlotIterator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 45D9761C190F0B570093F471 /* ObjectSlotIterator.cpp */; };
-		45D9761F190F0B570093F471 /* ObjectSlotIterator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 45D9761C190F0B570093F471 /* ObjectSlotIterator.cpp */; };
-		45D97620190F0B570093F471 /* ObjectSlotIterator.h in Headers */ = {isa = PBXBuildFile; fileRef = 45D9761D190F0B570093F471 /* ObjectSlotIterator.h */; };
+		45D9761E190F0B570093F471 /* ListAtomSlotIterator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 45D9761C190F0B570093F471 /* ListAtomSlotIterator.cpp */; };
+		45D9761F190F0B570093F471 /* ListAtomSlotIterator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 45D9761C190F0B570093F471 /* ListAtomSlotIterator.cpp */; };
+		45D97620190F0B570093F471 /* ListAtomSlotIterator.h in Headers */ = {isa = PBXBuildFile; fileRef = 45D9761D190F0B570093F471 /* ListAtomSlotIterator.h */; };
 		45D97623190F17F50093F471 /* StaticStableOrderlessSet.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 45D97621190F17F50093F471 /* StaticStableOrderlessSet.cpp */; };
 		45D97624190F17F50093F471 /* StaticStableOrderlessSet.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 45D97621190F17F50093F471 /* StaticStableOrderlessSet.cpp */; };
 		45D97625190F17F50093F471 /* StaticStableOrderlessSet.h in Headers */ = {isa = PBXBuildFile; fileRef = 45D97622190F17F50093F471 /* StaticStableOrderlessSet.h */; };
@@ -161,12 +161,12 @@
 		450EF2BC190EC06300FC3FE3 /* MemoryStorage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MemoryStorage.h; sourceTree = "<group>"; };
 		450EF2C6190ECA3700FC3FE3 /* MemoryTracer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MemoryTracer.cpp; sourceTree = "<group>"; };
 		450EF2C7190ECA3700FC3FE3 /* MemoryTracer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MemoryTracer.h; sourceTree = "<group>"; };
-		450EF2CB190ED1A100FC3FE3 /* ObjectSlot.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ObjectSlot.cpp; sourceTree = "<group>"; };
-		450EF2CC190ED1A100FC3FE3 /* ObjectSlot.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ObjectSlot.h; sourceTree = "<group>"; };
+		450EF2CB190ED1A100FC3FE3 /* ListAtomSlot.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ListAtomSlot.cpp; sourceTree = "<group>"; };
+		450EF2CC190ED1A100FC3FE3 /* ListAtomSlot.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ListAtomSlot.h; sourceTree = "<group>"; };
 		450EF2D0190ED65A00FC3FE3 /* StaticStableListStack.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = StaticStableListStack.cpp; sourceTree = "<group>"; };
 		450EF2D1190ED65A00FC3FE3 /* StaticStableListStack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StaticStableListStack.h; sourceTree = "<group>"; };
-		455B11C5190F44C9007997D8 /* ObjectSlotRange.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ObjectSlotRange.cpp; sourceTree = "<group>"; };
-		455B11C6190F44C9007997D8 /* ObjectSlotRange.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ObjectSlotRange.h; sourceTree = "<group>"; };
+		455B11C5190F44C9007997D8 /* ListAtomSlotRange.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ListAtomSlotRange.cpp; sourceTree = "<group>"; };
+		455B11C6190F44C9007997D8 /* ListAtomSlotRange.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ListAtomSlotRange.h; sourceTree = "<group>"; };
 		455B1207190F55F3007997D8 /* Range.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Range.cpp; sourceTree = "<group>"; };
 		455B1208190F55F3007997D8 /* Range.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Range.h; sourceTree = "<group>"; };
 		455B124E19101018007997D8 /* Exception.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Exception.cpp; sourceTree = "<group>"; };
@@ -201,8 +201,8 @@
 		45D561111914B67200E76437 /* TestSuite3.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestSuite3.h; sourceTree = "<group>"; };
 		45D97617190EF5830093F471 /* StaticStableListMap.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = StaticStableListMap.cpp; sourceTree = "<group>"; };
 		45D97618190EF5830093F471 /* StaticStableListMap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StaticStableListMap.h; sourceTree = "<group>"; };
-		45D9761C190F0B570093F471 /* ObjectSlotIterator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ObjectSlotIterator.cpp; sourceTree = "<group>"; };
-		45D9761D190F0B570093F471 /* ObjectSlotIterator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ObjectSlotIterator.h; sourceTree = "<group>"; };
+		45D9761C190F0B570093F471 /* ListAtomSlotIterator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ListAtomSlotIterator.cpp; sourceTree = "<group>"; };
+		45D9761D190F0B570093F471 /* ListAtomSlotIterator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ListAtomSlotIterator.h; sourceTree = "<group>"; };
 		45D97621190F17F50093F471 /* StaticStableOrderlessSet.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = StaticStableOrderlessSet.cpp; sourceTree = "<group>"; };
 		45D97622190F17F50093F471 /* StaticStableOrderlessSet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StaticStableOrderlessSet.h; sourceTree = "<group>"; };
 		45D97626190F1AD90093F471 /* StaticUnstableOrderlessSet.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = StaticUnstableOrderlessSet.cpp; sourceTree = "<group>"; };
@@ -404,12 +404,12 @@
 			children = (
 				450EF2BB190EC06300FC3FE3 /* MemoryStorage.cpp */,
 				450EF2BC190EC06300FC3FE3 /* MemoryStorage.h */,
-				450EF2CB190ED1A100FC3FE3 /* ObjectSlot.cpp */,
-				450EF2CC190ED1A100FC3FE3 /* ObjectSlot.h */,
-				45D9761C190F0B570093F471 /* ObjectSlotIterator.cpp */,
-				45D9761D190F0B570093F471 /* ObjectSlotIterator.h */,
-				455B11C5190F44C9007997D8 /* ObjectSlotRange.cpp */,
-				455B11C6190F44C9007997D8 /* ObjectSlotRange.h */,
+				450EF2CB190ED1A100FC3FE3 /* ListAtomSlot.cpp */,
+				450EF2CC190ED1A100FC3FE3 /* ListAtomSlot.h */,
+				45D9761C190F0B570093F471 /* ListAtomSlotIterator.cpp */,
+				45D9761D190F0B570093F471 /* ListAtomSlotIterator.h */,
+				455B11C5190F44C9007997D8 /* ListAtomSlotRange.cpp */,
+				455B11C6190F44C9007997D8 /* ListAtomSlotRange.h */,
 				455B125319103C13007997D8 /* ObjectPack.cpp */,
 				455B125419103C13007997D8 /* ObjectPack.h */,
 				450EF2D0190ED65A00FC3FE3 /* StaticStableListStack.cpp */,
@@ -480,12 +480,12 @@
 				45D56105191496CC00E76437 /* TreeNode.h in Headers */,
 				450EF2CA190ECA3700FC3FE3 /* MemoryTracer.h in Headers */,
 				45FC7026190EB8920018BC59 /* StableOrderlessSet.h in Headers */,
-				455B11C9190F44C9007997D8 /* ObjectSlotRange.h in Headers */,
+				455B11C9190F44C9007997D8 /* ListAtomSlotRange.h in Headers */,
 				45FC701D190EB8920018BC59 /* SequentialPickingMap.h in Headers */,
 				45D9761B190EF5830093F471 /* StaticStableListMap.h in Headers */,
 				457604151914E28A002D3E7A /* TreeNode.h in Headers */,
 				45FC701A190EB8920018BC59 /* IndexMap.h in Headers */,
-				450EF2CF190ED1A100FC3FE3 /* ObjectSlot.h in Headers */,
+				450EF2CF190ED1A100FC3FE3 /* ListAtomSlot.h in Headers */,
 				45D9762A190F1AD90093F471 /* StaticUnstableOrderlessSet.h in Headers */,
 				45D97625190F17F50093F471 /* StaticStableOrderlessSet.h in Headers */,
 				45D560E11914558100E76437 /* StaticStableSharingList.h in Headers */,
@@ -499,7 +499,7 @@
 				455B120B190F55F3007997D8 /* Range.h in Headers */,
 				45FC7029190EB8920018BC59 /* StableOrderlessSetPerfectHash.h in Headers */,
 				450EF2D4190ED65A00FC3FE3 /* StaticStableListStack.h in Headers */,
-				45D97620190F0B570093F471 /* ObjectSlotIterator.h in Headers */,
+				45D97620190F0B570093F471 /* ListAtomSlotIterator.h in Headers */,
 				450EF2B9190EBE7000FC3FE3 /* CommonRealtimeGameAlgorithms.h in Headers */,
 				455B125219101018007997D8 /* Exception.h in Headers */,
 				450EF2BF190EC06300FC3FE3 /* MemoryStorage.h in Headers */,
@@ -646,7 +646,7 @@
 			files = (
 				45D97628190F1AD90093F471 /* StaticUnstableOrderlessSet.cpp in Sources */,
 				450EF2B7190EBE7000FC3FE3 /* CommonRealtimeGameAlgorithms.cpp in Sources */,
-				455B11C7190F44C9007997D8 /* ObjectSlotRange.cpp in Sources */,
+				455B11C7190F44C9007997D8 /* ListAtomSlotRange.cpp in Sources */,
 				45D5610819149DB400E76437 /* ListAtom.cpp in Sources */,
 				45D561121914B67200E76437 /* TestSuite3.cpp in Sources */,
 				45D560FE19148B5F00E76437 /* DynamicStableListMap.cpp in Sources */,
@@ -654,7 +654,7 @@
 				455B125019101018007997D8 /* Exception.cpp in Sources */,
 				45FC702A190EB8920018BC59 /* UnstableOrderlessSet.cpp in Sources */,
 				45FC7021190EB8920018BC59 /* StableDenseStack.cpp in Sources */,
-				450EF2CD190ED1A100FC3FE3 /* ObjectSlot.cpp in Sources */,
+				450EF2CD190ED1A100FC3FE3 /* ListAtomSlot.cpp in Sources */,
 				45FC701E190EB8920018BC59 /* StableCircularQueue.cpp in Sources */,
 				45FC7027190EB8920018BC59 /* StableOrderlessSetPerfectHash.cpp in Sources */,
 				450EF2BD190EC06300FC3FE3 /* MemoryStorage.cpp in Sources */,
@@ -665,7 +665,7 @@
 				450EF2D2190ED65A00FC3FE3 /* StaticStableListStack.cpp in Sources */,
 				457604131914E28A002D3E7A /* TreeNode.cpp in Sources */,
 				45D56103191496CC00E76437 /* TreeNode.cpp in Sources */,
-				45D9761E190F0B570093F471 /* ObjectSlotIterator.cpp in Sources */,
+				45D9761E190F0B570093F471 /* ListAtomSlotIterator.cpp in Sources */,
 				45D97619190EF5830093F471 /* StaticStableListMap.cpp in Sources */,
 				45D560DF1914558100E76437 /* StaticStableSharingList.cpp in Sources */,
 				450EF2C8190ECA3700FC3FE3 /* MemoryTracer.cpp in Sources */,
@@ -681,14 +681,14 @@
 			files = (
 				45D97629190F1AD90093F471 /* StaticUnstableOrderlessSet.cpp in Sources */,
 				45FC7008190EB8380018BC59 /* CommonRealtimeGameAlgorithmsCommon.cpp in Sources */,
-				455B11C8190F44C9007997D8 /* ObjectSlotRange.cpp in Sources */,
+				455B11C8190F44C9007997D8 /* ListAtomSlotRange.cpp in Sources */,
 				45D5610919149DB400E76437 /* ListAtom.cpp in Sources */,
 				45D561131914B67200E76437 /* TestSuite3.cpp in Sources */,
 				45D560FF19148B5F00E76437 /* DynamicStableListMap.cpp in Sources */,
 				45FC7025190EB8920018BC59 /* StableOrderlessSet.cpp in Sources */,
 				450EF2B8190EBE7000FC3FE3 /* CommonRealtimeGameAlgorithms.cpp in Sources */,
 				45FC7028190EB8920018BC59 /* StableOrderlessSetPerfectHash.cpp in Sources */,
-				450EF2CE190ED1A100FC3FE3 /* ObjectSlot.cpp in Sources */,
+				450EF2CE190ED1A100FC3FE3 /* ListAtomSlot.cpp in Sources */,
 				45FC701F190EB8920018BC59 /* StableCircularQueue.cpp in Sources */,
 				45FC7022190EB8920018BC59 /* StableDenseStack.cpp in Sources */,
 				450EF2BE190EC06300FC3FE3 /* MemoryStorage.cpp in Sources */,
@@ -700,7 +700,7 @@
 				450EF2D3190ED65A00FC3FE3 /* StaticStableListStack.cpp in Sources */,
 				457604141914E28A002D3E7A /* TreeNode.cpp in Sources */,
 				45D56104191496CC00E76437 /* TreeNode.cpp in Sources */,
-				45D9761F190F0B570093F471 /* ObjectSlotIterator.cpp in Sources */,
+				45D9761F190F0B570093F471 /* ListAtomSlotIterator.cpp in Sources */,
 				45D9761A190EF5830093F471 /* StaticStableListMap.cpp in Sources */,
 				45D560E01914558100E76437 /* StaticStableSharingList.cpp in Sources */,
 				450EF2C9190ECA3700FC3FE3 /* MemoryTracer.cpp in Sources */,

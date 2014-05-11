@@ -85,7 +85,7 @@ test_memory_storage() -> void
 }
 
 inline auto
-test_object_slot() -> void
+test_list_atom_slot() -> void
 {
 	{
 		static bool	bad_timing	=	true;
@@ -109,7 +109,7 @@ test_object_slot() -> void
 		};
 		
 		bad_timing	=	true;
-		ObjectSlot<TestType1>	slot1	{};
+		ListAtomSlot<TestType1>	slot1	{};
 		bad_timing	=	false;
 		test_assert(slot1.occupation() == false);
 		slot1.initialize();
@@ -132,18 +132,18 @@ test_object_slot() -> void
 			TestType1(int v) : v(v) {}
 		};
 		
-		ObjectSlot<TestType1>	slot1	{};
+		ListAtomSlot<TestType1>	slot1	{};
 		test_assert(not slot1.occupation());
 		slot1.initialize(222);
 		test_assert(slot1.occupation());
 		
-		ObjectSlot<TestType1>	slot2	{slot1};
+		ListAtomSlot<TestType1>	slot2	{slot1};
 		test_assert(slot2.occupation());
 		test_assert(slot2.value().v == 222);
 		
 		slot1.terminate();
 		test_assert(not slot1.occupation());
-		ObjectSlot<TestType1>	slot3	{slot1};
+		ListAtomSlot<TestType1>	slot3	{slot1};
 		test_assert(not slot3.occupation());
 		
 		slot2.terminate();
@@ -163,10 +163,10 @@ test_object_slot() -> void
 		};
 		
 		{
-			ObjectSlot<TestType1>	slot1	{};
+			ListAtomSlot<TestType1>	slot1	{};
 			slot1.initialize(222);
 			
-			ObjectSlot<TestType1>	slot2	{std::move(slot1)};
+			ListAtomSlot<TestType1>	slot2	{std::move(slot1)};
 			test_assert(slot1.occupation());			//	Guts are moved out, but the object itself still alive.
 			test_assert(slot2.occupation());
 			test_assert(slot2.value().v == 222);
@@ -530,7 +530,7 @@ test_static_stable_orderless_set() -> void
 	auto*	ptr2	=	s1.insert(222);
 	auto*	ptr3	=	s1.insert(333);
 	
-	test_assert(s1.end() == ObjectSlotIterator<int>(nullptr));
+	test_assert(s1.end() == ListAtomSlotIterator<int>(nullptr));
 	test_assert(*ptr1 == 111);
 	test_assert(*ptr2 == 222);
 	test_assert(*ptr3 == 333);
@@ -557,7 +557,7 @@ test_static_stable_orderless_set() -> void
 		s1.erase(it1);
 		s1.insert(222);
 		std::set<int>	s2	{};
-		ObjectSlotRange<int>	r1{s1};
+		ListAtomSlotRange<int>	r1{s1};
 		for (auto const& a: r1)
 		{
 			s2.insert(a);
@@ -610,7 +610,7 @@ inline auto
 test_all1() -> void
 {
 	test_memory_storage();
-	test_object_slot();
+	test_list_atom_slot();
 	test_static_stable_list_stack();
 	test_list_map();
 	test_static_unstable_orderless_set();

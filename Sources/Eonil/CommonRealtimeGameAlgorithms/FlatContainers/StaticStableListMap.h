@@ -9,8 +9,8 @@
 #pragma once
 
 #include "../CommonRealtimeGameAlgorithmsCommon.h"
-#include "ObjectSlot.h"
-#include "ObjectSlotIterator.h"
+#include "ListAtomSlot.h"
+#include "ListAtomSlotIterator.h"
 
 EONIL_COMMON_REALTIME_GAME_ALGORITHMS_FLAT_CONTAINERS_BEGIN
 
@@ -46,14 +46,14 @@ template <typename T, Size const LEN>
 class
 StaticStableListMap : ExceptionSupportTools
 {
-	using	ITEM	=	ObjectSlot<T>;					//!	Occupation marking is required for iteration. That's why this is `ObjectSlot` instead of `MemoryStorage`.
+	using	ITEM	=	ListAtomSlot<T>;					//!	Occupation marking is required for iteration. That's why this is `ListAtomSlot` instead of `MemoryStorage`.
 	using	ITEMS	=	std::array<ITEM, LEN>;
 	
 	
 	
 public:
-	using	ConstIterator		=	ObjectSlotIterator<T const>;
-	using	Iterator			=	ObjectSlotIterator<T>;
+	using	ConstIterator		=	ListAtomSlotIterator<T const>;
+	using	Iterator			=	ListAtomSlotIterator<T>;
 	
 	class
 	Exception : std::logic_error
@@ -63,13 +63,13 @@ public:
 	};
 	
 //	class
-//	ItemSlot final : public ObjectSlot<T>
+//	ItemSlot final : public ListAtomSlot<T>
 //	{
 //	public:
 //		
 //	private:
 //		friend class	StaticStableListMap;
-//		using			ObjectSlot<T>::ObjectSlot;
+//		using			ListAtomSlot<T>::ListAtomSlot;
 //	};
 	
 public:

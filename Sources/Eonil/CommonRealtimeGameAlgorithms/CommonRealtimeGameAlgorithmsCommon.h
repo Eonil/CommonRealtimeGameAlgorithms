@@ -82,9 +82,9 @@ EONIL_COMMON_REALTIME_GAME_ALGORITHMS_END
 
 
 EONIL_COMMON_REALTIME_GAME_ALGORITHMS_FLAT_CONTAINERS_BEGIN
-template <typename T>						class	ObjectSlot;
-template <typename T>						class	ObjectSlotIterator;
-//template <typename T>						class	ObjectSlotRange;
+template <typename T>						class	ListAtomSlot;
+template <typename T>						class	ListAtomSlotIterator;
+//template <typename T>						class	ListAtomSlotRange;
 template <typename T, Size const LEN>		class	StaticStableListStack;
 template <typename T, Size const LEN>		class	StaticStableListMap;
 template <typename T, Size const LEN>		class	StaticStableOrderlessSet;

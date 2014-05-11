@@ -105,15 +105,15 @@ test_mem_alignment() -> void
 	}
 
 	{
-		using	ITEM	=	ObjectSlot<uint32_t>;
-		using	ARR		=	std::array<ObjectSlot<uint32_t>, 3>;
+		using	ITEM	=	ListAtomSlot<uint32_t>;
+		using	ARR		=	std::array<ListAtomSlot<uint32_t>, 3>;
 		ARR	a1{};
 		test_log(sizeof(ITEM));
 		test_log(sizeof(ARR));
 		/*
 		 Compiler will put extra padding to provide memory alignment.
 		 This is possible because the type `T` is known at compiler time
-		 on `ObjectSlot` type.
+		 on `ListAtomSlot` type.
 		 */
 		test_assert(sizeof(ITEM) == (4+2)+2);
 		test_assert(sizeof(a1) == ((4+2)+2) * 3);
@@ -126,7 +126,7 @@ test_mem_alignment() -> void
 	}
 	
 	{
-		std::array<ObjectSlot<std::float_t>, 3>	a1{};
+		std::array<ListAtomSlot<std::float_t>, 3>	a1{};
 		test_assert(sizeof(a1) == ((4+2)+2) * 3);
 		a1.at(0).initialize(1);
 		a1.at(1).initialize(2);
@@ -138,7 +138,7 @@ test_mem_alignment() -> void
 	
 	
 	
-//	std::array<ObjectSlot<char>, 366>	a1{};
+//	std::array<ListAtomSlot<char>, 366>	a1{};
 //	for (int i=0; i<366; i ++)
 //	{
 //		a1[i].initialize(i);
@@ -165,7 +165,7 @@ test_mem_alignment() -> void
 //	{
 //		char aaa[3];
 //	};
-//	std::array<ObjectSlot<AAA>, 3> a2{};
+//	std::array<ListAtomSlot<AAA>, 3> a2{};
 //	a2.at(1).initialize();
 //	auto v1 = a2.at(1).value();
 //	a2.at(1).value().aaa[0] = 1;

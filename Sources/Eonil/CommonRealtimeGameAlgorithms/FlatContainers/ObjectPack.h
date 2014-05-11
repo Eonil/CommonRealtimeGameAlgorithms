@@ -29,12 +29,12 @@
 //
 //
 ///*!
-// More compact/batched version of `ObjectSlot`.
+// More compact/batched version of `ListAtomSlot`.
 // 
 // Length of a pack is fixed by hardware system.
 // 
 // @classdesign
-// An array of `ObjectSlot` with compacted occupation marker prefix.
+// An array of `ListAtomSlot` with compacted occupation marker prefix.
 // 
 // @param
 // LEN
