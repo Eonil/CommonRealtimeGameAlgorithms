@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		450D4106191F5E03004F8901 /* ObjectSlot.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 450D4104191F5E03004F8901 /* ObjectSlot.cpp */; };
+		450D4107191F5E03004F8901 /* ObjectSlot.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 450D4104191F5E03004F8901 /* ObjectSlot.cpp */; };
+		450D4108191F5E03004F8901 /* ObjectSlot.h in Headers */ = {isa = PBXBuildFile; fileRef = 450D4105191F5E03004F8901 /* ObjectSlot.h */; };
 		450EF2A9190EBD6E00FC3FE3 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 450EF2A8190EBD6E00FC3FE3 /* main.cpp */; };
 		450EF2AB190EBD6E00FC3FE3 /* CommonRealtimeGameAlgorithms.1 in CopyFiles */ = {isa = PBXBuildFile; fileRef = 450EF2AA190EBD6E00FC3FE3 /* CommonRealtimeGameAlgorithms.1 */; };
 		450EF2B1190EBD9500FC3FE3 /* libEonilCommonRealtimeGameAlgorithms.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 45FC7001190EB7AF0018BC59 /* libEonilCommonRealtimeGameAlgorithms.a */; };
@@ -149,6 +152,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		450D4104191F5E03004F8901 /* ObjectSlot.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ObjectSlot.cpp; sourceTree = "<group>"; };
+		450D4105191F5E03004F8901 /* ObjectSlot.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ObjectSlot.h; sourceTree = "<group>"; };
 		450EF2A6190EBD6E00FC3FE3 /* CommonRealtimeGameAlgorithms - Tester - OSX */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "CommonRealtimeGameAlgorithms - Tester - OSX"; sourceTree = BUILT_PRODUCTS_DIR; };
 		450EF2A8190EBD6E00FC3FE3 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		450EF2AA190EBD6E00FC3FE3 /* CommonRealtimeGameAlgorithms.1 */ = {isa = PBXFileReference; lastKnownFileType = text.man; path = CommonRealtimeGameAlgorithms.1; sourceTree = "<group>"; };
@@ -404,6 +409,8 @@
 			children = (
 				450EF2BB190EC06300FC3FE3 /* MemoryStorage.cpp */,
 				450EF2BC190EC06300FC3FE3 /* MemoryStorage.h */,
+				450D4104191F5E03004F8901 /* ObjectSlot.cpp */,
+				450D4105191F5E03004F8901 /* ObjectSlot.h */,
 				450EF2CB190ED1A100FC3FE3 /* ListAtomSlot.cpp */,
 				450EF2CC190ED1A100FC3FE3 /* ListAtomSlot.h */,
 				45D9761C190F0B570093F471 /* ListAtomSlotIterator.cpp */,
@@ -499,6 +506,7 @@
 				455B120B190F55F3007997D8 /* Range.h in Headers */,
 				45FC7029190EB8920018BC59 /* StableOrderlessSetPerfectHash.h in Headers */,
 				450EF2D4190ED65A00FC3FE3 /* StaticStableListStack.h in Headers */,
+				450D4108191F5E03004F8901 /* ObjectSlot.h in Headers */,
 				45D97620190F0B570093F471 /* ListAtomSlotIterator.h in Headers */,
 				450EF2B9190EBE7000FC3FE3 /* CommonRealtimeGameAlgorithms.h in Headers */,
 				455B125219101018007997D8 /* Exception.h in Headers */,
@@ -664,6 +672,7 @@
 				45D97623190F17F50093F471 /* StaticStableOrderlessSet.cpp in Sources */,
 				450EF2D2190ED65A00FC3FE3 /* StaticStableListStack.cpp in Sources */,
 				457604131914E28A002D3E7A /* TreeNode.cpp in Sources */,
+				450D4106191F5E03004F8901 /* ObjectSlot.cpp in Sources */,
 				45D56103191496CC00E76437 /* TreeNode.cpp in Sources */,
 				45D9761E190F0B570093F471 /* ListAtomSlotIterator.cpp in Sources */,
 				45D97619190EF5830093F471 /* StaticStableListMap.cpp in Sources */,
@@ -699,6 +708,7 @@
 				455B125119101018007997D8 /* Exception.cpp in Sources */,
 				450EF2D3190ED65A00FC3FE3 /* StaticStableListStack.cpp in Sources */,
 				457604141914E28A002D3E7A /* TreeNode.cpp in Sources */,
+				450D4107191F5E03004F8901 /* ObjectSlot.cpp in Sources */,
 				45D56104191496CC00E76437 /* TreeNode.cpp in Sources */,
 				45D9761F190F0B570093F471 /* ListAtomSlotIterator.cpp in Sources */,
 				45D9761A190EF5830093F471 /* StaticStableListMap.cpp in Sources */,

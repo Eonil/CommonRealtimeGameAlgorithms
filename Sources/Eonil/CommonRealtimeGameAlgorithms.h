@@ -11,6 +11,7 @@
 #include "CommonRealtimeGameAlgorithms/CommonRealtimeGameAlgorithmsCommon.h"
 #include "CommonRealtimeGameAlgorithms/GenericUtilities/Range.h"
 #include "CommonRealtimeGameAlgorithms/FlatContainers/MemoryStorage.h"
+#include "CommonRealtimeGameAlgorithms/FlatContainers/ObjectSlot.h"
 #include "CommonRealtimeGameAlgorithms/FlatContainers/ListAtomSlot.h"
 #include "CommonRealtimeGameAlgorithms/FlatContainers/ListAtomSlotIterator.h"
 #include "CommonRealtimeGameAlgorithms/FlatContainers/ListAtomSlotRange.h"

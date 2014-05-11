@@ -85,6 +85,13 @@ EONIL_COMMON_REALTIME_GAME_ALGORITHMS_FLAT_CONTAINERS_BEGIN
  benefits of automatic resource management of RIIA.
  
  So **DO NOT USE this class** for daily coding.
+ 
+// @param
+// U
+// Extra information which can be attached additionally.
+// This exists to simplify memory alginment issue. By allowing embedding of extra
+// information, we can let compiler to align memory correctly.
+// Use `void` to eliminate extra information.
  */
 template <typename T>
 union

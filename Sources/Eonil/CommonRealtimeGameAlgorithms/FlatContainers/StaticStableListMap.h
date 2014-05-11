@@ -366,14 +366,14 @@ index(T const* o) const -> Size
 		_halt_if_this_is_null();
 		halt_if(_items.data() == nullptr, "Slot was not allocated properly!");
 		error_if(o == nullptr, "The pointer shouldn't be `nullptr`.");
-		error_if(ITEM::resolveAddressOfSlot(o) < _items.data(), "The pointer is out of range.");
-		error_if(ITEM::resolveAddressOfSlot(o) >= _items.data()+_items.size(), "The pointer is out of range.");
+		error_if(ITEM::addressOfSlotForValuePointer(o) < _items.data(), "The pointer is out of range.");
+		error_if(ITEM::addressOfSlotForValuePointer(o) >= _items.data()+_items.size(), "The pointer is out of range.");
 	}
 	
 	////
 	
 	ITEM const*	begin_item_ptr		=	_items.data();
-	ITEM const*	target_item_ptr		=	ITEM::resolveAddressOfSlot(o);
+	ITEM const*	target_item_ptr		=	ITEM::addressOfSlotForValuePointer(o);
 	
 	Size		count_offset	=	target_item_ptr - begin_item_ptr;
 	return		count_offset;

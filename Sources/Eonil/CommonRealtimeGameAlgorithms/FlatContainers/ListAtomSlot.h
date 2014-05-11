@@ -7,10 +7,8 @@
 //
 
 #pragma once
-
 #include "../CommonRealtimeGameAlgorithmsCommon.h"
-#include "MemoryStorage.h"
-
+#include "ObjectSlot.h"
 EONIL_COMMON_REALTIME_GAME_ALGORITHMS_FLAT_CONTAINERS_BEGIN
 
 
@@ -50,10 +48,14 @@ EONIL_COMMON_REALTIME_GAME_ALGORITHMS_FLAT_CONTAINERS_BEGIN
  @warning
  Do not use this class for usual object management. This class is designed specially
  for specific classes.
+ 
+ @param
+ ALIGNMENT
+ You can force memory packing by setting this to `false`.
  */
-template <typename T>
+template <typename T, bool const ALIGNMENT = true>
 class
-ListAtomSlot : ExceptionSupportTools
+ListAtomSlot
 {
 public:
 	class
@@ -75,9 +77,6 @@ public:
 	////
 	
 	auto	occupation() const -> bool;
-	
-//	auto	data() const -> T const*;				//!	Returns just address of the value memory regardless of occupancy.
-//	auto	data() -> T*;							//!	Returns just address of the value memory regardless of occupancy.
 	
 	auto	value() const -> T const&;
 	auto	value() -> T&;
@@ -102,23 +101,43 @@ public:
 	 
 	 This is all about address calculation, and does not check object validity.
 	 */
-	static auto		resolveAddressOfSlot(T const*) -> ListAtomSlot const*;
+	static auto		addressOfSlotForValuePointer(T const*) -> ListAtomSlot const*;
 //	static auto		resolveAddressOfValue(ListAtomSlot const*) -> T const*;		//	Just use `value` method instead of this indirection.
 	
 	
 private:
 	friend class	ListAtomSlotDebugginSupport;
 	
-	MemoryStorage<T>	_mem			=	{};
+	using	SLOT	=	ObjectSlot<T,false>;
 	struct
+	State
 	{
-		bool			_occupation		=	false;
-		bool			_is_last		=	false;
-	};
+		SLOT	slot	=	{};
+		bool	last	=	false;
+		
+		State() = default;
+		State(bool const last) : last(last) {}
+	}
+	__attribute__((aligned(alignof(typename std::aligned_storage<sizeof(SLOT)>::type))));
+	
+	struct
+	PackedState : State
+	{
+	}
+	__attribute__((packed));
+	
+	using	STATE	=	typename std::conditional<ALIGNMENT, State, PackedState>::type;
 	
 	////
 	
+	STATE	_state	=	{};
+	
 	auto	_halt_if_memory_layout_is_bad() const -> void;
+	auto
+	_halt_if_this_is_null() const -> void
+	{
+		halt_if(this == nullptr, "This object pointer is null.");
+	}
 };
 
 
@@ -141,9 +160,9 @@ private:
 
 
 
-template <typename T>
-ListAtomSlot<T>::
-ListAtomSlot(ListAtomSlot const& o) : _is_last(o._is_last)
+template <typename T, bool const A>
+ListAtomSlot<T,A>::
+ListAtomSlot(ListAtomSlot const& o) : _state(o._state.last)
 {
 	if (USE_EXCEPTION_CHECKINGS)
 	{
@@ -159,9 +178,9 @@ ListAtomSlot(ListAtomSlot const& o) : _is_last(o._is_last)
 		initialize(o.value());
 	}
 }
-template <typename T>
-ListAtomSlot<T>::
-ListAtomSlot(ListAtomSlot&& o) : _is_last(std::move(o._is_last))
+template <typename T, bool const A>
+ListAtomSlot<T,A>::
+ListAtomSlot(ListAtomSlot&& o) : _state(std::move(o._state.last))
 {
 	if (USE_EXCEPTION_CHECKINGS)
 	{
@@ -182,19 +201,20 @@ ListAtomSlot(ListAtomSlot&& o) : _is_last(std::move(o._is_last))
 	 Somewhere else in the program will `terminate` the `o` eventually.
 	 */
 }
-template <typename T>
-ListAtomSlot<T>::
+template <typename T, bool const A>
+ListAtomSlot<T,A>::
 ~ListAtomSlot()
 {
 	/*
 	 This assertion is only for debugging convenience.
 	 */
-	EONIL_COMMON_REALTIME_GAME_ALGORITHMS_DEBUG_ASSERT(not _occupation, "This slot is going to be destroyed, but still being occupied.");
+	EONIL_COMMON_REALTIME_GAME_ALGORITHMS_DEBUG_ASSERT(not _state.slot.occupation(), "This slot is going to be destroyed, but still being occupied.");
 }
 
 
-template <typename T> auto
-ListAtomSlot<T>::operator=(const ListAtomSlot<T> &o) -> ListAtomSlot&
+template <typename T, bool const A>
+auto
+ListAtomSlot<T,A>::operator=(const ListAtomSlot<T,A> &o) -> ListAtomSlot&
 {
 	if (USE_EXCEPTION_CHECKINGS)
 	{
@@ -211,21 +231,22 @@ ListAtomSlot<T>::operator=(const ListAtomSlot<T> &o) -> ListAtomSlot&
 	}
 	else
 	{
-		if (_occupation)
+		if (_state.slot.occupation())
 		{
 			terminate();
 		}
-		if (o._occupation)
+		if (o._state.slot.occupation())
 		{
 			initialize(o.value());
 		}
 		
-		_is_last	=	o._is_last;
+		_state.last	=	o._state.last;
 	}
 	return	*this;
 }
-template <typename T> auto
-ListAtomSlot<T>::operator=(ListAtomSlot<T> &&o) -> ListAtomSlot&
+template <typename T, bool const A>
+auto
+ListAtomSlot<T,A>::operator=(ListAtomSlot<T,A> &&o) -> ListAtomSlot&
 {
 	if (USE_EXCEPTION_CHECKINGS)
 	{
@@ -242,21 +263,21 @@ ListAtomSlot<T>::operator=(ListAtomSlot<T> &&o) -> ListAtomSlot&
 	}
 	else
 	{
-		if (_occupation)
+		if (_state.slot.occupation())
 		{
 			terminate();
 		}
-		if (o._occupation)
+		if (o._state.slot.occupation())
 		{
 			initialize(std::move(o.value()));
 		}
 		
-		_is_last	=	std::move(o._is_last);
+		_state.last		=	std::move(o._state.last);
 	}
 	return	*this;
 }
-template <typename T> auto
-ListAtomSlot<T>::occupation() const -> bool
+template <typename T, bool const A> auto
+ListAtomSlot<T,A>::occupation() const -> bool
 {
 	if (USE_EXCEPTION_CHECKINGS)
 	{
@@ -266,10 +287,10 @@ ListAtomSlot<T>::occupation() const -> bool
 	
 	////
 	
-	return	_occupation;
+	return	_state.slot.occupation();
 }
-//template <typename T> auto
-//ListAtomSlot<T>::data() const -> T const*
+//template <typename T, bool const A> auto
+//ListAtomSlot<T,A>::data() const -> T const*
 //{
 //	if (USE_EXCEPTION_CHECKINGS)
 //	{
@@ -280,8 +301,8 @@ ListAtomSlot<T>::occupation() const -> bool
 //	
 //	return	&_mem.value();
 //}
-//template <typename T> auto
-//ListAtomSlot<T>::data() -> T*
+//template <typename T, bool const A> auto
+//ListAtomSlot<T,A>::data() -> T*
 //{
 //	if (USE_EXCEPTION_CHECKINGS)
 //	{
@@ -292,86 +313,83 @@ ListAtomSlot<T>::occupation() const -> bool
 //	
 //	return	&_mem.value();
 //}
-template <typename T> auto
-ListAtomSlot<T>::value() const -> T const&
+template <typename T, bool const A> auto
+ListAtomSlot<T,A>::value() const -> T const&
 {
 	if (USE_EXCEPTION_CHECKINGS)
 	{
 		_halt_if_this_is_null();
 		_halt_if_memory_layout_is_bad();
-		error_if(not _occupation, "This list-atom-slot is not occupied yet.");
+		error_if(not _state.slot.occupation(), "This list-atom-slot is not occupied yet.");
 	}
 	
 	////
 	
-	return	_mem.value();
+	return	_state.slot.value();
 }
-template <typename T> auto
-ListAtomSlot<T>::value() -> T&
+template <typename T, bool const A> auto
+ListAtomSlot<T,A>::value() -> T&
 {
 	if (USE_EXCEPTION_CHECKINGS)
 	{
 		_halt_if_this_is_null();
 		_halt_if_memory_layout_is_bad();
-		error_if(not _occupation, "This list-atom-slot is not occupied yet.");
+		error_if(not _state.slot.occupation(), "This list-atom-slot is not occupied yet.");
 	}
 	
 	////
 	
-	return	_mem.value();
+	return	_state.slot.value();
 }
 
-template <typename T>
+template <typename T, bool const A>
 template <typename ...ARGS> auto
-ListAtomSlot<T>::
+ListAtomSlot<T,A>::
 initialize(ARGS&&... args) -> void
 {
 	if (USE_EXCEPTION_CHECKINGS)
 	{
 		_halt_if_this_is_null();
 		_halt_if_memory_layout_is_bad();
-		error_if(_occupation, "This list-atom-slot is already occupied.");
+		error_if(_state.slot.occupation(), "This list-atom-slot is already occupied.");
 	}
 	
 	////
 	
-	_mem.initialize(std::forward<ARGS>(args)...);
-	_occupation	=	true;
+	_state.slot.initialize(std::forward<ARGS>(args)...);
 }
-template <typename T> auto
-ListAtomSlot<T>::
+template <typename T, bool const A> auto
+ListAtomSlot<T,A>::
 initialize(T&& o) -> void
 {
 	if (USE_EXCEPTION_CHECKINGS)
 	{
 		_halt_if_this_is_null();
 		_halt_if_memory_layout_is_bad();
-		error_if(_occupation, "This list-atom-slot is already occupied.");
+		error_if(_state.slot.occupation(), "This list-atom-slot is already occupied.");
 	}
 	
 	////
 	
-	_mem.initialize(std::move(o));
-	_occupation	=	true;
+	_state.slot.initialize(std::move(o));
 }
-template <typename T> auto
-ListAtomSlot<T>::
+template <typename T, bool const A> auto
+ListAtomSlot<T,A>::
 terminate() -> void
 {
 	if (USE_EXCEPTION_CHECKINGS)
 	{
 		_halt_if_this_is_null();
 		_halt_if_memory_layout_is_bad();
-		error_if(not _occupation, "This list-atom-slot is not occupied yet.");
+		error_if(not _state.slot.occupation(), "This list-atom-slot is not occupied yet.");
 	}
 	
 	////
 	
-	_occupation	=	false;
-	_mem.terminate();
+	_state.slot.terminate();
 }
-template <typename T> auto
-ListAtomSlot<T>::
+template <typename T, bool const A> auto
+ListAtomSlot<T,A>::
 sentinel() const -> bool
 {
 	if (USE_EXCEPTION_CHECKINGS)
@@ -382,29 +400,29 @@ sentinel() const -> bool
 	
 	////
 	
-	return	_is_last;
+	return	_state.last;
 }
 
-template <typename T> auto
-ListAtomSlot<T>::
+template <typename T, bool const A> auto
+ListAtomSlot<T,A>::
 sentinelize() -> void
 {
 	if (USE_EXCEPTION_CHECKINGS)
 	{
 		_halt_if_this_is_null();
 		_halt_if_memory_layout_is_bad();
-		error_if(_is_last, "This list-atom-slot is alreday a sentinel.");
+		error_if(_state.last, "This list-atom-slot is alreday a sentinel.");
 	}
 	
 	////
 	
-	_is_last	=	true;
+	_state.last	=	true;
 }
 
 
-template <typename T> auto
-ListAtomSlot<T>::
-resolveAddressOfSlot(const T *o) -> ListAtomSlot const*
+template <typename T, bool const A> auto
+ListAtomSlot<T,A>::
+addressOfSlotForValuePointer(const T *o) -> ListAtomSlot const*
 {
 	if (USE_EXCEPTION_CHECKINGS)
 	{
@@ -451,11 +469,11 @@ resolveAddressOfSlot(const T *o) -> ListAtomSlot const*
 
 
 
-template <typename T> auto
-ListAtomSlot<T>::
+template <typename T, bool const A> auto
+ListAtomSlot<T,A>::
 _halt_if_memory_layout_is_bad() const -> void
 {
-	halt_if(uintptr_t(this) != uintptr_t(&_mem), "Bad memory layout.");
+	halt_if(uintptr_t(this) != uintptr_t(&_state.slot), "Bad memory layout.");
 }
 
 
@@ -466,9 +484,9 @@ _halt_if_memory_layout_is_bad() const -> void
 //struct
 //ListAtomSlotDebugginSupport
 //{
-//	template <typename T>
+//	template <typename T, bool const A>
 //	static inline auto
-//	get_value_ptr_without_check(ListAtomSlot<T>& o) -> T&
+//	get_value_ptr_without_check(ListAtomSlot<T,A>& o) -> T&
 // 	{
 //		return	o._mem.value();
 //	}
@@ -485,4 +503,3 @@ _halt_if_memory_layout_is_bad() const -> void
 
 
 EONIL_COMMON_REALTIME_GAME_ALGORITHMS_FLAT_CONTAINERS_END
-

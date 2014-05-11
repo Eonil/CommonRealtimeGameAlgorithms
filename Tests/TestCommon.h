@@ -16,12 +16,17 @@
 
 using namespace	Eonil::CommonRealtimeGameAlgorithms::FlatContainers;
 
+
+
 template <typename T>
 inline auto
-test_log(T const& v) -> void
+_test_log(T const& v) -> void
 {
 	std::cout << v << "\n";
 }
+
+#define	test_log(expr)	_test_log(std::string(#expr) + std::string(" = ") + std::to_string(expr))
+	
 inline auto
 test_assert(bool const cond) -> void
 {

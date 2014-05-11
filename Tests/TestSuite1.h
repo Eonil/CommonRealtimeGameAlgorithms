@@ -53,6 +53,26 @@ test_array_value() -> void
 }
 
 inline auto
+test_memory_layout() -> void
+{
+	struct
+	AAA : Eonil::CommonRealtimeGameAlgorithms::ExceptionSupportTools
+	{
+		
+	};
+	struct
+	BBB : Eonil::CommonRealtimeGameAlgorithms::ExceptionSupportTools
+	{
+		bool	bbb	=	false;
+	};
+	
+	std::cout << sizeof(Eonil::CommonRealtimeGameAlgorithms::ExceptionSupportTools) << "\n";
+	std::cout << sizeof(AAA) << "\n";
+	std::cout << sizeof(BBB) << "\n";
+	test_assert(sizeof(BBB) == sizeof(bool));
+	
+}
+inline auto
 test_memory_storage() -> void
 {
 	{
@@ -609,6 +629,7 @@ test_object_pack() -> void
 inline auto
 test_all1() -> void
 {
+	test_memory_layout();
 	test_memory_storage();
 	test_list_atom_slot();
 	test_static_stable_list_stack();

@@ -60,6 +60,9 @@ auto	EONIL_COMMON_REALTIME_GAME_ALGORITHMS_DEBUG_ASSERT(bool const condition, st
 //#else
 //#define EONIL_COMMON_REALTIME_GAME_ALGORITHMS_HEAVY_TRACE_DEBUG_ASSERT(...)				//	Erase the macro for release mode.
 //#endif
+/*!
+ Must be zero-sized.
+ */
 struct
 ExceptionSupportTools
 {
@@ -82,7 +85,7 @@ EONIL_COMMON_REALTIME_GAME_ALGORITHMS_END
 
 
 EONIL_COMMON_REALTIME_GAME_ALGORITHMS_FLAT_CONTAINERS_BEGIN
-template <typename T>						class	ListAtomSlot;
+template <typename T, bool const ALIGNMENT>	class	ListAtomSlot;
 template <typename T>						class	ListAtomSlotIterator;
 //template <typename T>						class	ListAtomSlotRange;
 template <typename T, Size const LEN>		class	StaticStableListStack;
