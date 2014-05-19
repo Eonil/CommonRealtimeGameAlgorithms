@@ -57,6 +57,9 @@ private:
  -	Your input is wrong.
  -	So you can recover.
  
+ @classdesign
+ You are expected to subclass this class to represent same kind of exceptions.
+ 
  @note
  Some code may explicitly return/output this object if they cannot afford
  exception catching cost.
@@ -91,6 +94,9 @@ public:
  
  @warning
  NEVER try to recover from this kind of exception. Program state already corrupted.
+ 
+ @classdesign
+ You are expected to subclass this class to represent same kind of exceptions.
  */
 class
 Crash : public Exception
