@@ -10,6 +10,7 @@
 
 #include <exception>
 #include <array>
+#include <vector>
 #include <iostream>
 //#include <Eonil/CommonRealtimeGameAlgorithms.h>
 #include "CommonRealtimeGameAlgorithms.h"
