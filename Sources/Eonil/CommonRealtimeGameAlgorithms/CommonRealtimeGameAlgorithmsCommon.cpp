@@ -42,7 +42,7 @@ halt_if(bool const condition, std::string const& message) -> void
 {
 	if (condition)
 	{
-		throw	Halt(str("[Eonil::CommonRealtimeGameAlgorithms::Halt] (UNRECOVERABLE!!!) ") + message);
+		throw	Crash("Eonil::CommonRealtimeGameAlgorithms", message);
 	}
 }
 auto
@@ -50,7 +50,7 @@ error_if(bool const condition, std::string const& message) -> void
 {
 	if (condition)
 	{
-		throw	Error(str("[Eonil::CommonRealtimeGameAlgorithms::Error] ") + message);
+		throw	Error("Eonil::CommonRealtimeGameAlgorithms", message);
 	}
 }
 

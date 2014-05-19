@@ -7,9 +7,7 @@
 //
 
 #pragma once
-
 #include "CommonRealtimeGameAlgorithmsCommon.h"
-
 EONIL_COMMON_REALTIME_GAME_ALGORITHMS_BEGIN
 
 
@@ -25,7 +23,12 @@ class
 Exception : std::logic_error
 {	
 protected:
-	using	logic_error::logic_error;
+	Exception() = delete;
+	Exception(std::string const& domain, std::string const& category, std::string const& message);
+private:
+	std::string const		domain		=	"";
+	std::string const		category	=	"";
+	std::string const		message		=	"";
 };
 
 
@@ -62,7 +65,8 @@ class
 Error : public Exception
 {
 public:
-	using	Exception::Exception;
+	Error() = delete;
+	Error(std::string const& domain, std::string const& message);
 };
 
 
@@ -89,11 +93,13 @@ public:
  NEVER try to recover from this kind of exception. Program state already corrupted.
  */
 class
-Halt : public Exception
+Crash : public Exception
 {
 public:
-	using	Exception::Exception;
+	Crash() = delete;
+	Crash(std::string const& domain, std::string const& message);
 };
+
 
 
 
