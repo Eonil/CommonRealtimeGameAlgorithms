@@ -36,7 +36,6 @@
 
 #include <memory>
 #include <string>
-#include <vector>
 #include <set>
 
 
@@ -44,7 +43,6 @@
 EONIL_COMMON_REALTIME_GAME_ALGORITHMS_BEGIN
 using	Size		=	std::size_t;
 using	str			=	std::string;
-template <typename T>	using	vec		=	std::vector<T>;
 constexpr bool const	USE_EXCEPTION_CHECKINGS				=	(EONIL_COMMON_REALTIME_GAME_ALGORITHMS_DEBUG_MODE == 1);		//	Performs only checkings with O(1) complexity.
 constexpr bool const	USE_HEAVY_EXCEPTION_CHECKINGS		=	(EONIL_COMMON_REALTIME_GAME_ALGORITHMS_DEBUG_MODE == 1);		//	*HEAVY* means O(n) or more complex operations.
 constexpr char const*	EXCEPTION_DEFAULT_MESSAGE			=	"Reason unspecified. Use debugger to track source of the exception.";
