@@ -25,6 +25,9 @@ EONIL_COMMON_REALTIME_GAME_ALGORITHMS_GENERIC_UTILITIES_BEGIN
  
  @classdesign
  Default initialization will create default initialized iterator pairs.
+ 
+ @param IT
+ Must be an iterator type. Not value or container type.
  */
 template <typename IT>
 class
