@@ -8,6 +8,7 @@
 
 #pragma once
 
+#ifdef	__cplusplus
 #include "CommonRealtimeGameAlgorithms/CommonRealtimeGameAlgorithmsCommon.h"
 #include "CommonRealtimeGameAlgorithms/GenericUtilities/Range.h"
 #include "CommonRealtimeGameAlgorithms/FlatContainers/MemoryStorage.h"
@@ -24,3 +25,5 @@
 #include "CommonRealtimeGameAlgorithms/DataStructures/GenericTreeNode.h"
 
 //#include "CommonRealtimeGameAlgorithms/GenericContainers/ObjectPack.h"
+
+#endif
