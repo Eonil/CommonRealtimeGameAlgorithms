@@ -23,10 +23,11 @@ EONIL_COMMON_REALTIME_GAME_ALGORITHMS_GENERIC_UTILITIES_BEGIN
  @discussion
  Generalizes begin/end pair to represent a range of objects.
  
- @classdesign
+ @discussion
  Default initialization will create default initialized iterator pairs.
  
- @param IT
+ @templatefield
+ IT
  Must be an iterator type. Not value or container type.
  */
 template <typename IT>

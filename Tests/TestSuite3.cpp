@@ -259,6 +259,7 @@ test_tree2() -> void
 		TestTreeNode1 : GenericTreeNode<TestTreeNode1>
 		{
 			std::string		string1		=	"AAA";
+			int	unused	=	0;	//	To suppress warning.
 		};
 		
 		using	TTN	=	TestTreeNode1;
@@ -271,10 +272,11 @@ test_tree2() -> void
 		n3.setParent(&n2);
 		
 		int	f1	=	0;
-		for (TTN const& sub: n1.children())
+		for (TTN& sub: n1.children())
 		{
-			for (TTN const& sub2: sub.children())
+			for (TTN& sub2: sub.children())
 			{
+				sub2.unused++;	//	To suppress warning.
 				f1	++;
 			}
 		}

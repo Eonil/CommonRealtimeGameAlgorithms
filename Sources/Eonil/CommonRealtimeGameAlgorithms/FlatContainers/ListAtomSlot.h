@@ -26,7 +26,7 @@ EONIL_COMMON_REALTIME_GAME_ALGORITHMS_FLAT_CONTAINERS_BEGIN
 /*!
  A `MemoryStorage` with explicit occupation flag and copy/move support.
  
- @classdesign
+ @discussion
  This is designed to be laid out consecutively. Iterating is provided by `ListAtomSlotIterator`.
  Last slot must be a sential by being marked with sentinel flag to provide iteration properly.
  
@@ -49,7 +49,7 @@ EONIL_COMMON_REALTIME_GAME_ALGORITHMS_FLAT_CONTAINERS_BEGIN
  Do not use this class for usual object management. This class is designed specially
  for specific classes.
  
- @param
+ @templatefield
  ALIGNMENT
  You can force memory packing by setting this to `false`.
  */
@@ -503,3 +503,4 @@ _halt_if_memory_layout_is_bad() const -> void
 
 
 EONIL_COMMON_REALTIME_GAME_ALGORITHMS_FLAT_CONTAINERS_END
+

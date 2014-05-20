@@ -25,7 +25,7 @@ EONIL_COMMON_REALTIME_GAME_ALGORITHMS_FLAT_CONTAINERS_BEGIN
  A stack with no internal allocation, and all the operations are O(1) excepting `clear` and `destructor`.
  Capacity is statically fixed.
  
- @classdesign
+ @discussion
  The internal storage starts with uninitialize memory block, and will be 
  initialized when you push, and deinitialized when you pop.
  

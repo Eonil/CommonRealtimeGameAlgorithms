@@ -26,7 +26,7 @@ EONIL_COMMON_REALTIME_GAME_ALGORITHMS_FLAT_CONTAINERS_BEGIN
  A map which maps an integer to a value slot.
  Capacity is statically fixed.
  
- @classdesign
+ @discussion
  The internal storage starts with uninitialize memory block, and will be
  initialized when you insert, and deinitialized when you erase.
 

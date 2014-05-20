@@ -26,7 +26,7 @@ EONIL_COMMON_REALTIME_GAME_ALGORITHMS_FLAT_CONTAINERS_BEGIN
 /*!
  A `MemoryStorage` with explicit occupation flag and copy/move support.
  
- @classdesign
+ @discussion
  This is designed independent sole instance.
  
  @exception
@@ -50,7 +50,7 @@ EONIL_COMMON_REALTIME_GAME_ALGORITHMS_FLAT_CONTAINERS_BEGIN
  Do not use this class for usual object management. This class is designed specially
  for specific classes. You should subclass to ensure some guarantee.
  
- @param
+ @templatefield
  ALIGNMENT
  You can try forcing memory packing by overriding this to `false`.
  Anyway packing is not guaranteed, and may not be supported in some compilers. Also,

@@ -20,11 +20,16 @@ EONIL_COMMON_REALTIME_GAME_ALGORITHMS_BEGIN
  Root class of categorization.
  */
 class
-Exception : std::logic_error
-{	
+Exception : public std::logic_error
+{
+public:
+	virtual ~Exception();
+
 protected:
 	Exception() = delete;
+	Exception(Exception const&) = default;
 	Exception(std::string const& domain, std::string const& category, std::string const& message);
+	
 private:
 	std::string const		domain		=	"";
 	std::string const		category	=	"";
@@ -69,7 +74,9 @@ Error : public Exception
 {
 public:
 	Error() = delete;
+	Error(Error const&) = default;
 	Error(std::string const& domain, std::string const& message);
+	virtual ~Error();
 };
 
 
@@ -103,7 +110,9 @@ Crash : public Exception
 {
 public:
 	Crash() = delete;
+	Crash(Crash const&) = default;
 	Crash(std::string const& domain, std::string const& message);
+	virtual ~Crash();
 };
 
 

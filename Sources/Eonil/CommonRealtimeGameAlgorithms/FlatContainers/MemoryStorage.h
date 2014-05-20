@@ -22,7 +22,7 @@ EONIL_COMMON_REALTIME_GAME_ALGORITHMS_FLAT_CONTAINERS_BEGIN
  A statically defined area of memory which does not perform initialization/cleanup automatically.
  You are responsible to do them.
  
- @classdesign
+ @discussion
  It is guaranteed that the pointer to this object is same to a pointer to content value.
  
  Where,
@@ -84,14 +84,7 @@ EONIL_COMMON_REALTIME_GAME_ALGORITHMS_FLAT_CONTAINERS_BEGIN
  C++ destructor correctly, and it is very easy to forget. This effectively remove
  benefits of automatic resource management of RIIA.
  
- So **DO NOT USE this class** for daily coding.
- 
-// @param
-// U
-// Extra information which can be attached additionally.
-// This exists to simplify memory alginment issue. By allowing embedding of extra
-// information, we can let compiler to align memory correctly.
-// Use `void` to eliminate extra information.
+ So **DO NOT USE this class** for daily coding. 
  */
 template <typename T>
 union
