@@ -37,9 +37,10 @@ EONIL_COMMON_REALTIME_GAME_ALGORITHMS_FLAT_CONTAINERS_BEGIN
  
  This is checked by runtime assertion in debug build.
  
- Anyway, the size of this object will be exactly same with `T`.
+ Also, the size of this object will be exactly same with `T`.
  This class does not produce algined memory. Users are responsible to keep alignment.
-	
+ 
+ 
  
  @discussion
  Copy and move cannot be defined by definition of this class because we cannot track current object
@@ -70,11 +71,11 @@ EONIL_COMMON_REALTIME_GAME_ALGORITHMS_FLAT_CONTAINERS_BEGIN
  
  The problem comes from direct memory accessing tricks. If compiler cannot
  determine the type of the object at compile-time, it's impossible to pad or
- mit special instructions. Unaligned memory access is very likely to happen
+ emit special instructions. Unaligned memory access will happen eventually
  in this case. In this case, programmers are responsible to ensure the alignment
  because it's the programmers who hid the type information to compilers!
  
- It's hard to handle alignment manually and correctly. It's far better to let
+ It's hard to handle alignment manually and correctly. It's far better just letting
  the compiler do the job. The point is exposing the type to the compiler rather
  than erasing it.
  
