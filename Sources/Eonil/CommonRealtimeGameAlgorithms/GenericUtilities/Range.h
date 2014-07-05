@@ -18,7 +18,7 @@ EONIL_COMMON_REALTIME_GAME_ALGORITHMS_GENERIC_UTILITIES_BEGIN
 
 
 /*!
- Two iterator pairs.
+ Two iterator pairs to represent range of object.
  
  @discussion
  Generalizes begin/end pair to represent a range of objects.
