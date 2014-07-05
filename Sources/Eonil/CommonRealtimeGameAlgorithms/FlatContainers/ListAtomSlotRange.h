@@ -10,14 +10,14 @@
 
 #include "../CommonRealtimeGameAlgorithmsCommon.h"
 #include "ListAtomSlotIterator.h"
-#include "../GenericUtilities/Range.h"
+#include "../GenericUtilities/IterationRange.h"
 
 EONIL_COMMON_REALTIME_GAME_ALGORITHMS_FLAT_CONTAINERS_BEGIN
 
 
 
 
-template <typename T>		using	ListAtomSlotRange		=	GenericUtilities::Range<ListAtomSlotIterator<T>>;
+template <typename T>		using	ListAtomSlotRange		=	GenericUtilities::IterationRange<ListAtomSlotIterator<T>>;
 
 
 
