@@ -5,34 +5,34 @@
 	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
 	<false/>
 	<key>IDESourceControlProjectIdentifier</key>
-	<string>08B035C9-31C5-4ADE-B3E9-F16AFA1D4F9B</string>
+	<string>97618366-2364-49FB-8837-CFD51681B1E7</string>
 	<key>IDESourceControlProjectName</key>
 	<string>CommonRealtimeGameAlgorithms</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
-		<key>6A209384-F00E-4A34-8629-E69F25708751</key>
-		<string>https://github.com/Eonil/CommonRealtimeGameAlgorithms.git</string>
+		<key>BDAED5E5-967E-46B8-B455-736BCC6D43B0</key>
+		<string>https://github.com/Eonil/CommonRealtimeGameAlgorithms</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
 	<string>CommonRealtimeGameAlgorithms.xcodeproj/project.xcworkspace</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
-		<key>6A209384-F00E-4A34-8629-E69F25708751</key>
+		<key>BDAED5E5-967E-46B8-B455-736BCC6D43B0</key>
 		<string>../..</string>
 	</dict>
 	<key>IDESourceControlProjectURL</key>
-	<string>https://github.com/Eonil/CommonRealtimeGameAlgorithms.git</string>
+	<string>https://github.com/Eonil/CommonRealtimeGameAlgorithms</string>
 	<key>IDESourceControlProjectVersion</key>
 	<integer>110</integer>
 	<key>IDESourceControlProjectWCCIdentifier</key>
-	<string>6A209384-F00E-4A34-8629-E69F25708751</string>
+	<string>BDAED5E5-967E-46B8-B455-736BCC6D43B0</string>
 	<key>IDESourceControlProjectWCConfigurations</key>
 	<array>
 		<dict>
 			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
 			<string>public.vcs.git</string>
 			<key>IDESourceControlWCCIdentifierKey</key>
-			<string>6A209384-F00E-4A34-8629-E69F25708751</string>
+			<string>BDAED5E5-967E-46B8-B455-736BCC6D43B0</string>
 			<key>IDESourceControlWCCName</key>
 			<string>CommonRealtimeGameAlgorithms</string>
 		</dict>
